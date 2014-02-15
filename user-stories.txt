@@ -1,4 +1,11 @@
-1. As a player, I would like to kick ass
-2. I would like to buy starships
-3. I would like to build ships and buy cannons and upgrade
-4. I would like to own a death star!
+(Theme) As a player I want to immediately and intuitively understand what will make the game progress and how to win    
+As a player I want to start the game with a movable HQ unit so I can choose where to deploy it
+As a player I want to be told what the HQ unit is, so I have a basic understanding of the game early on
+As a player I want to deploy a HQ on a stellar object to be able to make the game progress
+As a player I want to build Harvest Stations using the HQ
+As a player I want to move Harvest Stations to any undefended star to harvest their energy
+As a player I want to see that Harvest Stations produces energy
+As a player I want to see that building, e.g. a Harvest Station, requires energy
+As a player I want to at all times know where my place in the universe is so I can apply a strategy early on
+
+
