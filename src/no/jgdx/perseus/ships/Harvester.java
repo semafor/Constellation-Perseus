@@ -4,7 +4,7 @@ import no.jgdx.perseus.celestials.Position;
 
 public class Harvester extends Ship {
 	public Harvester(Position pos) {
-		super("Harvester", "Harvester", pos);
+		super("Harvester", Classification.HARVESTER, pos);
 	}
 
 	@Override

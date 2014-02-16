@@ -12,7 +12,7 @@ import no.jgdx.perseus.weapons.VolvoPistol;
 public class Wreck extends Ship {
 
 	public Wreck() {
-		super("Volvo S60^^^^^^^^Wreck", "wreck", Position.ORIGIN);
+		super("Volvo S60^^^^^^^^Wreck", Classification.VIPER, Position.ORIGIN);
 		guns.add(new VolvoPistol());
 	}
 

@@ -13,11 +13,11 @@ public abstract class Ship implements GameObject {
 
 	private final String name;
 
-	private final String classification;
+	private final Classification classification;
 
 	private Position position;
 
-	public Ship(String name, String classification, Position position) {
+	public Ship(String name, Classification classification, Position position) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
@@ -42,7 +42,7 @@ public abstract class Ship implements GameObject {
 		return name;
 	}
 
-	public String getClassification() {
+	public Classification getClassification() {
 		return classification;
 	}
 
@@ -66,10 +66,7 @@ public abstract class Ship implements GameObject {
 		if (getClass() != obj.getClass())
 			return false;
 		Ship other = (Ship) obj;
-		if (classification == null) {
-			if (other.classification != null)
-				return false;
-		} else if (!classification.equals(other.classification))
+		if (classification != other.classification)
 			return false;
 		if (guns == null) {
 			if (other.guns != null)
@@ -87,6 +84,11 @@ public abstract class Ship implements GameObject {
 		} else if (!position.equals(other.position))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Ship [classification=" + classification + ", name=" + name + ", position=" + position + "]";
 	}
 
 }
