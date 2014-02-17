@@ -22,7 +22,7 @@ public enum HarvesterClassification {
 
 	SELENIUM_MINER(72, Allotrope.SELENIUM),
 
-	THAT_SHIELD_AROUND_THE_STAR_THING_JONAS_MENTIONED(1000, Allotrope.OXYGEN);
+	DYSON_SPHERE(1000, Allotrope.OXYGEN);
 
 	private final double harvestSpeed;
 
