@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.weapons.Gun;
 
@@ -14,6 +15,8 @@ public abstract class Ship implements GameObject {
 	private final String name;
 
 	private final ShipClassification classification;
+	
+	protected GameObjectState state = GameObjectState.IDLE;
 
 	private Position position;
 
@@ -89,6 +92,32 @@ public abstract class Ship implements GameObject {
 	@Override
 	public String toString() {
 		return "Ship [classification=" + classification + ", name=" + name + ", position=" + position + "]";
+	}
+	
+	protected GameObjectState getState() {
+		return this.state;
+	}
+	
+	protected void setState(GameObjectState state) {
+		this.state = state;
+	}
+	
+	protected boolean destructor() {
+		return true;
+	}
+	
+	public void destroy() {
+		if(destructor()) {
+			setState(GameObjectState.DESTROYED);
+		}
+	}
+
+	public boolean destroyed() {
+		return getState() == GameObjectState.DESTROYED;
+	}
+	
+	public boolean idle() {
+		return getState() == GameObjectState.IDLE;
 	}
 
 }

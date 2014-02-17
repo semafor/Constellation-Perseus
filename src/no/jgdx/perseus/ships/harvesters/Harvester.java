@@ -1,5 +1,6 @@
 package no.jgdx.perseus.ships.harvesters;
 
+import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.Ship;
@@ -51,6 +52,10 @@ public abstract class Harvester extends Ship {
 		if (star == null)
 			return "Homeless " + hc + super.toString();
 		return star + "-" + hc + ": " + super.toString();
+	}
+
+	public boolean harvesting() {
+		return getState() == GameObjectState.HARVESTING;
 	}
 
 }

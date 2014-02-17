@@ -1,6 +1,7 @@
 package no.jgdx.perseus.celestials;
 
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectState;
 
 /**
  * Astronomical objects or celestial objects are naturally occurring physical
@@ -27,6 +28,8 @@ public abstract class Celestial implements GameObject {
 	protected final double radius;
 
 	protected final String name;
+	
+	protected GameObjectState state = GameObjectState.IDLE;
 
 	protected Position pos;
 
