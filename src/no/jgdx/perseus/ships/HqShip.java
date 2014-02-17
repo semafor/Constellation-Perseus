@@ -17,8 +17,6 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  */
 public class HqShip extends Ship {
 
-	private Harvester harvester;
-
 	public HqShip(String name, Position position, GameObject yield) {
 		super(name, ShipClassification.HQ, position);
 		
