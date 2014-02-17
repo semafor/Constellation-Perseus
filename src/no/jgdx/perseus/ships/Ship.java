@@ -13,11 +13,11 @@ public abstract class Ship implements GameObject {
 
 	private final String name;
 
-	private final Classification classification;
+	private final ShipClassification classification;
 
 	private Position position;
 
-	public Ship(String name, Classification classification, Position position) {
+	public Ship(String name, ShipClassification classification, Position position) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
@@ -42,7 +42,7 @@ public abstract class Ship implements GameObject {
 		return name;
 	}
 
-	public Classification getClassification() {
+	public ShipClassification getClassification() {
 		return classification;
 	}
 
