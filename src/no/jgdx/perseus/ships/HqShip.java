@@ -13,6 +13,7 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  * an element with which the player can advance the game quickly without having
  * to build something as the first step in the game.
  * 
+<<<<<<< HEAD
  * 
  * 
  * @author pgd
@@ -20,6 +21,10 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  *         What the HqShip yields can depend on race/scenario/etc, so let us be
  *         flexible and
  * 
+=======
+ * What the HqShip yields can depend on race/scenario/etc, so let us be flexible
+ *  
+>>>>>>> ab0cfcc33a962d452d2ad6247a0c9a8099623bea
  * @author pgd, jgd
  * 
  * 
