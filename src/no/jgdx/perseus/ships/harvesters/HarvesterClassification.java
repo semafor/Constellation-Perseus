@@ -1,10 +1,49 @@
 package no.jgdx.perseus.ships.harvesters;
 
+import no.jgdx.perseus.assets.Allotrope;
+
+/**
+ * Defines the harvester type, what it harvests/mines and at what speed it does
+ * so.
+ * 
+ * @author pgd
+ * 
+ */
 public enum HarvesterClassification {
-	SPICE_SHIP /* get it? */,
+	SPICE_SHIP(2, Allotrope.SULFUR) /* get it? */,
 
-	CARBON_COLLECTOR, PHOSPORUS_MINER, OXYGEN_MINER, SULFUR_MINER, SELENIUM_MINER,
+	CARBON_COLLECTOR(10, Allotrope.CARBON),
 
-	THAT_SHIELD_AROUND_THE_STAR_THING_JONAS_MENTIONED;
+	PHOSPORUS_MINER(12, Allotrope.PHOSPORUS),
+
+	OXYGEN_MINER(100, Allotrope.OXYGEN),
+
+	SULFUR_MINER(16, Allotrope.SULFUR),
+
+	SELENIUM_MINER(72, Allotrope.SELENIUM),
+
+	THAT_SHIELD_AROUND_THE_STAR_THING_JONAS_MENTIONED(1000, Allotrope.OXYGEN);
+
+	private final double harvestSpeed;
+
+	private final Allotrope allotrope;
+
+	private HarvesterClassification(double harvestSpeed, Allotrope allotrope) {
+		this.harvestSpeed = harvestSpeed;
+		this.allotrope = allotrope;
+	}
+
+	public double getHarvestSpeed() {
+		return harvestSpeed;
+	}
+
+	public Allotrope getAllotrope() {
+		return allotrope;
+	}
+
+	@Override
+	public String toString() {
+		return this.name() + ": " + getHarvestSpeed() + " " + getAllotrope();
+	}
 
 }

@@ -15,6 +15,10 @@ public class Star extends Celestial {
 		this.sc = sc;
 	}
 
+	public StarClassification getStarClassification() {
+		return sc;
+	}
+
 	@Override
 	public void tick(long time) {
 	}

@@ -10,8 +10,23 @@ public abstract class Harvester extends Ship {
 	/** The star it is connected to, might be null. */
 	private Star star;
 
-	public Harvester(Position pos) {
+	private final HarvesterClassification hc;
+
+	private int amount = 0;
+
+	public Harvester(Position pos, HarvesterClassification hc) {
 		super("Harvester", ShipClassification.HARVESTER, pos);
+		this.hc = hc;
+	}
+
+	public final int resetAmount() {
+		int a = amount;
+		amount = 0;
+		return a;
+	}
+
+	public HarvesterClassification getHarvesterClassification() {
+		return hc;
 	}
 
 	public Star getStar() {
@@ -24,13 +39,18 @@ public abstract class Harvester extends Ship {
 
 	@Override
 	public void tick(long time) {
+		if (star != null) {
+			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
+				amount += hc.getHarvestSpeed();
+			}
+		}
 	}
 
 	@Override
 	public String toString() {
 		if (star == null)
-			return "Homeless harvester: " + super.toString();
-		return star + "-harvester: " + super.toString();
+			return "Homeless " + hc + super.toString();
+		return star + "-" + hc + ": " + super.toString();
 	}
 
 }

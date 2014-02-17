@@ -1,39 +1,80 @@
 package no.jgdx.perseus.celestials;
 
+import no.jgdx.perseus.assets.Allotrope;
+
 public enum StarClassification {
-	O("Blue", 30000, 60, 15, 1400000, "Singly ionized helium lines (H I) either in emission or absorption. Strong UV continuum.",
-			"10 Lacertra"),
+	/**
+	 * Mass=60, Radius=15, Lumen=1400000
+	 * 
+	 * Singly ionized helium lines (H I) either in emission or absorption.
+	 * Strong UV continuum.
+	 * 
+	 * Ex. 10 Lacertra
+	 */
+	O("Blue", 30000, Allotrope.CARBON),
 
-	B("Blue", 11000, 18, 7, 20000, "Neutral helium lines (H II) in absorption.", "Rigel Spica"),
+	/**
+	 * Mass=18, Radius=7, Lumen=20000,
+	 * 
+	 * Neutral helium lines (H II) in absorption.
+	 * 
+	 * ex. Rigel Spica
+	 * 
+	 */
+	B("Blue", 11000, Allotrope.OXYGEN),
 
-	A("Blue", 7500, 3.2, 2.5, 80, "Hydrogen (H) lines strongest for A0 stars, decreasing for other A's.", "Sirius, Vega"),
+	/**
+	 * 3.2, 2.5, 80,
+	 * "Hydrogen (H) lines strongest for A0 stars, decreasing for other A's.",
+	 * "Sirius, Vega"
+	 */
+	A("Blue", 7500, Allotrope.PHOSPORUS),
 
-	F("Blue to White", 6000, 1.7, 1.3, 6, "Ca II absorption. Metallic lines become noticeable.", "Canopus, Procyon"),
+	/**
+	 * Mass=1.7, Radius=1.3, Lumen=6,
+	 * 
+	 * Ca II absorption. Metallic lines become noticeable.
+	 * 
+	 * ex. Canopus, Procyon
+	 */
+	F("Blue to White", 6000, Allotrope.SELENIUM),
 
-	G("White to Yellow", 5000, 1.1, 1.1, 1.2, "Absorption lines of neutral metallic atoms and ions (e.g. once-ionized calcium).",
-			"Sun, Capella"),
+	/**
+	 * Mass=1.1, Radius=1.1, Lumen=1.2
+	 * 
+	 * Absorption lines of neutral metallic atoms and ions (e.g. once-ionized
+	 * calcium).
+	 * 
+	 * ex. Sun, Capella
+	 */
+	G("White to Yellow", 5000, Allotrope.OXYGEN),
 
-	K("Orange to Red", 3500, 0.8, 0.9, 0.4, "Metallic lines, some blue continuum.", "Arcturus, Aldebaran"),
+	/**
+	 * Mass=0.8, Radius=0.9, Lumen=0.4
+	 * 
+	 * Metallic lines, some blue continuum.
+	 * 
+	 * ex. Arcturus, Aldebaran
+	 */
+	K("Orange to Red", 3500, Allotrope.CARBON),
 
-	M("Red	under", 3500, 0.3, 0.4, 0.04, "Some molecular bands of titanium oxide.", "Betelgeuse, Antares");
+	/**
+	 * Mass=0.3, Radius=0.4, Lumen=0.04
+	 * 
+	 * Some molecular bands of titanium oxide.
+	 * 
+	 * ex. Betelgeuse, Antares
+	 */
+	M("Red", 2500, Allotrope.SULFUR);
 
 	private final String color;
 	private final int surfaceTemperature;
-	private final double avgMass;
-	private final double avgRadius;
-	private final double avgLumen;
-	private final String characteristics;
-	private final String examples;
+	private final Allotrope allotrope;
 
-	private StarClassification(String color, int surfaceTemperature, double avgMass, double avgRadius, double avgLumen,
-			String characteristics, String examples) {
+	private StarClassification(String color, int surfaceTemperature, Allotrope allotrope) {
 		this.color = color;
 		this.surfaceTemperature = surfaceTemperature;
-		this.avgMass = avgMass;
-		this.avgRadius = avgRadius;
-		this.avgLumen = avgLumen;
-		this.characteristics = characteristics;
-		this.examples = examples;
+		this.allotrope = allotrope;
 	}
 
 	public String getColor() {
@@ -44,24 +85,8 @@ public enum StarClassification {
 		return surfaceTemperature;
 	}
 
-	public double getAvgMass() {
-		return avgMass;
-	}
-
-	public double getAvgRadius() {
-		return avgRadius;
-	}
-
-	public double getAvgLumen() {
-		return avgLumen;
-	}
-
-	public String getCharacteristics() {
-		return characteristics;
-	}
-
-	public String getExamples() {
-		return examples;
+	public Allotrope getAllotrope() {
+		return allotrope;
 	}
 
 }
