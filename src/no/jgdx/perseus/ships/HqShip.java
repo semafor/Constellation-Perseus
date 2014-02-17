@@ -10,8 +10,7 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  * to build something as the first step in the game.
  * 
  * What the HqShip yields can depend on race/scenario/etc, so let us be flexible
- * and 
- * 
+ *  
  * @author pgd, jgd
  * 
  */
