@@ -49,9 +49,13 @@ public abstract class Harvester extends Ship {
 
 	@Override
 	public String toString() {
-		if (star == null)
-			return "Homeless " + hc + super.toString();
-		return star + "-" + hc + ": " + super.toString();
+		String home = (star == null) ? "Homeless " : star.toString();
+		
+		if(harvesting()) {
+			return home + " - " + hc + " in harvest. " + super.toString();
+		} else {
+			return home + " - " + hc + super.toString();
+		}
 	}
 
 	public boolean harvesting() {
