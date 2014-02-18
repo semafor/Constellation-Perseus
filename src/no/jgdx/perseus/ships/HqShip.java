@@ -71,7 +71,7 @@ public class HqShip extends Ship {
 
 			if (h.destroyed()) {
 				l.remove(h);
-			} else {
+			} else if (h.harvesting()) {
 				harvested += h.resetAmount();
 				Allotrope a = h.getHarvesterClassification().getAllotrope();
 				assets.put(a, assets.get(h.getHarvesterClassification().getAllotrope()) + harvested);
