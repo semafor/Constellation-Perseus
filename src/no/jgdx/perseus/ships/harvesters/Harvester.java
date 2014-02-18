@@ -47,6 +47,10 @@ public abstract class Harvester extends Ship {
 		}
 	}
 
+	protected int getAmount() {
+		return amount;
+	}
+
 	@Override
 	public String toString() {
 		String home = (star == null) ? "Homeless " : star.toString();

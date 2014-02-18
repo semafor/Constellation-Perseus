@@ -40,6 +40,17 @@ public class Game {
 		stations = new ArrayList<>();
 	}
 
+	/**
+	 * Returns the current time in milliseconds relative to when the game
+	 * started, i.e. it will be 0 immediately when the game starts.
+	 * 
+	 * @return
+	 */
+	public long now() {
+		long n = System.currentTimeMillis();
+		return n - initializeTime;
+	}
+
 	private void initialize() {
 		players.add(new HumanPlayer(this, null));
 		players.add(new Harkonnen(this, null));
@@ -81,25 +92,20 @@ public class Game {
 	}
 
 	public void tick() {
-		long currentTime = System.currentTimeMillis();
-		long relativeTime = currentTime - initializeTime;
 
 		for (Player p : players) {
-			p.tick(relativeTime);
+			p.tick(now());
 		}
 
 		for (Celestial c : celestials)
-			c.tick(relativeTime);
+			c.tick(now());
 
 		for (SpaceStation ss : stations) {
-			ss.tick(relativeTime);
+			ss.tick(now());
 		}
 
 		for (Ship s : ships) {
-			Position p = s.getPosition();
-			Position n = p.add(new Position(30, 20, 100));
-			s.setPosition(n);
-			s.tick(relativeTime);
+			s.tick(now());
 		}
 	}
 

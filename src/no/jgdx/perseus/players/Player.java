@@ -15,9 +15,17 @@ public abstract class Player implements GameObject {
 
 	private final List<Ship> hqs = new ArrayList<>();
 
-	public Player(Game game, HqShip hq) {
+	private final String name;
+
+	public Player(Game game, HqShip hq, String name) {
 		this.game = game;
 		hqs.add(hq);
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override

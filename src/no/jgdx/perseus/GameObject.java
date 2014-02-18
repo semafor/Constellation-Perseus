@@ -35,4 +35,11 @@ public interface GameObject {
 	 *         is destroyed.
 	 */
 	double getDamage();
+
+	/**
+	 * Some identifier. Every object must provide some identifier
+	 * 
+	 * @return
+	 */
+	String getName();
 }

@@ -17,7 +17,7 @@ public class ShipYard extends SpaceStation {
 		SHIP_CONSTRUCTION_TIME.put(ShipClassification.VIPER, 1000);
 	}
 
-	private final int constructionTime = 1000; // 1000 ms = 1 sec;
+	private final int constructionTime = 2000; // 2000 ms = 2 sec;
 
 	private final long constructedAt;
 
@@ -27,9 +27,9 @@ public class ShipYard extends SpaceStation {
 
 	private final Game game;
 
-	public ShipYard(Position pos, long time, Game game) {
-		super(pos);
-		this.constructedAt = time;
+	public ShipYard(Position pos, Game game) {
+		super(pos, "ShipYard");
+		this.constructedAt = game.now();
 		this.game = game;
 	}
 
@@ -51,7 +51,7 @@ public class ShipYard extends SpaceStation {
 	public void tick(long time) {
 
 		if (!constructed) {
-			if (constructedAt + constructionTime >= time) {
+			if (constructedAt + constructionTime <= time) {
 				constructed = true;
 			}
 		}

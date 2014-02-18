@@ -11,9 +11,11 @@ public abstract class SpaceStation implements GameObject {
 	/** double between 1 and 0. 0 means totally destroyed! */
 	protected double damage = 1; // 100%
 	protected Position position;
+	protected final String name;
 
-	public SpaceStation(Position pos) {
+	public SpaceStation(Position pos, String name) {
 		this.position = pos;
+		this.name = name;
 	}
 
 	public void setPosition(Position position) {
@@ -46,12 +48,24 @@ public abstract class SpaceStation implements GameObject {
 	 */
 	public abstract Collection<SpaceStation> constructableSpaceStations();
 
+	public String getName() {
+		return name;
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	public double getDamage() {
 		return damage;
+	}
+
+	@Override
+	public String toString() {
+		if (isUnderConstruction())
+			return getName() + " (under construction)";
+
+		return getName();
 	}
 
 }

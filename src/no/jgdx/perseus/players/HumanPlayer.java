@@ -6,7 +6,7 @@ import no.jgdx.perseus.ships.HqShip;
 public class HumanPlayer extends Player {
 
 	public HumanPlayer(Game game, HqShip hq) {
-		super(game, hq);
+		super(game, hq, "Jonas");
 	}
 
 	public void tick(long time) {

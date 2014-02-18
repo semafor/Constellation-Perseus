@@ -15,6 +15,10 @@ import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
+import no.jgdx.perseus.ships.harvesters.Harvester;
+import no.jgdx.perseus.stations.ShipYard;
+import no.jgdx.perseus.stations.SpaceStation;
 
 public class Ui extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -46,9 +50,16 @@ public class Ui extends JPanel {
 		game.addGameObject(earth);
 		game.addGameObject(moon);
 
-		HqShip hq = new HqShip("", Position.ORIGIN);
+		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN);
 		hq.setStar(sol);
+		game.addGameObject(hq);
 
+		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition());
+		hq.addHarvester(oxMin);
+		game.addGameObject(oxMin);
+
+		ShipYard yard = new ShipYard(hq.getPosition(), game);
+		game.addGameObject(yard);
 	}
 
 	@Override
@@ -58,13 +69,22 @@ public class Ui extends JPanel {
 		g.setColor(Color.RED);
 
 		for (Ship s : game.getShips()) {
-			g.drawString(s.getName(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
+			if (s instanceof HqShip)
+				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY() - 10);
+			else
+				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
 		}
 
 		g.setColor(Color.YELLOW);
 
 		for (Celestial cel : game.getCelestials()) {
-			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
+			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY() + 10);
+		}
+
+		g.setColor(Color.BLUE);
+
+		for (SpaceStation ss : game.getStations()) {
+			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss.getPosition().getY() + 20);
 		}
 	}
 
