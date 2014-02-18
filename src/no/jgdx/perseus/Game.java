@@ -22,6 +22,8 @@ import no.jgdx.perseus.stations.SpaceStation;
  */
 public class Game {
 
+	private final long initializeTime;
+
 	private final List<Player> players;
 
 	private final List<Celestial> celestials;
@@ -31,6 +33,7 @@ public class Game {
 	private final List<SpaceStation> stations;
 
 	public Game() {
+		initializeTime = System.currentTimeMillis();
 		players = new ArrayList<>();
 		celestials = new ArrayList<>();
 		ships = new ArrayList<>();
@@ -78,19 +81,53 @@ public class Game {
 	}
 
 	public void tick() {
+		long currentTime = System.currentTimeMillis();
+		long relativeTime = currentTime - initializeTime;
+
+		for (Player p : players) {
+			p.tick(relativeTime);
+		}
+
+		for (Celestial c : celestials)
+			c.tick(relativeTime);
+
+		for (SpaceStation ss : stations) {
+			ss.tick(relativeTime);
+		}
+
 		for (Ship s : ships) {
 			Position p = s.getPosition();
 			Position n = p.add(new Position(30, 20, 100));
 			s.setPosition(n);
-
+			s.tick(relativeTime);
 		}
-		for (Celestial c : celestials)
-			c.tick(System.currentTimeMillis());
 	}
 
 	@Override
 	public String toString() {
-		return ships.toString();
+		StringBuilder b = new StringBuilder();
+
+		b.append("Players:");
+		for (Player p : players) {
+			b.append("\n\t" + p);
+		}
+
+		b.append("Celestials:");
+		for (Celestial c : celestials) {
+			b.append("\n\t" + c);
+		}
+
+		b.append("Stations:");
+		for (SpaceStation ss : stations) {
+			b.append("\n\t" + ss);
+		}
+
+		b.append("Ships:");
+		for (Ship s : ships) {
+			b.append("\n\t" + s);
+		}
+
+		return b.toString();
 	}
 
 }

@@ -20,8 +20,6 @@ public abstract class Player implements GameObject {
 		hqs.add(hq);
 	}
 
-	public abstract void tick(long time);
-
 	@Override
 	public double getDamage() {
 		return 1;

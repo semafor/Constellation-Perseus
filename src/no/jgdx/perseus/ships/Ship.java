@@ -29,8 +29,6 @@ public abstract class Ship implements GameObject {
 		this.position = position;
 	}
 
-	public abstract void tick(long time);
-
 	public Position getPosition() {
 		return position;
 	}
