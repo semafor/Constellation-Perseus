@@ -14,8 +14,7 @@ public abstract class Gun {
 
 	protected final String name;
 
-	public Gun(int ammo, int damage, double precision, long range,
-			double rechargeTime, String name) {
+	public Gun(int ammo, int damage, double precision, long range, double rechargeTime, String name) {
 		this.ammo = ammo;
 		this.damage = damage;
 		this.precision = precision;
@@ -107,13 +106,11 @@ public abstract class Gun {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Double.doubleToLongBits(precision) != Double
-				.doubleToLongBits(other.precision))
+		if (Double.doubleToLongBits(precision) != Double.doubleToLongBits(other.precision))
 			return false;
 		if (range != other.range)
 			return false;
-		if (Double.doubleToLongBits(rechargeTime) != Double
-				.doubleToLongBits(other.rechargeTime))
+		if (Double.doubleToLongBits(rechargeTime) != Double.doubleToLongBits(other.rechargeTime))
 			return false;
 		return true;
 	}

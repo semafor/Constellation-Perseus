@@ -35,11 +35,9 @@ public class Ui extends JPanel {
 
 		game.celestials.add(s);
 
-		Moon earth = new Moon(1, 10, 130, "Earth", s.getPosition().add(
-				new Position(10, 10, 10)), s);
+		Moon earth = new Moon(1, 10, 130, "Earth", s.getPosition().add(new Position(10, 10, 10)), s);
 
-		Moon moon = new Moon(1, 35, 60, "Moon", earth.getPosition().add(
-				new Position(10, 10, 20)), earth);
+		Moon moon = new Moon(1, 35, 60, "Moon", earth.getPosition().add(new Position(10, 10, 20)), earth);
 
 		game.celestials.add(earth);
 		game.celestials.add(moon);
@@ -54,15 +52,13 @@ public class Ui extends JPanel {
 		g.setColor(Color.RED);
 
 		for (Ship s : game.ships) {
-			g.drawString(s.getName(), (int) s.getPosition().getX(), (int) s
-					.getPosition().getY());
+			g.drawString(s.getName(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
 		}
 
 		g.setColor(Color.YELLOW);
 
 		for (Celestial cel : game.celestials) {
-			g.drawString(cel.getName(), (int) cel.getPosition().getX(),
-					(int) cel.getPosition().getY());
+			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
 		}
 	}
 

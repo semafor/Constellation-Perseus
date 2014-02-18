@@ -11,6 +11,7 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
 
 /**
  * A HqShip is the/a head quarter of a player.
+ * 
  * @author pgd
  * 
  */
@@ -40,23 +41,23 @@ public class HqShip extends Ship {
 	public void setHarvesters(List<Harvester> harvesters) {
 		this.harvesters = harvesters;
 	}
-	
+
 	public void tick(long time) {
 		int harvested = 0;
 		List<Harvester> l = getHarvesters();
-		
+
 		for (Harvester h : l) {
 
-			if(h.destroyed()) {
+			if (h.destroyed()) {
 				l.remove(h);
 			} else {
 				harvested += h.resetAmount();
 				Allotrope a = h.getHarvesterClassification().getAllotrope();
-				assets.put(a, assets.get(h.getHarvesterClassification().getAllotrope()) + harvested);				
+				assets.put(a, assets.get(h.getHarvesterClassification().getAllotrope()) + harvested);
 			}
-			
+
 		}
-		
+
 	};
 
 }

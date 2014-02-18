@@ -15,7 +15,9 @@ public abstract class Ship implements GameObject {
 	private final String name;
 
 	private final ShipClassification classification;
-	
+
+	protected double damage = 1;
+
 	protected GameObjectState state = GameObjectState.IDLE;
 
 	private Position position;
@@ -47,6 +49,11 @@ public abstract class Ship implements GameObject {
 
 	public ShipClassification getClassification() {
 		return classification;
+	}
+
+	@Override
+	public double getDamage() {
+		return damage;
 	}
 
 	@Override
@@ -93,21 +100,21 @@ public abstract class Ship implements GameObject {
 	public String toString() {
 		return "Ship [classification=" + classification + ", name=" + name + ", position=" + position + "]";
 	}
-	
+
 	protected GameObjectState getState() {
 		return this.state;
 	}
-	
+
 	protected void setState(GameObjectState state) {
 		this.state = state;
 	}
-	
+
 	protected boolean destructor() {
 		return true;
 	}
-	
+
 	public void destroy() {
-		if(destructor()) {
+		if (destructor()) {
 			setState(GameObjectState.DESTROYED);
 		}
 	}
@@ -115,7 +122,7 @@ public abstract class Ship implements GameObject {
 	public boolean destroyed() {
 		return getState() == GameObjectState.DESTROYED;
 	}
-	
+
 	public boolean idle() {
 		return getState() == GameObjectState.IDLE;
 	}

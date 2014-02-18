@@ -28,13 +28,12 @@ public abstract class Celestial implements GameObject {
 	protected final double radius;
 
 	protected final String name;
-	
+
 	protected GameObjectState state = GameObjectState.IDLE;
 
 	protected Position pos;
 
-	public Celestial(double luminosity, double mass, double radius,
-			String name, Position position) {
+	public Celestial(double luminosity, double mass, double radius, String name, Position position) {
 
 		this.lumen = luminosity;
 		this.mass = mass;
@@ -50,6 +49,11 @@ public abstract class Celestial implements GameObject {
 
 	public void setPosition(Position position) {
 		this.pos = position;
+	}
+
+	@Override
+	public double getDamage() {
+		return 1;
 	}
 
 	/**

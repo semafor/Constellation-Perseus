@@ -5,16 +5,32 @@ import java.util.List;
 
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.Ship;
 
+/**
+ * This class controls the main logic behind the game, and keeps complete lists
+ * for the main objects in this game: players, celestials and ships.
+ * 
+ * @author pgd
+ * 
+ */
 public class Game {
+
+	public final List<Player> players;
+
 	public final List<Celestial> celestials;
 
 	public final List<Ship> ships;
 
 	public Game() {
-		celestials = new ArrayList<Celestial>();
-		ships = new ArrayList<Ship>();
+		players = new ArrayList<>();
+		celestials = new ArrayList<>();
+		ships = new ArrayList<>();
+	}
+
+	public void addGameObject(GameObject obj) {
+
 	}
 
 	public void tick() {
