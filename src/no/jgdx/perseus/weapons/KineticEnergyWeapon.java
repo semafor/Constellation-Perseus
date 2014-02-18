@@ -4,8 +4,10 @@ import no.jgdx.perseus.celestials.Position;
 
 public class KineticEnergyWeapon extends Gun {
 
-	public KineticEnergyWeapon(int ammo, int damage, double precision, long range, double rechargeTime, String name) {
-		super(ammo, damage, precision, range, rechargeTime, name);
+	public KineticEnergyWeapon() {
+		super(Integer.MAX_VALUE, 0.1, 0.7, 500, 50, "Kinetic Energy Laser");
+		// int ammo, double damage, double precision, long range, double
+		// rechargeTime, String name
 	}
 
 	@Override

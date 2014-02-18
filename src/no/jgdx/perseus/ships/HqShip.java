@@ -47,8 +47,15 @@ public class HqShip extends Ship {
 		}
 	}
 
+	/**
+	 * Sets the star this hq is assigned to, updates position to reflect that of
+	 * the star
+	 * 
+	 * @param star
+	 */
 	public void setStar(Star star) {
 		this.star = star;
+		setPosition(star.getPosition());
 	}
 
 	public Star getStar() {

@@ -4,9 +4,10 @@ import no.jgdx.perseus.celestials.Position;
 
 public class ViperMissile extends Gun {
 
-	public ViperMissile(int ammo, int damage, double precision, long range, double rechargeTime, String name) {
-		super(ammo, damage, precision, range, rechargeTime, name);
-		// TODO Auto-generated constructor stub
+	public ViperMissile() {
+		super(1000, 0.4, 0.5, 1000000, 2000, "Conventional Colonial Viper Missile");
+		// int ammo, double damage, double precision, long range, double
+		// rechargeTime, String name
 	}
 
 	@Override
