@@ -7,6 +7,7 @@ import java.util.Map;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 
 /**
@@ -17,7 +18,20 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  */
 public class HqShip extends Ship {
 
+	/**
+	 * This is the star the HqShip is orbiting. Might be null.
+	 */
+	private Star star;
+
+	/**
+	 * The list of all harvesters this Hq operates. Note that this is not the
+	 * same as all the harvesters a player has.
+	 */
 	private List<Harvester> harvesters;
+
+	/**
+	 * The assets owned by this hq.
+	 */
 	private final Map<Allotrope, Integer> assets;
 
 	public HqShip(String name, Position position) {
@@ -31,7 +45,14 @@ public class HqShip extends Ship {
 		for (Allotrope a : Allotrope.values()) {
 			assets.put(a, 0);
 		}
+	}
 
+	public void setStar(Star star) {
+		this.star = star;
+	}
+
+	public Star getStar() {
+		return star;
 	}
 
 	public List<Harvester> getHarvesters() {

@@ -12,37 +12,43 @@ import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Moon;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
+import no.jgdx.perseus.ships.ColonialViper;
+import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
-import no.jgdx.perseus.ships.Wreck;
 
 public class Ui extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	private final Game game;
 
 	public Ui() {
 		this.game = new Game();
 
-		Ship w1 = new Wreck();
-		w1.setPosition(new Position(200, 100, 50));
+		setup();
 
-		Ship w2 = new Wreck();
-		w2.setPosition(new Position(100, 200, 50));
+		setBackground(Color.BLACK);
+	}
 
-		Star s = Star.SOL;
-		s.setPosition(new Position(400, 400, 400));
+	private void setup() {
+		Ship w1 = new ColonialViper(new Position(200, 100, 50));
+
+		Star sol = Star.SOL;
+		sol.setPosition(new Position(400, 400, 400));
 
 		game.addGameObject(w1);
-		game.addGameObject(w2);
 
-		game.addGameObject(s);
+		game.addGameObject(sol);
 
-		Moon earth = new Moon(1, 10, 130, "Earth", s.getPosition().add(new Position(10, 10, 10)), s);
+		Moon earth = new Moon(1, 10, 130, "Earth", sol.getPosition().add(new Position(10, 10, 10)), sol);
 
 		Moon moon = new Moon(1, 35, 60, "Moon", earth.getPosition().add(new Position(10, 10, 20)), earth);
 
 		game.addGameObject(earth);
 		game.addGameObject(moon);
 
-		setBackground(Color.BLACK);
+		HqShip hq = new HqShip("", Position.ORIGIN);
+		hq.setStar(sol);
+
 	}
 
 	@Override

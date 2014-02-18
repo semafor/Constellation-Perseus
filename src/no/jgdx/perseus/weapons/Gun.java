@@ -1,6 +1,8 @@
 package no.jgdx.perseus.weapons;
 
-public abstract class Gun {
+import no.jgdx.perseus.GameObject;
+
+public abstract class Gun implements GameObject {
 
 	protected int ammo;
 
@@ -37,7 +39,7 @@ public abstract class Gun {
 	 * 
 	 * @return
 	 */
-	public int getDamage() {
+	public double getCausingDamage() {
 		return damage;
 	}
 
