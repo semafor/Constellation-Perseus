@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.jgdx.perseus.celestials.Celestial;
+import no.jgdx.perseus.celestials.Moon;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
-import no.jgdx.perseus.celestials.StarClassification;
-import no.jgdx.perseus.players.Harkonnen;
-import no.jgdx.perseus.players.HumanPlayer;
+import no.jgdx.perseus.client.audio.Mood;
+import no.jgdx.perseus.client.audio.SoundSystem;
 import no.jgdx.perseus.players.Player;
+import no.jgdx.perseus.ships.ColonialViper;
+import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
+import no.jgdx.perseus.ships.harvesters.Harvester;
+import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
 
 /**
@@ -32,12 +37,46 @@ public class Game {
 
 	private final List<SpaceStation> stations;
 
+	private final SoundSystem soundSystem;
+
 	public Game() {
 		initializeTime = System.currentTimeMillis();
 		players = new ArrayList<>();
 		celestials = new ArrayList<>();
 		ships = new ArrayList<>();
 		stations = new ArrayList<>();
+		soundSystem = SoundSystem.getSoundSystem();
+
+		setup();
+	}
+
+	private void setup() {
+		Ship w1 = new ColonialViper(new Position(200, 100, 50));
+
+		Star sol = Star.SOL;
+		sol.setPosition(new Position(400, 400, 400));
+
+		addGameObject(w1);
+
+		addGameObject(sol);
+
+		Moon earth = new Moon(1, 10, 130, "Earth", sol.getPosition().add(new Position(10, 10, 10)), sol);
+
+		Moon moon = new Moon(1, 35, 60, "Moon", earth.getPosition().add(new Position(10, 10, 20)), earth);
+
+		addGameObject(earth);
+		addGameObject(moon);
+
+		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN);
+		hq.setStar(sol);
+		addGameObject(hq);
+
+		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition());
+		hq.addHarvester(oxMin);
+		addGameObject(oxMin);
+
+		ShipYard yard = new ShipYard(hq.getPosition(), this);
+		addGameObject(yard);
 	}
 
 	/**
@@ -49,14 +88,6 @@ public class Game {
 	public long now() {
 		long n = System.currentTimeMillis();
 		return n - initializeTime;
-	}
-
-	private void initialize() {
-		players.add(new HumanPlayer(this, null));
-		players.add(new Harkonnen(this, null));
-
-		celestials.add(new Star(1, 1, 1, "Sol", new Position(1, 1, 1), StarClassification.G));
-		celestials.add(new Star(78.5, 2.69, 12.2, "Capella", new Position(100, 100, 100), StarClassification.G));
 	}
 
 	public void addGameObject(GameObject obj) {
@@ -73,6 +104,12 @@ public class Game {
 			stations.add((SpaceStation) obj);
 			System.out.println("SpaceStation added to game: " + obj);
 		}
+
+		// temp hack to test sound system
+		if (obj instanceof Ship && now() > 2000) {
+			soundSystem.changeMood(Mood.WAR);
+		}
+
 	}
 
 	public List<Celestial> getCelestials() {
