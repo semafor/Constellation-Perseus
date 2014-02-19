@@ -61,7 +61,7 @@ public class Ui extends JPanel {
 
 		while (true) {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(75);
 
 				ui.game.tick();
 				// System.out.println(ui.game);
