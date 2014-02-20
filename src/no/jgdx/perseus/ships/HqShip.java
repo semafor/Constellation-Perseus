@@ -20,6 +20,8 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
  */
 public class HqShip extends Ship {
 
+	public final static long COOLDOWN_TIME = 10L * 1000; // 10 seconds
+
 	/**
 	 * This is the star the HqShip is orbiting. Might be null.
 	 */
@@ -41,7 +43,7 @@ public class HqShip extends Ship {
 	}
 
 	public HqShip(String name, Position position, GameObject yield) {
-		super(name, ShipClassification.HQ, position);
+		super(name, ShipClassification.HQ, position, COOLDOWN_TIME);
 
 		harvesters = new ArrayList<>();
 		// adds the default harvester for this type of hq

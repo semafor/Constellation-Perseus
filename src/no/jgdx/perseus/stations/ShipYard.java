@@ -28,10 +28,10 @@ public class ShipYard extends SpaceStation {
 
 	private final Game game;
 
-	public ShipYard(Position pos, Game game) {
+	public ShipYard(Position pos) {
 		super(pos, "ShipYard");
-		this.constructedAt = game.now();
-		this.game = game;
+		this.constructedAt = Game.now();
+		this.game = Game.getInstance();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ShipYard extends SpaceStation {
 		game.addGameObject(ship);
 		shipConstruction.remove(ship);
 		System.out.println("deployed ship " + ship);
-		ship.setPosition(getPosition().add(new Position(-50, -50, 0)));
+		ship.jumpTo(getPosition().add(new Position(-50, -50, 0)));
 	}
 
 	@Override

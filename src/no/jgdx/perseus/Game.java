@@ -39,15 +39,25 @@ public class Game {
 
 	private final SoundSystem soundSystem;
 
-	public Game() {
+	private volatile static boolean IS_INSTANTIATED = false;
+	private static Game SINGLETON_INSTANCE;
+
+	public synchronized static Game getInstance() {
+		if (!IS_INSTANTIATED) {
+			IS_INSTANTIATED = true;
+			SINGLETON_INSTANCE = new Game();
+			SINGLETON_INSTANCE.setup();
+		}
+		return SINGLETON_INSTANCE;
+	}
+
+	private Game() {
 		initializeTime = System.currentTimeMillis();
 		players = new ArrayList<>();
 		celestials = new ArrayList<>();
 		ships = new ArrayList<>();
 		stations = new ArrayList<>();
 		soundSystem = SoundSystem.getSoundSystem();
-
-		setup();
 	}
 
 	private void setup() {
@@ -75,7 +85,7 @@ public class Game {
 		hq.addHarvester(oxMin);
 		addGameObject(oxMin);
 
-		ShipYard yard = new ShipYard(hq.getPosition(), this);
+		ShipYard yard = new ShipYard(hq.getPosition());
 		addGameObject(yard);
 	}
 
@@ -85,9 +95,9 @@ public class Game {
 	 * 
 	 * @return
 	 */
-	public long now() {
+	public static long now() {
 		long n = System.currentTimeMillis();
-		return n - initializeTime;
+		return n - getInstance().initializeTime;
 	}
 
 	public void addGameObject(GameObject obj) {

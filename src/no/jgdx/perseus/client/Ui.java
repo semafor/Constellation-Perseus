@@ -19,7 +19,7 @@ public class Ui extends JPanel {
 	private final Game game;
 
 	public Ui() {
-		this.game = new Game();
+		this.game = Game.getInstance();
 
 		setBackground(Color.BLACK);
 	}
