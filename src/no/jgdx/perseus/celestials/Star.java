@@ -21,10 +21,13 @@ public class Star extends Celestial {
 
 	public static final Star MEROPE = new Star(630, 4.5, 4, "Merope", new Position(400, 100, 500), StarClassification.B);
 
+	public static final Star PLEIONE = new Star(190, 3.4, 3.2, "Pleione", new Position(50, 250, 500), StarClassification.B);
+
+	public static final Star CELAENO = new Star(240, 9, 4.4, "Celaeno", new Position(650, 500, 500), StarClassification.B);
+
+	
 	// fix these
 	public static final Star TAYGETA = new Star(850, 5, 6.04, "Taygeta", new Position(600, 600, 500), StarClassification.B);
-	public static final Star PLEIONE = new Star(850, 5, 6.04, "Pleione", new Position(50, 250, 500), StarClassification.B);
-	public static final Star CELAENO = new Star(850, 5, 6.04, "Celaeno", new Position(650, 500, 500), StarClassification.B);
 	public static final Star STEROPE = new Star(850, 5, 6.04, "Sterope", new Position(550, 650, 500), StarClassification.B);
 	public static final Star ASTEROPE = new Star(850, 5, 6.04, "Asterope", new Position(530, 630, 500), StarClassification.B);
 
