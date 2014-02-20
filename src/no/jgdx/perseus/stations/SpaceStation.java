@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 
 public abstract class SpaceStation implements GameObject {
@@ -13,9 +14,16 @@ public abstract class SpaceStation implements GameObject {
 	protected Position position;
 	protected final String name;
 
-	public SpaceStation(Position pos, String name) {
+	private HqShip defaultHq;
+
+	public SpaceStation(Position pos, String name, HqShip hq) {
 		this.position = pos;
 		this.name = name;
+		defaultHq = hq;
+	}
+
+	protected HqShip getHq() {
+		return defaultHq;
 	}
 
 	public void setPosition(Position position) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.jgdx.perseus.celestials.Celestial;
-import no.jgdx.perseus.celestials.Moon;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.client.audio.Mood;
@@ -61,31 +60,34 @@ public class Game {
 	}
 
 	private void setup() {
-		Ship w1 = new ColonialViper(new Position(200, 100, 50));
-
-		Star sol = Star.SOL;
-		sol.setPosition(new Position(400, 400, 400));
-
+		Ship w1 = new ColonialViper(Position.ORIGIN);
+		w1.jumpTo(new Position(200, 100, 50));
 		addGameObject(w1);
 
-		addGameObject(sol);
+		addGameObject(Star.SOL);
 
-		Moon earth = new Moon(1, 10, 130, "Earth", sol.getPosition().add(new Position(10, 10, 10)), sol);
+		addGameObject(Star.ALCYONE);
+		addGameObject(Star.ATLAS);
+		addGameObject(Star.ELECTRA);
+		addGameObject(Star.MAIA);
+		addGameObject(Star.MEROPE);
 
-		Moon moon = new Moon(1, 35, 60, "Moon", earth.getPosition().add(new Position(10, 10, 20)), earth);
-
-		addGameObject(earth);
-		addGameObject(moon);
+		addGameObject(Star.TAYGETA);
+		addGameObject(Star.PLEIONE);
+		addGameObject(Star.CELAENO);
+		addGameObject(Star.STEROPE);
+		addGameObject(Star.ASTEROPE);
 
 		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN);
-		hq.setStar(sol);
+		hq.setStar(Star.SOL);
 		addGameObject(hq);
 
-		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition());
+		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq);
 		hq.addHarvester(oxMin);
 		addGameObject(oxMin);
+		oxMin.setStar(Star.SOL);
 
-		ShipYard yard = new ShipYard(hq.getPosition());
+		ShipYard yard = new ShipYard(hq.getPosition(), hq);
 		addGameObject(yard);
 	}
 

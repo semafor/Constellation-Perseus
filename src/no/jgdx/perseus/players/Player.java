@@ -3,7 +3,6 @@ package no.jgdx.perseus.players;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
@@ -11,14 +10,11 @@ import no.jgdx.perseus.ships.Ship;
 
 public abstract class Player implements GameObject {
 
-	private final Game game;
-
 	private final List<Ship> hqs = new ArrayList<>();
 
 	private final String name;
 
-	public Player(Game game, HqShip hq, String name) {
-		this.game = game;
+	public Player(HqShip hq, String name) {
 		hqs.add(hq);
 		this.name = name;
 	}

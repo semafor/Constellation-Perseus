@@ -32,7 +32,7 @@ public class Ui extends JPanel {
 
 		for (Ship s : game.getShips()) {
 			if (s instanceof HqShip)
-				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY() - 10);
+				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY() - 15);
 			else
 				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
 		}
@@ -40,13 +40,13 @@ public class Ui extends JPanel {
 		g.setColor(Color.YELLOW);
 
 		for (Celestial cel : game.getCelestials()) {
-			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY() + 10);
+			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY() + 15);
 		}
 
 		g.setColor(Color.BLUE);
 
 		for (SpaceStation ss : game.getStations()) {
-			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss.getPosition().getY() + 20);
+			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss.getPosition().getY() + 30);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class Ui extends JPanel {
 		Ui ui = new Ui();
 		JFrame frame = new JFrame("Constellation Perseus");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(new Dimension(1080, 760));
+		frame.setMinimumSize(new Dimension(1280, 760));
 
 		frame.add(ui);
 		frame.setVisible(true);
@@ -64,8 +64,6 @@ public class Ui extends JPanel {
 				Thread.sleep(75);
 
 				ui.game.tick();
-				// System.out.println(ui.game);
-
 				ui.repaint();
 
 			} catch (InterruptedException e) {

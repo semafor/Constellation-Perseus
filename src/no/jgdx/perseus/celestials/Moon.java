@@ -1,5 +1,6 @@
 package no.jgdx.perseus.celestials;
 
+@Deprecated
 public class Moon extends Celestial {
 
 	private final Celestial parent;
