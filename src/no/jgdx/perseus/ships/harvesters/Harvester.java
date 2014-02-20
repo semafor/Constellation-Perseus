@@ -15,8 +15,8 @@ public abstract class Harvester extends Ship {
 
 	private int amount = 0;
 
-	public Harvester(Position pos, HarvesterClassification hc) {
-		super("Harvester", ShipClassification.HARVESTER, pos);
+	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime) {
+		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime);
 		this.hc = hc;
 	}
 

@@ -25,6 +25,6 @@ public class Star extends Celestial {
 
 	@Override
 	public String toString() {
-		return "Type " + sc + " star:" + super.toString();
+		return "Star " + sc;
 	}
 }

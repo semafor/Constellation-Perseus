@@ -18,7 +18,7 @@ public class Application {
 	private final Game game;
 
 	public Application() {
-		this.game = new Game();
+		this.game = Game.getInstance();
 	}
 
 	public static void main(String[] args) {

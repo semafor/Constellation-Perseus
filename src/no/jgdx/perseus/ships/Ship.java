@@ -3,6 +3,7 @@ package no.jgdx.perseus.ships;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.celestials.Position;
@@ -22,11 +23,48 @@ public abstract class Ship implements GameObject {
 
 	private Position position;
 
-	public Ship(String name, ShipClassification classification, Position position) {
+	private final long coolDownTime;
+
+	private long lastJumpTime = Long.MIN_VALUE;
+
+	public Ship(String name, ShipClassification classification, Position position, long coolDown) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
 		this.position = position;
+		this.coolDownTime = coolDown;
+	}
+
+	public boolean isReadyToJump() {
+		boolean canjump = getCooldownTimeLeft() == 0;
+
+		// premature optimization
+		if (canjump)
+			lastJumpTime = Long.MIN_VALUE;
+
+		return canjump;
+	}
+
+	public long getCooldownTimeLeft() {
+		if (lastJumpTime == Long.MIN_VALUE)
+			return 0;
+
+		long now = Game.now();
+
+		long diff = now - lastJumpTime;
+		if (diff >= coolDownTime)
+			return 0;
+
+		return coolDownTime - diff;
+	}
+
+	public boolean jumpTo(Position position) {
+		if (!isReadyToJump())
+			return false;
+
+		setPosition(position);
+		lastJumpTime = Game.now();
+		return true;
 	}
 
 	public Position getPosition() {
@@ -96,7 +134,13 @@ public abstract class Ship implements GameObject {
 
 	@Override
 	public String toString() {
-		return "Ship [classification=" + classification + ", name=" + name + ", position=" + position + "]";
+		String s = "Ship " + classification;
+
+		if (!isReadyToJump()) {
+			s += " (cooling down ... ";
+			s += (getCooldownTimeLeft() / 1000L) + ")";
+		}
+		return s;
 	}
 
 	protected GameObjectState getState() {
