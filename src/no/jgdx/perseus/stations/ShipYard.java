@@ -17,11 +17,11 @@ public class ShipYard extends SpaceStation {
 
 	public static final Map<ShipClassification, Integer> SHIP_CONSTRUCTION_TIME = new HashMap<>();
 	{
-		SHIP_CONSTRUCTION_TIME.put(ShipClassification.HARVESTER, 8000);
-		SHIP_CONSTRUCTION_TIME.put(ShipClassification.VIPER, 3000);
+		SHIP_CONSTRUCTION_TIME.put(ShipClassification.HARVESTER, 2000);
+		SHIP_CONSTRUCTION_TIME.put(ShipClassification.VIPER, 1000);
 	}
 
-	private final int constructionTime = 2000; // 2000 ms = 2 sec;
+	private final int constructionTime = 1500; // 2000 ms = 2 sec;
 
 	private final long constructedAt;
 
@@ -56,7 +56,8 @@ public class ShipYard extends SpaceStation {
 
 		if (!constructedHarvester) {
 			constructedHarvester = true;
-			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq()), Game.now());
+			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq()),
+					Game.now());
 		}
 	}
 

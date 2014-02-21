@@ -9,8 +9,11 @@ import javax.swing.JPanel;
 
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.celestials.Celestial;
+import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.Harvester;
+import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
 
 public class Ui extends JPanel {
@@ -28,29 +31,50 @@ public class Ui extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 
+		// SHIPS
 		g.setColor(Color.RED);
 
 		for (Ship s : game.getShips()) {
+			Position pos = s.getPosition();
+			int x = (int) pos.getX();
+			int y = (int) pos.getY();
+
 			if (s instanceof HqShip)
-				g.drawString(s.toString(), (int) s.getPosition().getX(),
-						(int) s.getPosition().getY());
-			else
-				g.drawString(s.toString(), (int) s.getPosition().getX(),
-						(int) s.getPosition().getY());
+				g.drawString("HQ", x, y);
+
+			else if (s instanceof Harvester) {
+				int percentage = ((Harvester) s).getPercentage();
+				g.drawString("Ha", x, y);
+				g.drawLine(x, y, x + percentage, y);
+			}
+
+			else {
+				g.drawString(s.getClass().getSimpleName(), x, y);
+			}
 		}
 
+		// CELESTIALS
 		g.setColor(Color.YELLOW);
 
 		for (Celestial cel : game.getCelestials()) {
-			g.drawString(cel.getName(), (int) cel.getPosition().getX(),
-					(int) cel.getPosition().getY());
+			Position pos = cel.getPosition();
+			int x = (int) pos.getX();
+			int y = (int) pos.getY();
+			g.drawString(cel.getName(), x, y);
 		}
 
-		g.setColor(Color.BLUE);
+		// SPACE STATIONS
+		g.setColor(Color.GREEN);
 
 		for (SpaceStation ss : game.getStations()) {
-			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss
-					.getPosition().getY());
+			Position pos = ss.getPosition();
+			int x = (int) pos.getX();
+			int y = (int) pos.getY();
+
+			if (ss instanceof ShipYard)
+				g.drawString("Y", x, y);
+			else
+				g.drawString("Station", x, y);
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
@@ -88,8 +89,8 @@ public class Game {
 
 		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq);
 		hq.addHarvester(oxMin);
-		addGameObject(oxMin);
 		oxMin.setStar(Star.SOL);
+		addGameObject(oxMin);
 
 		ShipYard yard = new ShipYard(hq.getPosition(), hq);
 		addGameObject(yard);
@@ -117,12 +118,28 @@ public class Game {
 	 * @return
 	 */
 	public Position assignPosition(GameObject obj, Position position) {
-		if (!map.containsKey(position)) {
+		Position storedPos = null;
+		for (Entry<Position, GameObject> e : map.entrySet()) {
+			if (e.getValue().equals(obj)) {
+				if (e.getKey().equals(position))
+					return position;
+				else
+					storedPos = e.getKey();
+			}
+		}
+		if (storedPos != null)
+			map.remove(storedPos);
+
+		if (!map.containsKey(position) || map.get(position).equals(obj)) {
 			map.put(position, obj);
 			obj.setPosition(position);
+
+			System.out.println("Assigned ... stationary. " + obj);
+
 			return position;
 		}
-		int posdif = 50;
+
+		int posdif = 20;
 		int iteration = 0;
 		while (true) {
 			iteration++;
@@ -137,12 +154,11 @@ public class Game {
 							map.put(attempt, obj);
 							obj.setPosition(attempt);
 							System.out.println("Assigned " + position + " → "
-									+ attempt);
+									+ attempt + "\t" + obj);
 							return attempt;
 						}
 					}
 				}
-
 			}
 		}
 	}
@@ -152,14 +168,14 @@ public class Game {
 			ships.add((Ship) obj);
 		} else if (obj instanceof Celestial) {
 			celestials.add((Celestial) obj);
-			System.out.println("Added celestial to game: " + obj);
+			// System.out.println("Added celestial to game: " + obj);
 		} else if (obj instanceof Player) {
 			players.add((Player) obj);
 			// what just happened?
-			System.out.println("Player added to game:" + obj);
+			// System.out.println("Player added to game:" + obj);
 		} else if (obj instanceof SpaceStation) {
 			stations.add((SpaceStation) obj);
-			System.out.println("SpaceStation added to game: " + obj);
+			// System.out.println("SpaceStation added to game: " + obj);
 		}
 
 		assignPosition(obj, obj.getPosition());

@@ -14,7 +14,7 @@ public class Position {
 
 	private final long z;
 
-	public final static Position ORIGIN = new Position(0, 0, 0);
+	public final static Position ORIGIN = new Position(500, 300, 0);
 
 	public Position(long x, long y, long z) {
 		this.x = x;

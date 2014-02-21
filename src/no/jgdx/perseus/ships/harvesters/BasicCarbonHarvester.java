@@ -6,11 +6,12 @@ import no.jgdx.perseus.ships.HqShip;
 
 public class BasicCarbonHarvester extends Harvester {
 
-	public static final long COOLDOWN_TIME = 6000L; // 6 sec
+	public static final long COOLDOWN_TIME = 200L; // 6 sec
 	public static final int CAPACITY = 1000;
 
 	public BasicCarbonHarvester(Position pos, HqShip hq) {
-		super(pos, HarvesterClassification.CARBON_COLLECTOR, COOLDOWN_TIME, CAPACITY, hq);
+		super(pos, HarvesterClassification.CARBON_COLLECTOR, COOLDOWN_TIME,
+				CAPACITY, hq);
 	}
 
 	@Override

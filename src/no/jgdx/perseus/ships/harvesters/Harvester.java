@@ -20,7 +20,8 @@ public abstract class Harvester extends Ship {
 
 	private HqShip defaulHq;
 
-	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq) {
+	public Harvester(Position pos, HarvesterClassification hc,
+			long coolDownTime, int capacity, HqShip hq) {
 		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime);
 		this.hc = hc;
 		this.capacity = capacity;
@@ -29,6 +30,24 @@ public abstract class Harvester extends Ship {
 
 	protected HqShip getDefaultHq() {
 		return defaulHq;
+	}
+
+	/**
+	 * Returns in percentages, the amount vs capacity
+	 * 
+	 * @return
+	 */
+	public int getPercentage() {
+		if (isFull())
+			return 100;
+		if (isEmpty())
+			return 0;
+		float cap = capacity;
+		float am = amount;
+		if (cap == 0) {
+			return 0;
+		}
+		return (int) ((100f * am) / cap);
 	}
 
 	public boolean isFull() {
@@ -70,7 +89,8 @@ public abstract class Harvester extends Ship {
 	@Override
 	public void tick(long time) {
 		if (star != null) {
-			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
+			if (star.getStarClassification().getAllotrope() == hc
+					.getAllotrope()) {
 				amount += hc.getHarvestSpeed();
 				if (amount > capacity)
 					amount = capacity;

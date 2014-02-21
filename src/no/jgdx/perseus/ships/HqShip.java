@@ -60,9 +60,14 @@ public class HqShip extends Ship {
 	 * 
 	 * @param star
 	 */
-	public void setStar(Star star) {
+	public boolean setStar(Star star) {
+		if (star == null) {
+			this.star = null;
+			return true;
+		}
+
 		this.star = star;
-		setPosition(star.getPosition());
+		return jumpTo(star.getPosition());
 	}
 
 	public Star getStar() {
@@ -96,7 +101,10 @@ public class HqShip extends Ship {
 			} else if (h.harvesting()) {
 				harvested += h.resetAmount();
 				Allotrope a = h.getHarvesterClassification().getAllotrope();
-				assets.put(a, assets.get(h.getHarvesterClassification().getAllotrope()) + harvested);
+				assets.put(
+						a,
+						assets.get(h.getHarvesterClassification()
+								.getAllotrope()) + harvested);
 			}
 
 		}
