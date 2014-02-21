@@ -32,9 +32,8 @@ public class Ui extends JPanel {
 		super.paint(g);
 
 		// SHIPS
-		g.setColor(Color.RED);
-
 		for (Ship s : game.getShips()) {
+			g.setColor(Color.RED);
 			Position pos = s.getPosition();
 			int x = (int) pos.getX();
 			int y = (int) pos.getY();
@@ -44,19 +43,19 @@ public class Ui extends JPanel {
 
 			else if (s instanceof Harvester) {
 				int percentage = ((Harvester) s).getPercentage();
-				g.drawString("Ha", x, y);
+				g.drawString("■", x, y);
+				g.setColor(Color.CYAN);
 				g.drawLine(x, y, x + percentage, y);
 			}
 
 			else {
-				g.drawString(s.getClass().getSimpleName(), x, y);
+				g.drawString("Δ", x, y);
 			}
 		}
 
 		// CELESTIALS
-		g.setColor(Color.YELLOW);
-
 		for (Celestial cel : game.getCelestials()) {
+			g.setColor(Color.YELLOW);
 			Position pos = cel.getPosition();
 			int x = (int) pos.getX();
 			int y = (int) pos.getY();
@@ -64,15 +63,14 @@ public class Ui extends JPanel {
 		}
 
 		// SPACE STATIONS
-		g.setColor(Color.GREEN);
-
 		for (SpaceStation ss : game.getStations()) {
+			g.setColor(Color.GREEN);
 			Position pos = ss.getPosition();
 			int x = (int) pos.getX();
 			int y = (int) pos.getY();
 
 			if (ss instanceof ShipYard)
-				g.drawString("Y", x, y);
+				g.drawString("○", x, y);
 			else
 				g.drawString("Station", x, y);
 		}

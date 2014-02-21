@@ -38,6 +38,18 @@ public class Position {
 		return new Position(x + p.x, y + p.y, z + p.z);
 	}
 
+	public double distance(Position pos) {
+		long nx = pos.getX();
+		long ny = pos.getY();
+		long nz = pos.getZ();
+
+		long xdiff = (x - nx) * (x - nx);
+		long ydiff = (y - ny) * (y - ny);
+		long zdiff = (z - nz) * (z - nz);
+
+		return Math.sqrt(xdiff + ydiff + zdiff);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

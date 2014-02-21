@@ -16,7 +16,8 @@ public class ColonialViper extends Ship {
 	public static final long COOLDOWN_TIME = 3500L; // 1.5 sec
 
 	public ColonialViper(Position pos) {
-		super("Mark I Colonial Viper", ShipClassification.VIPER, pos, COOLDOWN_TIME);
+		super("Mark I Colonial Viper", ShipClassification.VIPER, pos,
+				COOLDOWN_TIME);
 		guns.add(new ViperMissile());
 		guns.add(new KineticEnergyWeapon());
 		guns.add(new KineticEnergyWeapon());

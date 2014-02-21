@@ -94,6 +94,19 @@ public class Game {
 
 		ShipYard yard = new ShipYard(hq.getPosition(), hq);
 		addGameObject(yard);
+
+		ColonialViper v1 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v2 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v3 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v4 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v5 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v6 = new ColonialViper(Star.ELECTRA.getPosition());
+		addGameObject(v1);
+		addGameObject(v2);
+		addGameObject(v3);
+		addGameObject(v4);
+		addGameObject(v5);
+		addGameObject(v6);
 	}
 
 	/**

@@ -64,6 +64,7 @@ public abstract class Ship implements GameObject {
 			return false;
 
 		Game.getInstance().assignPosition(this, position);
+
 		lastJumpTime = Game.now();
 		return true;
 	}
