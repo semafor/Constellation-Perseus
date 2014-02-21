@@ -1,5 +1,6 @@
 package no.jgdx.perseus.stations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,15 +55,14 @@ public class ShipYard extends SpaceStation {
 
 		if (!constructedHarvester) {
 			constructedHarvester = true;
-			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq()),
-					Game.now());
+			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq()), Game.now());
 		}
 	}
 
 	private boolean constructedHarvester = false;
 
 	@Override
-	public void tick(long time) {
+	public synchronized void tick(long time) {
 
 		if (!constructed) {
 			if (constructedAt + constructionTime <= time) {
@@ -70,13 +70,18 @@ public class ShipYard extends SpaceStation {
 			}
 		}
 
-		for (Map.Entry<Ship, Long> e : shipConstruction.entrySet()) {
+		ArrayList<Map.Entry<Ship, Long>> lst = new ArrayList<>();
+		synchronized (shipConstruction) {
+			lst.addAll(shipConstruction.entrySet());
+		}
+
+		for (Map.Entry<Ship, Long> e : lst) {
 			Ship s = e.getKey();
 			long conTime = e.getValue();
 
 			ShipClassification sc = s.getClassification();
 			if (!SHIP_CONSTRUCTION_TIME.containsKey(sc)) {
-				shipConstruction.remove(sc); // Concurrency exception???
+				shipConstruction.remove(sc);
 			}
 
 			long totalConTime = SHIP_CONSTRUCTION_TIME.get(sc);

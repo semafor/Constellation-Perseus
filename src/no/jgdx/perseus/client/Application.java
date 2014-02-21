@@ -72,9 +72,9 @@ public class Application {
 			if (o instanceof ShipYard) {
 				System.out.println("\t>User selected a ShipYard!!!");
 				ShipYard y = (ShipYard) o;
-				y.constructShip(new ColonialViper(Star.MAIA.getPosition()),
-						Game.now());
+				y.constructShip(new ColonialViper(Star.MAIA.getPosition()), Game.now());
 				System.out.println(y + " constructing ship ... ");
+				selectedObject = null;
 			}
 
 			// we already have a selected object, and it is a ship, we will move
@@ -84,14 +84,12 @@ public class Application {
 				System.out.println("Requesting ship to jump to " + pos);
 				boolean success = ((Ship) selectedObject).jumpTo(pos);
 
-				System.out.println(success ? "Jump successful!"
-						: "No jump this time.");
+				System.out.println(success ? "Jump successful!" : "No jump this time.");
 			}
 			selectedObject = null;
 		}
 
-		System.out.println(selectedObject == null ? "No object selected"
-				: "User selected " + selectedObject);
+		System.out.println(selectedObject == null ? "No object selected" : "User selected " + selectedObject);
 
 	}
 
@@ -102,14 +100,13 @@ public class Application {
 		} else if (item == Game.MainMenuItems.NEW_GAME) {
 
 			// XXX: let view query game directly?
-			view.showNewGame(game.getShips(), game.getCelestials(),
-					game.getStations(), new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							Position pos = new Position(e.getX(), e.getY(), 0);
-							userClick(pos);
-						}
-					});
+			view.showNewGame(game.getShips(), game.getCelestials(), game.getStations(), new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					Position pos = new Position(e.getX(), e.getY(), 0);
+					userClick(pos);
+				}
+			});
 		}
 	}
 
