@@ -36,6 +36,8 @@ public class Game {
 	private final List<Ship> ships;
 
 	private final List<SpaceStation> stations;
+	
+	private final List<String> contributors;
 
 	private final SoundSystem soundSystem;
 
@@ -58,6 +60,7 @@ public class Game {
 		ships = new ArrayList<>();
 		stations = new ArrayList<>();
 		soundSystem = SoundSystem.getSoundSystem();
+		contributors = new ArrayList<String>();
 	}
 
 	private void setup() {
@@ -87,6 +90,8 @@ public class Game {
 
 		ShipYard yard = new ShipYard(hq.getPosition());
 		addGameObject(yard);
+		
+		setContributors();
 	}
 
 	/**
@@ -182,5 +187,40 @@ public class Game {
 
 		return b.toString();
 	}
+	
+	public ArrayList<MainMenuItems> getMainMenuItems() {
+		ArrayList<MainMenuItems> l = new ArrayList<MainMenuItems>();
+		l.add(MainMenuItems.NEW_GAME);
+		l.add(MainMenuItems.CREDITS);
+		return l;
+	}
+	
+	public enum MainMenuItems {
+		MAIN_MENU("Main menu"),
+		
+		CREDITS("Credits"),
+		
+		NEW_GAME("New game");
+		
+		private final String label;
+
+		private MainMenuItems(String label) {
+			this.label = label;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+	}
+	
+	private void setContributors() {
+		contributors.add("Pål Grønås Drange");
+		contributors.add("Jonas Grønås Drange");
+	}
+	
+	public List<String> getContributors() {
+		return contributors;
+	}
+	
 
 }
