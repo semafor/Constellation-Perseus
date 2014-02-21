@@ -14,7 +14,7 @@ public class Position {
 
 	private final long z;
 
-	public final static Position ORIGIN = new Position(0, 0, 0);
+	public final static Position ORIGIN = new Position(500, 300, 0);
 
 	public Position(long x, long y, long z) {
 		this.x = x;
@@ -36,6 +36,18 @@ public class Position {
 
 	public Position add(Position p) {
 		return new Position(x + p.x, y + p.y, z + p.z);
+	}
+
+	public double distance(Position pos) {
+		long nx = pos.getX();
+		long ny = pos.getY();
+		long nz = pos.getZ();
+
+		long xdiff = (x - nx) * (x - nx);
+		long ydiff = (y - ny) * (y - ny);
+		long zdiff = (z - nz) * (z - nz);
+
+		return Math.sqrt(xdiff + ydiff + zdiff);
 	}
 
 	@Override

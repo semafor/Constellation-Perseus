@@ -42,7 +42,7 @@ public final class SoundSystem {
 			System.out.println("Tried changing mood to the same mood! " + mood);
 		}
 		if (mood == Mood.WAR) {
-			playSound("track01.wav");
+//			playSound("track01.wav");
 		}
 
 		System.out.println("Update mood:" + currentMood + " to " + mood);

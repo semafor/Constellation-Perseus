@@ -18,6 +18,10 @@ public class VolvoPistol extends Gun {
 	}
 
 	@Override
+	public void setPosition(Position position) {
+	}
+
+	@Override
 	public void tick(long time) {
 	}
 

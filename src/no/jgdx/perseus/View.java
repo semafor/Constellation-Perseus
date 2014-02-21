@@ -20,8 +20,11 @@ import javax.swing.border.MatteBorder;
 
 import no.jgdx.perseus.Game.MainMenuItems;
 import no.jgdx.perseus.celestials.Celestial;
+import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.Harvester;
+import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
 
 public class View {
@@ -203,31 +206,52 @@ public class View {
 		
 		@Override
 		public void paint(Graphics g) {
-			
 			super.paint(g);
 
-			g.setColor(Color.RED);
-
+			// SHIPS
 			for (Ship s : ships) {
+				g.setColor(Color.RED);
+				Position pos = s.getPosition();
+				int x = (int) pos.getX();
+				int y = (int) pos.getY();
+
 				if (s instanceof HqShip)
-					g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY() - 10);
-				else
-					g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
+					g.drawString("HQ", x, y);
+
+				else if (s instanceof Harvester) {
+					int percentage = ((Harvester) s).getPercentage();
+					g.drawString("■", x, y);
+					g.setColor(Color.CYAN);
+					g.drawLine(x, y, x + percentage, y);
+				}
+
+				else {
+					g.drawString("Δ", x, y);
+				}
 			}
 
-			g.setColor(Color.YELLOW);
-
+			// CELESTIALS
 			for (Celestial cel : celestials) {
-				g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY() + 10);
+				g.setColor(Color.YELLOW);
+				Position pos = cel.getPosition();
+				int x = (int) pos.getX();
+				int y = (int) pos.getY();
+				g.drawString(cel.getName(), x, y);
 			}
 
-			g.setColor(Color.BLUE);
-
+			// SPACE STATIONS
 			for (SpaceStation ss : spaceStations) {
-				g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss.getPosition().getY() + 20);
+				g.setColor(Color.GREEN);
+				Position pos = ss.getPosition();
+				int x = (int) pos.getX();
+				int y = (int) pos.getY();
+
+				if (ss instanceof ShipYard)
+					g.drawString("○", x, y);
+				else
+					g.drawString("Station", x, y);
 			}
-			
-		}	
+		}
 	}
 	/*
 */
