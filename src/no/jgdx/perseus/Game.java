@@ -1,7 +1,9 @@
 package no.jgdx.perseus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
@@ -37,6 +39,8 @@ public class Game {
 	private final List<SpaceStation> stations;
 
 	private final SoundSystem soundSystem;
+
+	private final Map<Position, GameObject> map = new HashMap<>();
 
 	private volatile static boolean IS_INSTANTIATED = false;
 	private static Game SINGLETON_INSTANCE;
@@ -102,6 +106,47 @@ public class Game {
 		return n - getInstance().initializeTime;
 	}
 
+	/**
+	 * Finds the nearest uninhabitated position in space and puts obj there.
+	 * This method calls setPosition on obj with the position it returns.
+	 * Returns the position it was moved to.
+	 * 
+	 * @param obj
+	 *            the object to position
+	 * @param position
+	 * @return
+	 */
+	public Position assignPosition(GameObject obj, Position position) {
+		if (!map.containsKey(position)) {
+			map.put(position, obj);
+			obj.setPosition(position);
+			return position;
+		}
+		int posdif = 50;
+		int iteration = 0;
+		while (true) {
+			iteration++;
+			for (int x = -1; x <= 1; x++) {
+				for (int y = -1; y <= 1; y++) {
+					if (x != 0 || y != 0) {
+						int nx = posdif * iteration * x;
+						int ny = posdif * iteration * y;
+						Position attempt = position
+								.add(new Position(nx, ny, 0));
+						if (!map.containsKey(attempt)) {
+							map.put(attempt, obj);
+							obj.setPosition(attempt);
+							System.out.println("Assigned " + position + " → "
+									+ attempt);
+							return attempt;
+						}
+					}
+				}
+
+			}
+		}
+	}
+
 	public void addGameObject(GameObject obj) {
 		if (obj instanceof Ship) {
 			ships.add((Ship) obj);
@@ -116,6 +161,8 @@ public class Game {
 			stations.add((SpaceStation) obj);
 			System.out.println("SpaceStation added to game: " + obj);
 		}
+
+		assignPosition(obj, obj.getPosition());
 
 		// temp hack to test sound system
 		if (obj instanceof Ship && now() > 2000) {

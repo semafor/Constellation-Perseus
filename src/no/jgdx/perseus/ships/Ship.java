@@ -27,7 +27,8 @@ public abstract class Ship implements GameObject {
 
 	private long lastJumpTime = Long.MIN_VALUE;
 
-	public Ship(String name, ShipClassification classification, Position position, long coolDown) {
+	public Ship(String name, ShipClassification classification,
+			Position position, long coolDown) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
@@ -62,7 +63,7 @@ public abstract class Ship implements GameObject {
 		if (!isReadyToJump())
 			return false;
 
-		setPosition(position);
+		Game.getInstance().assignPosition(this, position);
 		lastJumpTime = Game.now();
 		return true;
 	}
@@ -96,10 +97,12 @@ public abstract class Ship implements GameObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((classification == null) ? 0 : classification.hashCode());
+		result = prime * result
+				+ ((classification == null) ? 0 : classification.hashCode());
 		result = prime * result + ((guns == null) ? 0 : guns.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((position == null) ? 0 : position.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
 		return result;
 	}
 

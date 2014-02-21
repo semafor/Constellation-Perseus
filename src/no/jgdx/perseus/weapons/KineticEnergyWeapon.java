@@ -15,6 +15,10 @@ public class KineticEnergyWeapon extends Gun {
 		return null;
 	}
 
+	@Override
+	public void setPosition(Position position) {
+	}
+
 	public void tick(long time) {
 	};
 

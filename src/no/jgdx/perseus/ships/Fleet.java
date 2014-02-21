@@ -29,6 +29,11 @@ public class Fleet implements GameObject {
 	}
 
 	@Override
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	@Override
 	public Position getPosition() {
 		return position;
 	}
@@ -63,7 +68,8 @@ public class Fleet implements GameObject {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((position == null) ? 0 : position.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
 		result = prime * result + ((ships == null) ? 0 : ships.hashCode());
 		return result;
 	}

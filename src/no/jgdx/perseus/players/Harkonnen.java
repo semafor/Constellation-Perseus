@@ -7,8 +7,4 @@ public class Harkonnen extends Player {
 		super(hq, "Harkonnen");
 	}
 
-	@Override
-	public void tick(long time) {
-	}
-
 }

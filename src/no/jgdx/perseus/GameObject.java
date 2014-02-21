@@ -20,6 +20,14 @@ public interface GameObject {
 	Position getPosition();
 
 	/**
+	 * Set current position of the object.
+	 * 
+	 * @param position
+	 *            new position
+	 */
+	void setPosition(Position position);
+
+	/**
 	 * Tick, time is the absolute game time, which might overflow. lol, not!
 	 * 
 	 * @param time

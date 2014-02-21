@@ -32,21 +32,25 @@ public class Ui extends JPanel {
 
 		for (Ship s : game.getShips()) {
 			if (s instanceof HqShip)
-				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY() - 15);
+				g.drawString(s.toString(), (int) s.getPosition().getX(),
+						(int) s.getPosition().getY());
 			else
-				g.drawString(s.toString(), (int) s.getPosition().getX(), (int) s.getPosition().getY());
+				g.drawString(s.toString(), (int) s.getPosition().getX(),
+						(int) s.getPosition().getY());
 		}
 
 		g.setColor(Color.YELLOW);
 
 		for (Celestial cel : game.getCelestials()) {
-			g.drawString(cel.getName(), (int) cel.getPosition().getX(), (int) cel.getPosition().getY() + 15);
+			g.drawString(cel.getName(), (int) cel.getPosition().getX(),
+					(int) cel.getPosition().getY());
 		}
 
 		g.setColor(Color.BLUE);
 
 		for (SpaceStation ss : game.getStations()) {
-			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss.getPosition().getY() + 30);
+			g.drawString(ss.toString(), (int) ss.getPosition().getX(), (int) ss
+					.getPosition().getY());
 		}
 	}
 
