@@ -20,6 +20,8 @@ public class Application {
 		display();
 	}
 	
+	// sets up the main menu
+	// listens in on menu button actions
 	private void mainMenu() {
 
 		ActionListener listener = new ActionListener() {
@@ -35,15 +37,18 @@ public class Application {
 		view.addMainMenuListener(listener);
 		
 	}
-	
+
 	private void display() {
 		mainMenu();
 	}
 	
+	// display this or that
 	private void display(Game.MainMenuItems item) {
 		if(item == Game.MainMenuItems.CREDITS) {
 			view.showCredits(game.getContributors());
 		} else if(item == Game.MainMenuItems.NEW_GAME) {
+			
+			// XXX: let view query game directly?
 			view.showNewGame(game.getShips(), game.getCelestials(), game.getStations());
 		}
 	}

@@ -29,9 +29,7 @@ import no.jgdx.perseus.stations.SpaceStation;
 
 public class View {
 	
-	@SuppressWarnings("unused")
-	private static final long serialVersionUID = 1L;
-	
+	// main panels
 	private ArrayList<JPanel> panels;
 	
 	private final JFrame frame;
@@ -41,9 +39,13 @@ public class View {
 	
 	private final JPanel middle = new JPanel();
 	private ArrayList<MainMenuButton> mainMenuButtons;
+
+	// game panel
+	private GamePanel gamePanel;
 	
 	private final JPanel bottom = new JPanel();
 	
+	// layout manager for main panels
 	private final GroupLayout layout;
 	
 	public View(String title) {
@@ -68,12 +70,16 @@ public class View {
 	private void setup() {
 		
 		top.add(createTitle());
+		
+		// set border and colors of top area
 		top.setBorder(new MatteBorder(5, 0, 0, 0, new Color(0, 0, 0, 0)));
 		top.setPreferredSize(new Dimension(frame.getWidth(),75));
 		
+		// set border and colors of middle area
 		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255, 50)));
 		middle.setPreferredSize(new Dimension(frame.getWidth(),675));
 		
+		// set border and colors of bottom area
 		bottom.add(new JLabel("Bottom area"));
 		bottom.setPreferredSize(new Dimension(frame.getWidth(),50));
 	
@@ -83,17 +89,15 @@ public class View {
                 	.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 	.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 	.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
-	    
 	    layout.setVerticalGroup(
 	            layout.createSequentialGroup()
                 	.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 	.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 				
-	    frame.pack();
 	    frame.setVisible(true);
 	    
-		// repaint all panels after JFrame was shown	
+		// add main panels, validate, paint	
 		for (JPanel p : panels) {
 			p.setBackground(new Color(0));
 		    p.setVisible(true);
@@ -101,10 +105,12 @@ public class View {
 		    p.repaint();
 		}
 		
+		// tell layout manager to rearrange main panels
 		frame.pack();
 
 	}
 	
+	// creates main title
 	private JLabel createTitle() {
 		Font f = new Font("Ubuntu Light", Font.PLAIN, 42);
 		topTitle.setFont(f);
@@ -112,10 +118,12 @@ public class View {
 		return topTitle;
 	}
 	
+	// sets main title
 	public void setTopTitle(String title) {
 		topTitle.setText(title);
 	}
 	
+	// creates a main menu and puts it into a main panel
 	private void renderMainMenuButtons(ArrayList<MainMenuItems> items) {
 		
 		this.mainMenuButtons = new ArrayList<MainMenuButton>();
@@ -135,16 +143,18 @@ public class View {
 		
 	}
 	
+	// puts ActionListener on main menu
 	public void addMainMenuListener(ActionListener listener) {
 		for (MainMenuButton b : mainMenuButtons) {
 			b.addActionListener(listener);
 		}
 	}
 
+	// class for main menu buttons
+	// XXX: use button model
 	public class MainMenuButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
-		
 		private MainMenuItems content;
 		
 		public MainMenuButton(String label, MainMenuItems content) {
@@ -155,7 +165,6 @@ public class View {
 			setBorder(null);
 			Font f = new Font("Ubuntu", Font.PLAIN, 24);
 			setFont(f);
-			
 		}
 		
 		public MainMenuItems getButtonContent() {
@@ -163,6 +172,7 @@ public class View {
 		}
 	}
 	
+	// displays credits
 	public void showCredits(List<String> contributors) {
 		setTopTitle("Credits");
 		middle.removeAll();
@@ -177,14 +187,19 @@ public class View {
 	}
 	
 	public void showNewGame(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations) {
-		setTopTitle("Constellation Perseus");
+		setTopTitle("Constellation Perseus (ingame etc.)");
+		this.gamePanel = new GamePanel(ships, celestials, spaceStations);
 		middle.removeAll();
-		middle.setLayout(new GridLayout());
-		middle.add(new GamePanel(ships, celestials, spaceStations));
+		middle.setLayout(new GridLayout(1,1));
+		middle.add(gamePanel);
 	}
 
 	public void tick() {
 		frame.repaint();
+		if(gamePanel != null) {
+			gamePanel.repaint();
+		}
+	
 	}
 	
 	private class GamePanel extends JPanel {
@@ -207,7 +222,7 @@ public class View {
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g);
-
+			System.out.println("Have " + ships.size() + " ships");
 			// SHIPS
 			for (Ship s : ships) {
 				g.setColor(Color.RED);
