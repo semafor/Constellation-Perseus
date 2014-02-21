@@ -22,15 +22,16 @@ public class BasicCarbonHarvester extends Harvester {
 
 		if (isFull()) {
 			jumpTo(getDefaultHq().getPosition());
+			getDefaultHq().empty(this);
+			setStar(null);
 		} else if (isEmpty()) {
-			setStar(Star.ATLAS);
+			if (getStar() != Star.ATLAS)
+				setStar(Star.ATLAS);
 		}
 	}
 
 	@Override
 	public String toString() {
-		String s = super.toString();
-		s += " \t harvested: " + getAmount();
-		return s;
+		return "C-Harvester: " + getAmount() + "C";
 	}
 }

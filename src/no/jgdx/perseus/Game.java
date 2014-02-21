@@ -38,12 +38,13 @@ public class Game {
 	private final List<Ship> ships;
 
 	private final List<SpaceStation> stations;
-	
+
 	private final List<String> contributors;
 
 	private final SoundSystem soundSystem;
 
-	private final Map<Position, GameObject> map = new HashMap<>();
+	private final Map<Position, GameObject> posToObj = new HashMap<>();
+	private final Map<GameObject, Position> objToPos = new HashMap<>();
 
 	private volatile static boolean IS_INSTANTIATED = false;
 	private static Game SINGLETON_INSTANCE;
@@ -68,10 +69,6 @@ public class Game {
 	}
 
 	private void setup() {
-		Ship w1 = new ColonialViper(Position.ORIGIN);
-		w1.jumpTo(new Position(200, 100, 50));
-		addGameObject(w1);
-
 		addGameObject(Star.SOL);
 
 		addGameObject(Star.ALCYONE);
@@ -87,12 +84,11 @@ public class Game {
 		addGameObject(Star.ASTEROPE);
 
 		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN);
-		hq.setStar(Star.SOL);
 		addGameObject(hq);
+		hq.setStar(Star.SOL);
 
 		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq);
 		hq.addHarvester(oxMin);
-		oxMin.setStar(Star.SOL);
 		addGameObject(oxMin);
 
 		ShipYard yard = new ShipYard(hq.getPosition(), hq);
@@ -137,25 +133,15 @@ public class Game {
 	 * @return
 	 */
 	public Position assignPosition(GameObject obj, Position position) {
-		Position storedPos = null;
-		for (Entry<Position, GameObject> e : map.entrySet()) {
-			if (e.getValue().equals(obj)) {
-				if (e.getKey().equals(position))
-					return position;
-				else
-					storedPos = e.getKey();
+		System.out.println("assigning " + obj + " ... ");
+		if (objToPos.containsKey(obj)) {
+			Position oldPos = objToPos.get(obj);
+			if (oldPos.equals(position))
+				return position; // nothing to do
+			else {
+				objToPos.remove(obj);
+				posToObj.remove(oldPos);
 			}
-		}
-		if (storedPos != null)
-			map.remove(storedPos);
-
-		if (!map.containsKey(position) || map.get(position).equals(obj)) {
-			map.put(position, obj);
-			obj.setPosition(position);
-
-			System.out.println("Assigned ... stationary. " + obj);
-
-			return position;
 		}
 
 		int posdif = 20;
@@ -169,17 +155,32 @@ public class Game {
 						int ny = posdif * iteration * y;
 						Position attempt = position
 								.add(new Position(nx, ny, 0));
-						if (!map.containsKey(attempt)) {
-							map.put(attempt, obj);
+						if (getObject(attempt, 20) == null) {
+							posToObj.put(attempt, obj);
+							objToPos.put(obj, attempt);
 							obj.setPosition(attempt);
 							System.out.println("Assigned " + position + " → "
 									+ attempt + "\t" + obj);
+
+							assert posToObj.containsKey(attempt);
+							assert posToObj.get(attempt).equals(obj);
+							assert objToPos.containsKey(obj);
+							assert objToPos.get(obj).equals(attempt);
+							assert attempt.equals(obj.getPosition());
+
 							return attempt;
 						}
 					}
 				}
 			}
 		}
+	}
+
+	public Position getPositionOfObject(GameObject object) {
+		if (objToPos.containsKey(object))
+			return objToPos.get(object);
+		System.err.println("Unknown object " + object);
+		return null;
 	}
 
 	public void addGameObject(GameObject obj) {
@@ -206,6 +207,42 @@ public class Game {
 
 	}
 
+	/**
+	 * Returns the object closest to given position. Returns null if no object
+	 * is closer than range.
+	 * 
+	 * @param target
+	 * @param range
+	 * @return
+	 */
+	public GameObject getObject(Position target, float range) {
+		GameObject optObj = null;
+		Position optPos = null;
+		double optDist = 0;
+
+		for (Entry<Position, GameObject> e : posToObj.entrySet()) {
+			Position p = e.getKey();
+			GameObject o = e.getValue();
+			if (optPos == null) {
+				optObj = o;
+				optPos = p;
+				optDist = p.distance(target);
+			} else {
+				double dist = target.distance(p);
+				if (dist < optDist) {
+					optObj = o;
+					optPos = p;
+					optDist = dist;
+				}
+			}
+		}
+
+		if (optDist > range)
+			return null;
+
+		return optObj;
+	}
+
 	public List<Celestial> getCelestials() {
 		return celestials;
 	}
@@ -224,20 +261,69 @@ public class Game {
 
 	public void tick() {
 
+		for (Entry<GameObject, Position> e : objToPos.entrySet()) {
+			GameObject g = e.getKey();
+			Position p = e.getValue();
+
+			assert p.equals(g.getPosition()) : "Stored pos mismatch " + p
+					+ " vs " + g.getPosition();
+
+			assert posToObj.containsKey(p) : "posToObj doesn't contain " + p
+					+ ", the position of " + g + " - " + g.getName() + " vs "
+					+ g.getPosition();
+			assert posToObj.get(p).equals(g);
+
+		}
+
+		for (Entry<Position, GameObject> e : posToObj.entrySet()) {
+			GameObject g = e.getValue();
+			Position p = e.getKey();
+			assert objToPos.containsKey(g) : "objToPos doesn't contain " + g;
+			assert objToPos.get(g).equals(p) : "objToPos mismatch: "
+					+ objToPos.get(g) + " vs " + p + " \t for " + g + " - "
+					+ g.getName();
+			assert g.getPosition().equals(p) : "stored pos mismatch " + p
+					+ " vs " + g.getPosition() + " \t for " + g + " - "
+					+ g.getName();
+		}
+
 		for (Player p : players) {
 			p.tick(now());
 		}
 
-		for (Celestial c : celestials)
+		for (Celestial c : celestials) {
+			assert datainvariant(c);
 			c.tick(now());
+		}
 
 		for (SpaceStation ss : stations) {
+			assert datainvariant(ss);
 			ss.tick(now());
 		}
 
 		for (Ship s : ships) {
+			assert datainvariant(s);
 			s.tick(now());
 		}
+	}
+
+	public boolean datainvariant(GameObject obj) {
+		// System.out.println("datainvariant " + obj + ":\t" + obj.getPosition()
+		// + "\t" + obj.getName());
+
+		assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj;
+
+		Position p = objToPos.get(obj);
+
+		assert posToObj.containsKey(p) : "posToObj doesn't contain " + p;
+
+		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains "
+				+ posToObj.get(p) + " vs " + obj;
+
+		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs "
+				+ obj.getPosition();
+
+		return true;
 	}
 
 	@Override
@@ -266,21 +352,21 @@ public class Game {
 
 		return b.toString();
 	}
-	
+
 	public ArrayList<MainMenuItems> getMainMenuItems() {
 		ArrayList<MainMenuItems> l = new ArrayList<MainMenuItems>();
 		l.add(MainMenuItems.NEW_GAME);
 		l.add(MainMenuItems.CREDITS);
 		return l;
 	}
-	
+
 	public enum MainMenuItems {
 		MAIN_MENU("Main menu"),
-		
+
 		CREDITS("Credits"),
-		
+
 		NEW_GAME("New game");
-		
+
 		private final String label;
 
 		private MainMenuItems(String label) {
@@ -291,15 +377,14 @@ public class Game {
 			return label;
 		}
 	}
-	
+
 	private void setContributors() {
 		contributors.add("Pål Grønås Drange");
 		contributors.add("Jonas Grønås Drange");
 	}
-	
+
 	public List<String> getContributors() {
 		return contributors;
 	}
-	
 
 }

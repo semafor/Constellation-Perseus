@@ -61,13 +61,14 @@ public class HqShip extends Ship {
 	 * @param star
 	 */
 	public boolean setStar(Star star) {
-		if (star == null) {
-			this.star = null;
-			return true;
-		}
-
-		this.star = star;
-		return jumpTo(star.getPosition());
+		// if (star == null) {
+		// this.star = null;
+		// return true;
+		// }
+		//
+		// this.star = star;
+		// return jumpTo(star.getPosition());
+		return true;
 	}
 
 	public Star getStar() {
@@ -76,6 +77,22 @@ public class HqShip extends Ship {
 
 	public List<Harvester> getHarvesters() {
 		return harvesters;
+	}
+
+	public void empty(Harvester harvester) {
+		Allotrope a = harvester.getHarvesterClassification().getAllotrope();
+		int mined = harvester.resetAmount();
+		addAllotrope(a, mined);
+		System.out.println("HQ:" + assets);
+	}
+
+	private void addAllotrope(Allotrope a, int amount) {
+		if (assets.containsKey(a)) {
+			int current = assets.get(a);
+			assets.put(a, current + amount);
+		} else {
+			assets.put(a, amount);
+		}
 	}
 
 	/**
@@ -91,24 +108,16 @@ public class HqShip extends Ship {
 	}
 
 	public void tick(long time) {
-		int harvested = 0;
 		List<Harvester> l = getHarvesters();
-
 		for (Harvester h : l) {
-
 			if (h.destroyed()) {
 				l.remove(h);
 			} else if (h.harvesting()) {
-				harvested += h.resetAmount();
+				int harvested = h.resetAmount();
 				Allotrope a = h.getHarvesterClassification().getAllotrope();
-				assets.put(
-						a,
-						assets.get(h.getHarvesterClassification()
-								.getAllotrope()) + harvested);
+				addAllotrope(a, harvested);
 			}
-
 		}
-
 	};
 
 	@Override

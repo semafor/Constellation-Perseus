@@ -77,6 +77,10 @@ public abstract class Harvester extends Ship {
 	}
 
 	public boolean setStar(Star star) {
+		if (star == null) {
+			star = null;
+			return true;
+		}
 		if (star == this.star)
 			return true;
 		if (!isReadyToJump())

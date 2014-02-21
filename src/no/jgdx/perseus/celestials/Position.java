@@ -47,7 +47,9 @@ public class Position {
 		long ydiff = (y - ny) * (y - ny);
 		long zdiff = (z - nz) * (z - nz);
 
-		return Math.sqrt(xdiff + ydiff + zdiff);
+		// TODO IGNORE Z AXIS FOR NOW!
+
+		return Math.sqrt(xdiff + ydiff);
 	}
 
 	@Override

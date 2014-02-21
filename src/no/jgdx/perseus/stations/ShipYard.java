@@ -7,7 +7,6 @@ import java.util.Map;
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
-import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.ShipClassification;
@@ -51,8 +50,7 @@ public class ShipYard extends SpaceStation {
 		System.out.println("Deploying ship ... ");
 		game.addGameObject(ship);
 		shipConstruction.remove(ship);
-		System.out.println("deployed ship " + ship);
-		ship.jumpTo(getPosition().add(new Position(-50, -50, 0)));
+		System.out.println("deployed ship " + ship + " " + ship.getPosition());
 
 		if (!constructedHarvester) {
 			constructedHarvester = true;
@@ -69,7 +67,6 @@ public class ShipYard extends SpaceStation {
 		if (!constructed) {
 			if (constructedAt + constructionTime <= time) {
 				constructed = true;
-				constructShip(new ColonialViper(getPosition()), time);
 			}
 		}
 
