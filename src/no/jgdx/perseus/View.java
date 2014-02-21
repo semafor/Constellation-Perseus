@@ -177,7 +177,7 @@ public class View {
 	}
 	
 	public void showNewGame(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations) {
-		setTopTitle("GAME STURTED");
+		setTopTitle("Constellation Perseus");
 		middle.removeAll();
 		middle.setLayout(new GridLayout());
 		middle.add(new GamePanel(ships, celestials, spaceStations));
