@@ -12,7 +12,7 @@ import no.jgdx.perseus.assets.Allotrope;
 public enum HarvesterClassification {
 	SPICE_SHIP(2, Allotrope.SULFUR) /* get it? */,
 
-	CARBON_COLLECTOR(10, Allotrope.CARBON),
+	CARBON_COLLECTOR(3621, Allotrope.CARBON),
 
 	PHOSPORUS_MINER(12, Allotrope.PHOSPORUS),
 

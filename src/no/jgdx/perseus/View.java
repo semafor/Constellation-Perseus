@@ -76,8 +76,7 @@ public class View {
 		top.setPreferredSize(new Dimension(frame.getWidth(), 75));
 
 		// set border and colors of middle area
-		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255,
-				50)));
+		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255, 50)));
 		middle.setPreferredSize(new Dimension(frame.getWidth(), 675));
 
 		// set border and colors of bottom area
@@ -85,22 +84,14 @@ public class View {
 		bottom.setPreferredSize(new Dimension(frame.getWidth(), 50));
 
 		// add all panels to frame
-		layout.setHorizontalGroup(layout
-				.createParallelGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setVerticalGroup(layout.createSequentialGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 
 		frame.setVisible(true);
 
@@ -193,8 +184,8 @@ public class View {
 
 	}
 
-	public void showNewGame(List<Ship> ships, List<Celestial> celestials,
-			List<SpaceStation> spaceStations, MouseAdapter mouseAdapter) {
+	public void showNewGame(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations,
+			MouseAdapter mouseAdapter) {
 		setTopTitle("Constellation Perseus (ingame etc.)");
 		this.gamePanel = new GamePanel(ships, celestials, spaceStations);
 		middle.removeAll();
@@ -222,8 +213,7 @@ public class View {
 
 		private List<SpaceStation> spaceStations;
 
-		public GamePanel(List<Ship> ships, List<Celestial> celestials,
-				List<SpaceStation> spaceStations) {
+		public GamePanel(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations) {
 			this.ships = ships;
 			this.celestials = celestials;
 			this.spaceStations = spaceStations;
@@ -250,7 +240,7 @@ public class View {
 
 				else if (s instanceof Harvester) {
 					int percentage = ((Harvester) s).getPercentage();
-					g.drawString("■", x, y);
+					g.drawString("■ " + s, x, y);
 					g.setColor(Color.CYAN);
 					g.drawLine(x, y, x + percentage, y);
 				}
@@ -259,8 +249,7 @@ public class View {
 					if (s.isReadyToJump())
 						g.drawString("Δ", x, y);
 					else {
-						String t = String.format("%.1f",
-								(s.getCooldownTimeLeft() / 1000f));
+						String t = String.format("%.1f", (s.getCooldownTimeLeft() / 1000f));
 						g.drawString("Δ " + t, x, y);
 					}
 				}
