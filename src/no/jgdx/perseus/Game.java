@@ -156,11 +156,11 @@ public class Game {
 		int iteration = 0;
 		while (true) {
 			iteration++;
-			for (int x = -1; x <= 1; x++) {
-				for (int y = -1; y <= 1; y++) {
+			for (int x = 0 - iteration; x <= iteration; x++) {
+				for (int y = 0 - iteration; y <= iteration; y++) {
 					if (x != 0 || y != 0) {
-						int nx = posdif * iteration * x;
-						int ny = posdif * iteration * y;
+						int nx = x;
+						int ny = y;
 						Position attempt = position.add(new Position(nx, ny, 0));
 						if (getObject(attempt, 20) == null) {
 							posToObj.put(attempt, obj);
