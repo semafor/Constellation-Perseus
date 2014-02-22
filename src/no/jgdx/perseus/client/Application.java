@@ -14,6 +14,7 @@ import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 
 public class Application {
@@ -83,7 +84,10 @@ public class Application {
 		} else {
 			if (selectedObject instanceof Ship) {
 				GameObject o = game.getObject(pos, MOUSE_SLACK);
-				if (o != null && o instanceof Celestial) {
+
+				if (selectedObject instanceof Harvester && o != null && o instanceof Star) {
+					((Harvester) selectedObject).setStar((Star) o);
+				} else if (o != null && o instanceof Celestial) {
 					game.sendShipToCelestial((Ship) selectedObject, (Celestial) o);
 					System.out.println("Sending ship to star " + o.getName());
 				} else {

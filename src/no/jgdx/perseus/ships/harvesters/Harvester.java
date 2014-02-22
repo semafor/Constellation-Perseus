@@ -87,6 +87,9 @@ public abstract class Harvester extends Ship {
 			return false;
 		jumpTo(star.getPosition());
 		this.star = star;
+
+		System.out.println(getClass().getSimpleName() + "@" + star.getName());
+
 		return true;
 	}
 

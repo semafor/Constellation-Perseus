@@ -16,7 +16,7 @@ public enum HarvesterClassification {
 
 	PHOSPORUS_MINER(12, Allotrope.PHOSPORUS),
 
-	OXYGEN_MINER(100, Allotrope.OXYGEN),
+	OXYGEN_MINER(917, Allotrope.OXYGEN),
 
 	SULFUR_MINER(16, Allotrope.SULFUR),
 

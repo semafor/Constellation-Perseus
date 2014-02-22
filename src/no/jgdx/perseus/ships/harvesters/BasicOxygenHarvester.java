@@ -1,13 +1,14 @@
 package no.jgdx.perseus.ships.harvesters;
 
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.helpers.Formatting;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
 
 public class BasicOxygenHarvester extends Harvester {
 
 	public static final long COOLDOWN_TIME = 4000L; // 4 sec
-	public static final int CAPACITY = 8000;
+	public static final int CAPACITY = 800000;
 
 	public BasicOxygenHarvester(Position pos, HqShip hq, Player owner) {
 		super(pos, HarvesterClassification.OXYGEN_MINER, COOLDOWN_TIME, CAPACITY, hq, owner);
@@ -15,6 +16,6 @@ public class BasicOxygenHarvester extends Harvester {
 
 	@Override
 	public String toString() {
-		return "O-Harvester: " + getAmount() + "O";
+		return "O-Harvester: " + Formatting.toUnitPrefix(getAmount()) + " Oxygen";
 	}
 }
