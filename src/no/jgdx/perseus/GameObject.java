@@ -25,6 +25,7 @@ public interface GameObject {
 	 * @param position
 	 *            new position
 	 */
+	@Deprecated
 	void setPosition(Position position);
 
 	/**

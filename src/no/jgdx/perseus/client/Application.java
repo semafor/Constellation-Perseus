@@ -9,6 +9,7 @@ import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.View;
 import no.jgdx.perseus.View.MainMenuButton;
+import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.ColonialViper;
@@ -17,7 +18,7 @@ import no.jgdx.perseus.stations.ShipYard;
 
 public class Application {
 
-	public final static float MOUSE_SLACK = 10;
+	public final static float MOUSE_SLACK = 20;
 
 	private final Game game;
 
@@ -55,7 +56,7 @@ public class Application {
 	private GameObject selectedObject = null;
 
 	private void userClick(Position pos) {
-		System.out.println("Click " + pos + " ... ");
+		System.out.println("Click " + pos + " ... " + game.getObject(pos, MOUSE_SLACK));
 
 		// currently no object selected
 		if (selectedObject == null) {
@@ -81,10 +82,17 @@ public class Application {
 			// it
 		} else {
 			if (selectedObject instanceof Ship) {
-				System.out.println("Requesting ship to jump to " + pos);
-				boolean success = ((Ship) selectedObject).jumpTo(pos);
+				GameObject o = game.getObject(pos, MOUSE_SLACK);
+				if (o != null && o instanceof Celestial) {
+					game.sendShipToCelestial((Ship) selectedObject, (Celestial) o);
+					System.out.println("Sending ship to star " + o.getName());
+				} else {
 
-				System.out.println(success ? "Jump successful!" : "No jump this time.");
+					System.out.println("Requesting ship to jump to " + pos);
+					boolean success = ((Ship) selectedObject).jumpTo(pos);
+
+					System.out.println(success ? "Jump successful!" : "No jump this time.");
+				}
 			}
 			selectedObject = null;
 		}

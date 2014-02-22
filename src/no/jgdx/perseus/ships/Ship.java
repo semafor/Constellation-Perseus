@@ -27,8 +27,7 @@ public abstract class Ship implements GameObject {
 
 	private long lastJumpTime = Long.MIN_VALUE;
 
-	public Ship(String name, ShipClassification classification,
-			Position position, long coolDown) {
+	public Ship(String name, ShipClassification classification, Position position, long coolDown) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
@@ -73,6 +72,7 @@ public abstract class Ship implements GameObject {
 		return position;
 	}
 
+	@Deprecated
 	public void setPosition(Position position) {
 		this.position = position;
 	}

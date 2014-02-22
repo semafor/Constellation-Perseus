@@ -122,6 +122,14 @@ public class Game {
 		return n - getInstance().initializeTime;
 	}
 
+	public Position sendShipToCelestial(Ship ship, Celestial cel) {
+		assert datainvariant(ship);
+		assert datainvariant(cel);
+
+		return assignPosition(ship, objToPos.get(cel));
+
+	}
+
 	/**
 	 * Finds the nearest uninhabitated position in space and puts obj there.
 	 * This method calls setPosition on obj with the position it returns.
@@ -153,14 +161,12 @@ public class Game {
 					if (x != 0 || y != 0) {
 						int nx = posdif * iteration * x;
 						int ny = posdif * iteration * y;
-						Position attempt = position
-								.add(new Position(nx, ny, 0));
+						Position attempt = position.add(new Position(nx, ny, 0));
 						if (getObject(attempt, 20) == null) {
 							posToObj.put(attempt, obj);
 							objToPos.put(obj, attempt);
 							obj.setPosition(attempt);
-							System.out.println("Assigned " + position + " → "
-									+ attempt + "\t" + obj);
+							System.out.println("Assigned " + position + " → " + attempt + "\t" + obj);
 
 							assert posToObj.containsKey(attempt);
 							assert posToObj.get(attempt).equals(obj);
@@ -265,12 +271,10 @@ public class Game {
 			GameObject g = e.getKey();
 			Position p = e.getValue();
 
-			assert p.equals(g.getPosition()) : "Stored pos mismatch " + p
-					+ " vs " + g.getPosition();
+			assert p.equals(g.getPosition()) : "Stored pos mismatch " + p + " vs " + g.getPosition();
 
-			assert posToObj.containsKey(p) : "posToObj doesn't contain " + p
-					+ ", the position of " + g + " - " + g.getName() + " vs "
-					+ g.getPosition();
+			assert posToObj.containsKey(p) : "posToObj doesn't contain " + p + ", the position of " + g + " - " + g.getName()
+					+ " vs " + g.getPosition();
 			assert posToObj.get(p).equals(g);
 
 		}
@@ -279,11 +283,9 @@ public class Game {
 			GameObject g = e.getValue();
 			Position p = e.getKey();
 			assert objToPos.containsKey(g) : "objToPos doesn't contain " + g;
-			assert objToPos.get(g).equals(p) : "objToPos mismatch: "
-					+ objToPos.get(g) + " vs " + p + " \t for " + g + " - "
+			assert objToPos.get(g).equals(p) : "objToPos mismatch: " + objToPos.get(g) + " vs " + p + " \t for " + g + " - "
 					+ g.getName();
-			assert g.getPosition().equals(p) : "stored pos mismatch " + p
-					+ " vs " + g.getPosition() + " \t for " + g + " - "
+			assert g.getPosition().equals(p) : "stored pos mismatch " + p + " vs " + g.getPosition() + " \t for " + g + " - "
 					+ g.getName();
 		}
 
@@ -317,11 +319,9 @@ public class Game {
 
 		assert posToObj.containsKey(p) : "posToObj doesn't contain " + p;
 
-		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains "
-				+ posToObj.get(p) + " vs " + obj;
+		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains " + posToObj.get(p) + " vs " + obj;
 
-		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs "
-				+ obj.getPosition();
+		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs " + obj.getPosition();
 
 		return true;
 	}
