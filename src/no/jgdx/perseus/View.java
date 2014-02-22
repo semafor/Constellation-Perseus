@@ -11,17 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +26,7 @@ import javax.swing.border.MatteBorder;
 import no.jgdx.perseus.Game.MainMenuItems;
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.HumanPlayer;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.harvesters.Harvester;
@@ -58,18 +55,18 @@ public class View {
 	private final GroupLayout layout;
 
 	public View(String title) {
-		
+
 		frame = new JFrame(title);
 		File f = new File("bg.jpg");
 
 		try {
 			BufferedImage background = ImageIO.read(f);
 			frame.setContentPane(new ImagePanel(background));
-			
-		} catch(IOException e) {
+
+		} catch (IOException e) {
 			System.out.println(e);
 		}
-		
+
 		layout = new GroupLayout(frame.getContentPane());
 		frame.getContentPane().setLayout(layout);
 
@@ -147,7 +144,7 @@ public class View {
 
 		for (MainMenuItems m : items) {
 			MainMenuButton b = new MainMenuButton(m.getLabel(), m);
-			b.setBackground(new Color(0,0,0,0));
+			b.setBackground(new Color(0, 0, 0, 0));
 			mainMenuButtons.add(b);
 			middle.add(b);
 		}
@@ -211,8 +208,8 @@ public class View {
 		middle.removeAll();
 		middle.setLayout(new GridLayout(1, 1));
 		middle.add(gamePanel);
-		
-		gamePanel.setBackground(new Color(0,0,0,100));
+
+		gamePanel.setBackground(new Color(0, 0, 0, 100));
 		gamePanel.addMouseListener(mouseAdapter);
 	}
 
@@ -251,7 +248,10 @@ public class View {
 
 			// SHIPS
 			for (Ship s : ships) {
-				g.setColor(Color.RED);
+				if (s.getOwner() instanceof HumanPlayer)
+					g.setColor(Color.GREEN);
+				else
+					g.setColor(Color.RED);
 				Position pos = game.getPositionOfObject(s);
 				int x = (int) pos.getX();
 				int y = (int) pos.getY();
@@ -287,7 +287,11 @@ public class View {
 
 			// SPACE STATIONS
 			for (SpaceStation ss : spaceStations) {
-				g.setColor(Color.GREEN);
+				if (ss.getOwner() instanceof HumanPlayer)
+					g.setColor(Color.GREEN);
+				else
+					g.setColor(Color.RED);
+
 				Position pos = game.getPositionOfObject(ss);
 				int x = (int) pos.getX();
 				int y = (int) pos.getY();
@@ -299,20 +303,20 @@ public class View {
 			}
 		}
 	}
-	
+
 	private class ImagePanel extends JPanel {
-		
+
 		private static final long serialVersionUID = 1L;
-		
+
 		private Image image;
-		
+
 		public ImagePanel(Image image) {
 			this.image = image;
 		}
-	    
+
 		@Override
-	    protected void paintComponent(Graphics g) {
-	        g.drawImage(image, 0, 0, null);
-	    }
+		protected void paintComponent(Graphics g) {
+			g.drawImage(image, 0, 0, null);
+		}
 	}
 }

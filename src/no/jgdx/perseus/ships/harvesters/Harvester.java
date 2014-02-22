@@ -3,6 +3,7 @@ package no.jgdx.perseus.ships.harvesters;
 import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.ShipClassification;
@@ -20,9 +21,8 @@ public abstract class Harvester extends Ship {
 
 	private HqShip defaulHq;
 
-	public Harvester(Position pos, HarvesterClassification hc,
-			long coolDownTime, int capacity, HqShip hq) {
-		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime);
+	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq, Player owner) {
+		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime, owner);
 		this.hc = hc;
 		this.capacity = capacity;
 		this.defaulHq = hq;
@@ -93,8 +93,7 @@ public abstract class Harvester extends Ship {
 	@Override
 	public void tick(long time) {
 		if (star != null) {
-			if (star.getStarClassification().getAllotrope() == hc
-					.getAllotrope()) {
+			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
 				amount += hc.getHarvestSpeed();
 				if (amount > capacity)
 					amount = capacity;

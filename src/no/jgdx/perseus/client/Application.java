@@ -73,7 +73,7 @@ public class Application {
 			if (o instanceof ShipYard) {
 				System.out.println("\t>User selected a ShipYard!!!");
 				ShipYard y = (ShipYard) o;
-				y.constructShip(new ColonialViper(Star.MAIA.getPosition()), Game.now());
+				y.constructShip(new ColonialViper(Star.MAIA.getPosition(), game.getPlayers().get(0)), Game.now());
 				System.out.println(y + " constructing ship ... ");
 				selectedObject = null;
 			}

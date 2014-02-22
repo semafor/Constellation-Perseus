@@ -8,6 +8,7 @@ import java.util.Map;
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.ShipClassification;
@@ -31,8 +32,8 @@ public class ShipYard extends SpaceStation {
 
 	private final Game game;
 
-	public ShipYard(Position pos, HqShip hq) {
-		super(pos, "ShipYard", hq);
+	public ShipYard(Position pos, HqShip hq, Player player) {
+		super(pos, "ShipYard", hq, player);
 		this.constructedAt = Game.now();
 		this.game = Game.getInstance();
 	}
@@ -55,7 +56,7 @@ public class ShipYard extends SpaceStation {
 
 		if (!constructedHarvester) {
 			constructedHarvester = true;
-			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq()), Game.now());
+			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq(), getOwner()), Game.now());
 		}
 	}
 
@@ -89,7 +90,7 @@ public class ShipYard extends SpaceStation {
 				shipConstruction.remove(s);
 				deployShip(s);
 				if (s instanceof BasicCarbonHarvester) {
-					((BasicCarbonHarvester) s).setStar(Star.ATLAS);
+					((BasicCarbonHarvester) s).setStar(Star.MEROPE);
 				}
 			}
 

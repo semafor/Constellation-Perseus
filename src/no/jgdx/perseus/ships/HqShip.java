@@ -10,6 +10,7 @@ import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 
 /**
@@ -38,12 +39,12 @@ public class HqShip extends Ship {
 	 */
 	private final Map<Allotrope, Integer> assets;
 
-	public HqShip(String name, Position position) {
-		this(name, position, null);
+	public HqShip(String name, Position position, Player owner) {
+		this(name, position, null, owner);
 	}
 
-	public HqShip(String name, Position position, GameObject yield) {
-		super(name, ShipClassification.HQ, position, COOLDOWN_TIME);
+	public HqShip(String name, Position position, GameObject yield, Player owner) {
+		super(name, ShipClassification.HQ, position, COOLDOWN_TIME, owner);
 
 		harvesters = new ArrayList<>();
 		// adds the default harvester for this type of hq

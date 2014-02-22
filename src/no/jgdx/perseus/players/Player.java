@@ -5,21 +5,23 @@ import java.util.List;
 
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
-import no.jgdx.perseus.ships.Ship;
 
 public abstract class Player {
 
-	private final List<Ship> hqs = new ArrayList<>();
+	protected final List<HqShip> hqs = new ArrayList<>();
 
 	private final String name;
 
-	public Player(HqShip hq, String name) {
-		hqs.add(hq);
+	public Player(String name) {
 		this.name = name;
 	}
 
 	public String getName() {
 		return name;
+	}
+
+	public void addHq(HqShip hq) {
+		hqs.add(hq);
 	}
 
 	public Position getPosition() {

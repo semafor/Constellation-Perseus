@@ -7,6 +7,7 @@ import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.weapons.Gun;
 
 public abstract class Ship implements GameObject {
@@ -27,12 +28,19 @@ public abstract class Ship implements GameObject {
 
 	private long lastJumpTime = Long.MIN_VALUE;
 
-	public Ship(String name, ShipClassification classification, Position position, long coolDown) {
+	private final Player owner;
+
+	public Ship(String name, ShipClassification classification, Position position, long coolDown, Player owner) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
 		this.position = position;
 		this.coolDownTime = coolDown;
+		this.owner = owner;
+	}
+
+	public Player getOwner() {
+		return owner;
 	}
 
 	public boolean isReadyToJump() {

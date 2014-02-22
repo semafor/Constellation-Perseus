@@ -1,6 +1,7 @@
 package no.jgdx.perseus.ships;
 
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.weapons.KineticEnergyWeapon;
 import no.jgdx.perseus.weapons.ViperMissile;
 
@@ -15,9 +16,8 @@ public class ColonialViper extends Ship {
 
 	public static final long COOLDOWN_TIME = 3500L; // 1.5 sec
 
-	public ColonialViper(Position pos) {
-		super("Mark I Colonial Viper", ShipClassification.VIPER, pos,
-				COOLDOWN_TIME);
+	public ColonialViper(Position pos, Player owner) {
+		super("Mark I Colonial Viper", ShipClassification.VIPER, pos, COOLDOWN_TIME, owner);
 		guns.add(new ViperMissile());
 		guns.add(new KineticEnergyWeapon());
 		guns.add(new KineticEnergyWeapon());

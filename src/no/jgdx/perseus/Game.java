@@ -11,6 +11,8 @@ import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.client.audio.Mood;
 import no.jgdx.perseus.client.audio.SoundSystem;
+import no.jgdx.perseus.players.Harkonnen;
+import no.jgdx.perseus.players.HumanPlayer;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.HqShip;
@@ -69,6 +71,11 @@ public class Game {
 	}
 
 	private void setup() {
+		Player human = new HumanPlayer();
+		Player harkonnen = new Harkonnen();
+		players.add(human);
+		players.add(harkonnen);
+
 		addGameObject(Star.SOL);
 
 		addGameObject(Star.ALCYONE);
@@ -83,31 +90,41 @@ public class Game {
 		addGameObject(Star.STEROPE);
 		addGameObject(Star.ASTEROPE);
 
-		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN);
+		HqShip hq = new HqShip("HeadQuarter", Position.ORIGIN, human);
+		human.addHq(hq);
 		addGameObject(hq);
 		hq.setStar(Star.SOL);
 
-		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq);
+		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq, human);
 		hq.addHarvester(oxMin);
 		addGameObject(oxMin);
 
-		ShipYard yard = new ShipYard(hq.getPosition(), hq);
+		ShipYard yard = new ShipYard(hq.getPosition(), hq, human);
 		addGameObject(yard);
 
 		setContributors();
 
-		ColonialViper v1 = new ColonialViper(Star.ELECTRA.getPosition());
-		ColonialViper v2 = new ColonialViper(Star.ELECTRA.getPosition());
-		ColonialViper v3 = new ColonialViper(Star.ELECTRA.getPosition());
-		ColonialViper v4 = new ColonialViper(Star.ELECTRA.getPosition());
-		ColonialViper v5 = new ColonialViper(Star.ELECTRA.getPosition());
-		ColonialViper v6 = new ColonialViper(Star.ELECTRA.getPosition());
+		ColonialViper v1 = new ColonialViper(Star.ELECTRA.getPosition(), human);
+		ColonialViper v2 = new ColonialViper(Star.ELECTRA.getPosition(), human);
+		ColonialViper v3 = new ColonialViper(Star.ELECTRA.getPosition(), human);
+		ColonialViper v4 = new ColonialViper(Star.ELECTRA.getPosition(), human);
+		ColonialViper v5 = new ColonialViper(Star.ELECTRA.getPosition(), human);
+		ColonialViper v6 = new ColonialViper(Star.ELECTRA.getPosition(), human);
 		addGameObject(v1);
 		addGameObject(v2);
 		addGameObject(v3);
 		addGameObject(v4);
 		addGameObject(v5);
 		addGameObject(v6);
+
+		HqShip harkonnenHq = new HqShip("Harkonnen", Star.PLEIONE.getPosition(), harkonnen);
+		harkonnen.addHq(harkonnenHq);
+		addGameObject(harkonnenHq);
+		harkonnenHq.setStar(Star.PLEIONE);
+
+		Harvester harkonnenHarvester = new BasicOxygenHarvester(harkonnenHq.getPosition(), harkonnenHq, harkonnen);
+		harkonnenHq.addHarvester(harkonnenHarvester);
+		addGameObject(harkonnenHarvester);
 
 	}
 
