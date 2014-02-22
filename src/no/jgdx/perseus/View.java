@@ -6,13 +6,22 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -49,8 +58,18 @@ public class View {
 	private final GroupLayout layout;
 
 	public View(String title) {
+		
 		frame = new JFrame(title);
+		File f = new File("bg.jpg");
 
+		try {
+			BufferedImage background = ImageIO.read(f);
+			frame.setContentPane(new ImagePanel(background));
+			
+		} catch(IOException e) {
+			System.out.println(e);
+		}
+		
 		layout = new GroupLayout(frame.getContentPane());
 		frame.getContentPane().setLayout(layout);
 
@@ -97,7 +116,7 @@ public class View {
 
 		// add main panels, validate, paint
 		for (JPanel p : panels) {
-			p.setBackground(new Color(0));
+			p.setBackground(new Color(0, 0, 0, 100));
 			p.setVisible(true);
 			p.revalidate();
 			p.repaint();
@@ -128,6 +147,7 @@ public class View {
 
 		for (MainMenuItems m : items) {
 			MainMenuButton b = new MainMenuButton(m.getLabel(), m);
+			b.setBackground(new Color(0,0,0,0));
 			mainMenuButtons.add(b);
 			middle.add(b);
 		}
@@ -191,7 +211,8 @@ public class View {
 		middle.removeAll();
 		middle.setLayout(new GridLayout(1, 1));
 		middle.add(gamePanel);
-
+		
+		gamePanel.setBackground(new Color(0,0,0,100));
 		gamePanel.addMouseListener(mouseAdapter);
 	}
 
@@ -277,5 +298,21 @@ public class View {
 					g.drawString("Station", x, y);
 			}
 		}
+	}
+	
+	private class ImagePanel extends JPanel {
+		
+		private static final long serialVersionUID = 1L;
+		
+		private Image image;
+		
+		public ImagePanel(Image image) {
+			this.image = image;
+		}
+	    
+		@Override
+	    protected void paintComponent(Graphics g) {
+	        g.drawImage(image, 0, 0, null);
+	    }
 	}
 }
