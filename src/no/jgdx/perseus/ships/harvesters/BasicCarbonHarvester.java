@@ -15,19 +15,6 @@ public class BasicCarbonHarvester extends Harvester {
 	}
 
 	@Override
-	public void tick(long time) {
-		super.tick(time);
-		if (!isReadyToJump())
-			return;
-
-		if (isFull()) {
-			jumpTo(getDefaultHq().getPosition());
-			getDefaultHq().empty(this);
-			setStar(null);
-		}
-	}
-
-	@Override
 	public String toString() {
 		return "C-Harvester: " + Formatting.toUnitPrefix(getAmount()) + " Carbon";
 	}

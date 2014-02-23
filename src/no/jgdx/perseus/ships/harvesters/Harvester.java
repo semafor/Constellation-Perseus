@@ -96,6 +96,8 @@ public abstract class Harvester extends Ship {
 	@Override
 	public void tick(long time) {
 		if (star != null) {
+			System.out.println("Cap " + capacity + "\t Am " + amount + "/" + getAmount() + "\t"
+					+ star.getStarClassification().getAllotrope() + " vs " + hc.getAllotrope());
 			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
 				amount += hc.getHarvestSpeed();
 				if (amount > capacity)
@@ -108,15 +110,15 @@ public abstract class Harvester extends Ship {
 		return amount;
 	}
 
-	@Override
-	public String toString() {
-		String home = (star == null) ? "Homeless " : star.toString();
-		if (harvesting()) {
-			return home + "-" + hc + " (harvesting)";
-		} else {
-			return home + "-" + hc + "(idle)";
-		}
-	}
+	// @Override
+	// public String toString() {
+	// String home = (star == null) ? "Homeless " : star.toString();
+	// if (harvesting()) {
+	// return home + "-" + hc + " (harvesting)";
+	// } else {
+	// return home + "-" + hc + "(idle)";
+	// }
+	// }
 
 	public boolean harvesting() {
 		return getState() == GameObjectState.HARVESTING;

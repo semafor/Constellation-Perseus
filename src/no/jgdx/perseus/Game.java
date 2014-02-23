@@ -95,9 +95,10 @@ public class Game {
 		addGameObject(hq);
 		hq.setStar(Star.SOL);
 
-		Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq, human);
-		hq.addHarvester(oxMin);
-		addGameObject(oxMin);
+		// Harvester oxMin = new BasicOxygenHarvester(hq.getPosition(), hq,
+		// human);
+		// hq.addHarvester(oxMin);
+		// addGameObject(oxMin);
 
 		ShipYard yard = new ShipYard(hq.getPosition(), hq, human);
 		addGameObject(yard);
@@ -326,9 +327,6 @@ public class Game {
 	}
 
 	public boolean datainvariant(GameObject obj) {
-		// System.out.println("datainvariant " + obj + ":\t" + obj.getPosition()
-		// + "\t" + obj.getName());
-
 		assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj;
 
 		Position p = objToPos.get(obj);
