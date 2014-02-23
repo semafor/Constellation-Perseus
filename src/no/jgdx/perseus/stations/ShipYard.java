@@ -7,12 +7,10 @@ import java.util.Map;
 
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.celestials.Position;
-import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.ShipClassification;
-import no.jgdx.perseus.ships.harvesters.BasicCarbonHarvester;
 
 public class ShipYard extends SpaceStation {
 
@@ -53,14 +51,7 @@ public class ShipYard extends SpaceStation {
 		game.addGameObject(ship);
 		shipConstruction.remove(ship);
 		System.out.println("deployed ship " + ship + " " + ship.getPosition());
-
-		if (!constructedHarvester) {
-			constructedHarvester = true;
-			constructShip(new BasicCarbonHarvester(Position.ORIGIN, getHq(), getOwner()), Game.now());
-		}
 	}
-
-	private boolean constructedHarvester = false;
 
 	@Override
 	public synchronized void tick(long time) {
@@ -89,11 +80,7 @@ public class ShipYard extends SpaceStation {
 			if (conTime + totalConTime <= time) {
 				shipConstruction.remove(s);
 				deployShip(s);
-				if (s instanceof BasicCarbonHarvester) {
-					((BasicCarbonHarvester) s).setStar(Star.MEROPE);
-				}
 			}
-
 		}
 	}
 

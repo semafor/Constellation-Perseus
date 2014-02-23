@@ -17,6 +17,7 @@ public interface GameObject {
 	 * 
 	 * @return current position
 	 */
+	@Deprecated
 	Position getPosition();
 
 	/**

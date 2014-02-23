@@ -14,6 +14,8 @@ import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.Ship;
+import no.jgdx.perseus.ships.harvesters.BasicCarbonHarvester;
+import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 
@@ -56,53 +58,61 @@ public class Application {
 
 	private GameObject selectedObject = null;
 
-	private void userClick(Position pos) {
-		System.out.println("Click " + pos + " ... " + game.getObject(pos, MOUSE_SLACK));
+	/**
+	 * 
+	 * @param pos
+	 * @param button
+	 *            see MouseEvent.button
+	 */
+	private void userClick(Position pos, int button) {
+		GameObject o = game.getObject(pos, MOUSE_SLACK);
+		System.out.println("Click " + pos + " ... " + o);
 
-		// currently no object selected
-		if (selectedObject == null) {
-			GameObject o = game.getObject(pos, MOUSE_SLACK);
-			if (o == null) {
-				System.out.println("\tUser missed");
-				return;
+		view.setCurrentlySelectedGameObject(o);
+
+		// user pressed the shipyard, probably wants to build a ship
+		if (o instanceof ShipYard) {
+			ShipYard sy = ((ShipYard) o);
+			// arbitrary placement
+			Position placement = game.getPositionOfObject(Star.MAIA);
+
+			if (button == MouseEvent.BUTTON1) {
+				System.out.println("Constructing viper");
+
+				sy.constructShip(new ColonialViper(placement, sy.getOwner()), Game.now());
+			} else if (button == MouseEvent.BUTTON2) {
+				System.out.println("Constructing Oxygen Harvester");
+				sy.constructShip(new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner()), Game.now());
 			} else {
-				System.out.println("\tUser hit " + o);
-				selectedObject = o;
-			}
-			System.out.println("\tUser selected object " + selectedObject);
-
-			if (o instanceof ShipYard) {
-				System.out.println("\t>User selected a ShipYard!!!");
-				ShipYard y = (ShipYard) o;
-				y.constructShip(new ColonialViper(Star.MAIA.getPosition(), game.getPlayers().get(0)), Game.now());
-				System.out.println(y + " constructing ship ... ");
-				selectedObject = null;
-			}
-
-			// we already have a selected object, and it is a ship, we will move
-			// it
-		} else {
-			if (selectedObject instanceof Ship) {
-				GameObject o = game.getObject(pos, MOUSE_SLACK);
-
-				if (selectedObject instanceof Harvester && o != null && o instanceof Star) {
-					((Harvester) selectedObject).setStar((Star) o);
-				} else if (o != null && o instanceof Celestial) {
-					game.sendShipToCelestial((Ship) selectedObject, (Celestial) o);
-					System.out.println("Sending ship to star " + o.getName());
-				} else {
-
-					System.out.println("Requesting ship to jump to " + pos);
-					boolean success = ((Ship) selectedObject).jumpTo(pos);
-
-					System.out.println(success ? "Jump successful!" : "No jump this time.");
-				}
+				System.out.println("Constructing Carbon Harvester");
+				sy.constructShip(new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner()), Game.now());
 			}
 			selectedObject = null;
+			return;
 		}
 
-		System.out.println(selectedObject == null ? "No object selected" : "User selected " + selectedObject);
+		if (o instanceof Ship) {
+			Ship s = (Ship) o;
+			System.out.println("Selected " + s);
+			selectedObject = s;
+			return;
+		}
 
+		if (selectedObject instanceof Ship) {
+			if (selectedObject instanceof Harvester && o != null && o instanceof Star) {
+				((Harvester) selectedObject).setStar((Star) o);
+			} else if (o != null && o instanceof Celestial) {
+				game.sendShipToCelestial((Ship) selectedObject, (Celestial) o);
+				System.out.println("Sending ship to star " + o.getName());
+			} else {
+
+				System.out.println("Requesting ship to jump to " + pos);
+				boolean success = ((Ship) selectedObject).jumpTo(pos);
+
+				System.out.println(success ? "Jump successful!" : "No jump this time.");
+			}
+		}
+		selectedObject = null;
 	}
 
 	// display this or that
@@ -116,7 +126,7 @@ public class Application {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					Position pos = new Position(e.getX(), e.getY(), 0);
-					userClick(pos);
+					userClick(pos, e.getButton());
 				}
 			});
 		}

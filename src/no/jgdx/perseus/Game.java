@@ -169,7 +169,6 @@ public class Game {
 			}
 		}
 
-		int posdif = 20;
 		int iteration = 0;
 		while (true) {
 			iteration++;

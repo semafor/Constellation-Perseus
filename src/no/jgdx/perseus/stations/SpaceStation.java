@@ -30,7 +30,7 @@ public abstract class SpaceStation implements GameObject {
 		return owner;
 	}
 
-	protected HqShip getHq() {
+	public HqShip getHq() {
 		return defaultHq;
 	}
 

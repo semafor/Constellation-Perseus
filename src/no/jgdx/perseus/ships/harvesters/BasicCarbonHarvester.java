@@ -1,7 +1,6 @@
 package no.jgdx.perseus.ships.harvesters;
 
 import no.jgdx.perseus.celestials.Position;
-import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.helpers.Formatting;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
@@ -25,9 +24,6 @@ public class BasicCarbonHarvester extends Harvester {
 			jumpTo(getDefaultHq().getPosition());
 			getDefaultHq().empty(this);
 			setStar(null);
-		} else if (isEmpty()) {
-			if (getStar() != Star.MEROPE)
-				setStar(Star.MEROPE);
 		}
 	}
 

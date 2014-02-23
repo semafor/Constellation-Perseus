@@ -54,6 +54,8 @@ public class View {
 	// layout manager for main panels
 	private final GroupLayout layout;
 
+	private GameObject currentlySelectedGameObject = null;
+
 	public View(String title) {
 
 		frame = new JFrame(title);
@@ -213,6 +215,14 @@ public class View {
 		gamePanel.addMouseListener(mouseAdapter);
 	}
 
+	public GameObject getCurrentlySelectedGameObject() {
+		return currentlySelectedGameObject;
+	}
+
+	public void setCurrentlySelectedGameObject(GameObject currentlySelectedGameObject) {
+		this.currentlySelectedGameObject = currentlySelectedGameObject;
+	}
+
 	public void tick() {
 		frame.repaint();
 		if (gamePanel != null) {
@@ -248,6 +258,9 @@ public class View {
 
 			// SHIPS
 			for (Ship s : ships) {
+				if (getCurrentlySelectedGameObject() == s) {
+					drawHighlight(g, (int) s.getPosition().getX(), (int) s.getPosition().getY());
+				}
 				if (s.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);
 				else
@@ -278,6 +291,9 @@ public class View {
 
 			// CELESTIALS
 			for (Celestial cel : celestials) {
+				if (getCurrentlySelectedGameObject() == cel) {
+					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
+				}
 				g.setColor(Color.YELLOW);
 				Position pos = game.getPositionOfObject(cel);
 				int x = (int) pos.getX();
@@ -287,6 +303,9 @@ public class View {
 
 			// SPACE STATIONS
 			for (SpaceStation ss : spaceStations) {
+				if (getCurrentlySelectedGameObject() == ss) {
+					drawHighlight(g, (int) ss.getPosition().getX(), (int) ss.getPosition().getY());
+				}
 				if (ss.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);
 				else
@@ -302,6 +321,14 @@ public class View {
 					g.drawString("Station", x, y);
 			}
 		}
+	}
+
+	private void drawHighlight(Graphics g, int x, int y) {
+		g.setColor(Color.GRAY);
+		g.drawLine(x + 5, y + 5, x + 10, y + 10);
+		g.drawLine(x - 5, y + 5, x - 10, y + 10);
+		g.drawLine(x + 5, y - 5, x + 10, y - 10);
+		g.drawLine(x - 5, y - 5, x - 10, y - 10);
 	}
 
 	private class ImagePanel extends JPanel {
