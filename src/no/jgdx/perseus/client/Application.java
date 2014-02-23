@@ -66,6 +66,11 @@ public class Application {
 	 *            see MouseEvent.button
 	 */
 	private void userClick(Position pos, int button) {
+		//
+		// README: If you return early from this function, remember that
+		// selectedObject should be sync'd with
+		// view.getCurrentlySelctedGameObject!
+		//
 		GameObject o = game.getObject(pos, MOUSE_SLACK);
 		System.out.println("Click " + pos + " ... " + o);
 
@@ -102,7 +107,7 @@ public class Application {
 					System.err.println("Could not afford carbon harvester");
 				}
 			}
-			selectedObject = null;
+			selectedObject = view.getCurrentlySelectedGameObject();
 			return;
 		}
 
@@ -117,12 +122,12 @@ public class Application {
 					Harvester h = (Harvester) selectedObject;
 					h.sendHome((HqShip) s);
 
-					selectedObject = s;
+					selectedObject = view.getCurrentlySelectedGameObject();
 					return;
 				}
 			}
 
-			selectedObject = s;
+			selectedObject = view.getCurrentlySelectedGameObject();
 			return;
 		}
 
@@ -140,7 +145,7 @@ public class Application {
 				System.out.println(success ? "Jump successful!" : "No jump this time.");
 			}
 		}
-		selectedObject = null;
+		selectedObject = view.getCurrentlySelectedGameObject();
 	}
 
 	// display this or that
