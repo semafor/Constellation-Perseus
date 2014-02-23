@@ -24,6 +24,8 @@ public abstract class Harvester extends Ship {
 
 	private HqShip defaulHq;
 
+	private boolean isAtHq = false;
+
 	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq, Player owner,
 			Map<Allotrope, Integer> price) {
 		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime, owner, price);
@@ -91,6 +93,7 @@ public abstract class Harvester extends Ship {
 			return false;
 		jumpTo(star.getPosition());
 		this.star = star;
+		isAtHq = false;
 
 		System.out.println(getClass().getSimpleName() + "@" + star.getName());
 
@@ -99,33 +102,36 @@ public abstract class Harvester extends Ship {
 
 	@Override
 	public void tick(long time) {
+		if (isAtHq) {
+			if (!isEmpty()) {
+				defaulHq.empty(this);
+			}
+		}
+
 		if (star != null) {
-			System.out.println("Cap " + capacity + "\t Am " + amount + "/" + getAmount() + "\t"
-					+ star.getStarClassification().getAllotrope() + " vs " + hc.getAllotrope());
 			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
 				amount += hc.getHarvestSpeed();
 				if (amount > capacity)
 					amount = capacity;
 			}
 		}
+
 	}
 
 	protected int getAmount() {
 		return amount;
 	}
 
-	// @Override
-	// public String toString() {
-	// String home = (star == null) ? "Homeless " : star.toString();
-	// if (harvesting()) {
-	// return home + "-" + hc + " (harvesting)";
-	// } else {
-	// return home + "-" + hc + "(idle)";
-	// }
-	// }
-
 	public boolean harvesting() {
 		return getState() == GameObjectState.HARVESTING;
+	}
+
+	public boolean sendHome(HqShip s) {
+		if (jumpTo(s.getPosition())) {
+			isAtHq = true;
+			star = null;
+		}
+		return false;
 	}
 
 }

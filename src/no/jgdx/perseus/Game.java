@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
@@ -130,23 +129,16 @@ public class Game {
 
 	}
 
+	/**
+	 * Returns true if player can afford to buy ship AND the money is withdrawn
+	 * from the Hq's assets!
+	 * 
+	 * @param ship
+	 * @return true if buy successful
+	 */
 	public boolean buy(Ship ship) {
-		if (canAfford(ship)) {
-			HqShip hq = players.get(0).getHq();
-			Map<Allotrope, Integer> price = ship.getPrice();
-			// TODO
-		}
-		return true;
-	}
-
-	public boolean canAfford(Ship ship) {
 		HqShip hq = players.get(0).getHq();
-		Map<Allotrope, Integer> price = ship.getPrice();
-		for (Entry<Allotrope, Integer> e : price.entrySet()) {
-			if (hq.getAsset(e.getKey()) < e.getValue())
-				return false;
-		}
-		return true;
+		return hq.buy(ship);
 	}
 
 	/**

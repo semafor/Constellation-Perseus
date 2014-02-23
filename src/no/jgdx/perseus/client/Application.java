@@ -13,6 +13,7 @@ import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.ships.ColonialViper;
+import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.harvesters.BasicCarbonHarvester;
 import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
@@ -82,14 +83,24 @@ public class Application {
 				if (game.buy(cv)) {
 					sy.constructShip(cv, Game.now());
 				} else {
-					System.err.println("Could not afford");
+					System.err.println("Could not afford viper");
 				}
 			} else if (button == MouseEvent.BUTTON2) {
 				System.out.println("Constructing Oxygen Harvester");
-				sy.constructShip(new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner()), Game.now());
+				Ship s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
+				if (game.buy(s)) {
+					sy.constructShip(s, Game.now());
+				} else {
+					System.err.println("Could not afford oxygen harvester");
+				}
 			} else {
 				System.out.println("Constructing Carbon Harvester");
-				sy.constructShip(new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner()), Game.now());
+				Ship s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
+				if (game.buy(s)) {
+					sy.constructShip(s, Game.now());
+				} else {
+					System.err.println("Could not afford carbon harvester");
+				}
 			}
 			selectedObject = null;
 			return;
@@ -98,6 +109,19 @@ public class Application {
 		if (o instanceof Ship) {
 			Ship s = (Ship) o;
 			System.out.println("Selected " + s);
+
+			if (s instanceof HqShip) {
+				if (selectedObject instanceof Harvester) {
+					System.out.println("Sending harvester home!");
+
+					Harvester h = (Harvester) selectedObject;
+					h.sendHome((HqShip) s);
+
+					selectedObject = s;
+					return;
+				}
+			}
+
 			selectedObject = s;
 			return;
 		}

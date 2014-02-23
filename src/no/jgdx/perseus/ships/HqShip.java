@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectState;
@@ -55,7 +56,28 @@ public class HqShip extends Ship {
 		}
 	}
 
+	public boolean buy(Ship ship) {
+		synchronized (assets) {
+			assert ship.getOwner() == getOwner() : "Owner of ship is not owner of hq buying";
+
+			Map<Allotrope, Integer> shipprice = ship.getPrice();
+			for (Entry<Allotrope, Integer> e : shipprice.entrySet()) {
+				if (e.getValue() > getAsset(e.getKey())) {
+					return false;
+				}
+			}
+			for (Entry<Allotrope, Integer> e : shipprice.entrySet()) {
+				if (!withdrawAsset(e.getKey(), e.getValue())) {
+					assert false : "Suddenly has no cash left: " + shipprice + " vs " + assets + " on input " + ship;
+				}
+			}
+		}
+		return true;
+	}
+
 	public boolean withdrawAsset(Allotrope allotrope, int amount) {
+		if (amount <= 0)
+			return true;
 		synchronized (assets) {
 			if (assets.containsKey(allotrope)) {
 				int cash = assets.get(allotrope);
