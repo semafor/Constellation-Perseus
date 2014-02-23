@@ -53,6 +53,15 @@ public class HqShip extends Ship {
 		this.assets = new HashMap<Allotrope, Integer>();
 		for (Allotrope a : Allotrope.values()) {
 			assets.put(a, 0);
+			if (a == Allotrope.OXYGEN) {
+				assets.put(a, 1000);
+			}
+			if (a == Allotrope.CARBON) {
+				assets.put(a, 800);
+			}
+			if (a == Allotrope.SELENIUM) {
+				assets.put(a, 7000);
+			}
 		}
 	}
 

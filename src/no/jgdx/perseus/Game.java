@@ -17,8 +17,6 @@ import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.ColonialViper;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
-import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
-import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
 
@@ -122,11 +120,10 @@ public class Game {
 		harkonnen.addHq(harkonnenHq);
 		addGameObject(harkonnenHq);
 		harkonnenHq.setStar(Star.PLEIONE);
+	}
 
-		Harvester harkonnenHarvester = new BasicOxygenHarvester(harkonnenHq.getPosition(), harkonnenHq, harkonnen);
-		harkonnenHq.addHarvester(harkonnenHarvester);
-		addGameObject(harkonnenHarvester);
-
+	public Player getHumanPlayer() {
+		return players.get(0);
 	}
 
 	/**
@@ -136,8 +133,8 @@ public class Game {
 	 * @param ship
 	 * @return true if buy successful
 	 */
-	public boolean buy(Ship ship) {
-		HqShip hq = players.get(0).getHq();
+	public boolean buy(Ship ship, Player player) {
+		HqShip hq = player.getHq();
 		return hq.buy(ship);
 	}
 

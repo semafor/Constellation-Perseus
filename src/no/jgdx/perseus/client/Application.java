@@ -88,7 +88,7 @@ public class Application {
 			if (s == null)
 				return;
 
-			if (game.buy(s)) {
+			if (game.buy(s, Game.getInstance().getHumanPlayer())) {
 				sy.constructShip(s, Game.now());
 				System.out.println("Bought " + s);
 			} else {
@@ -123,7 +123,7 @@ public class Application {
 			if (button == MouseEvent.BUTTON1) {
 				System.out.println("Constructing viper?");
 				Ship cv = new ColonialViper(placement, sy.getOwner());
-				if (game.buy(cv)) {
+				if (game.buy(cv, Game.getInstance().getHumanPlayer())) {
 					sy.constructShip(cv, Game.now());
 				} else {
 					System.err.println("Could not afford viper");
@@ -131,7 +131,7 @@ public class Application {
 			} else if (button == MouseEvent.BUTTON2) {
 				System.out.println("Constructing Oxygen Harvester");
 				Ship s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
-				if (game.buy(s)) {
+				if (game.buy(s, Game.getInstance().getHumanPlayer())) {
 					sy.constructShip(s, Game.now());
 				} else {
 					System.err.println("Could not afford oxygen harvester");
@@ -139,7 +139,7 @@ public class Application {
 			} else {
 				System.out.println("Constructing Carbon Harvester");
 				Ship s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
-				if (game.buy(s)) {
+				if (game.buy(s, Game.getInstance().getHumanPlayer())) {
 					sy.constructShip(s, Game.now());
 				} else {
 					System.err.println("Could not afford carbon harvester");
