@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
@@ -127,6 +128,16 @@ public class Game {
 		harkonnenHq.addHarvester(harkonnenHarvester);
 		addGameObject(harkonnenHarvester);
 
+	}
+
+	public boolean canAfford(Ship ship) {
+		HqShip hq = players.get(0).getHq();
+		Map<Allotrope, Integer> price = ship.getPrice();
+		for (Entry<Allotrope, Integer> e : price.entrySet()) {
+			if (hq.getAsset(e.getKey()) < e.getValue())
+				return false;
+		}
+		return true;
 	}
 
 	/**

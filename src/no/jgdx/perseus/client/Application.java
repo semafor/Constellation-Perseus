@@ -77,9 +77,13 @@ public class Application {
 			Position placement = game.getPositionOfObject(Star.MAIA);
 
 			if (button == MouseEvent.BUTTON1) {
-				System.out.println("Constructing viper");
-
-				sy.constructShip(new ColonialViper(placement, sy.getOwner()), Game.now());
+				System.out.println("Constructing viper?");
+				Ship cv = new ColonialViper(placement, sy.getOwner());
+				if (game.canAfford(cv)) {
+					sy.constructShip(cv, Game.now());
+				} else {
+					System.err.println("Could not afford");
+				}
 			} else if (button == MouseEvent.BUTTON2) {
 				System.out.println("Constructing Oxygen Harvester");
 				sy.constructShip(new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner()), Game.now());

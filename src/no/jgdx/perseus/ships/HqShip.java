@@ -44,7 +44,7 @@ public class HqShip extends Ship {
 	}
 
 	public HqShip(String name, Position position, GameObject yield, Player owner) {
-		super(name, ShipClassification.HQ, position, COOLDOWN_TIME, owner);
+		super(name, ShipClassification.HQ, position, COOLDOWN_TIME, owner, new HashMap<Allotrope, Integer>());
 
 		harvesters = new ArrayList<>();
 		// adds the default harvester for this type of hq
@@ -53,6 +53,12 @@ public class HqShip extends Ship {
 		for (Allotrope a : Allotrope.values()) {
 			assets.put(a, 0);
 		}
+	}
+
+	public int getAsset(Allotrope allotrope) {
+		if (assets.containsKey(allotrope))
+			return assets.get(allotrope);
+		return 0;
 	}
 
 	/**

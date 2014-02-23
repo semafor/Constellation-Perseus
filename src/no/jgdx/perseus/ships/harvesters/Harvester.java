@@ -1,6 +1,9 @@
 package no.jgdx.perseus.ships.harvesters;
 
+import java.util.Map;
+
 import no.jgdx.perseus.GameObjectState;
+import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.players.Player;
@@ -21,8 +24,9 @@ public abstract class Harvester extends Ship {
 
 	private HqShip defaulHq;
 
-	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq, Player owner) {
-		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime, owner);
+	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq, Player owner,
+			Map<Allotrope, Integer> price) {
+		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime, owner, price);
 		this.hc = hc;
 		this.capacity = capacity;
 		this.defaulHq = hq;

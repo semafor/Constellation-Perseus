@@ -1,16 +1,22 @@
 package no.jgdx.perseus.ships;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectState;
+import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.weapons.Gun;
 
 public abstract class Ship implements GameObject {
+
+	private final Map<Allotrope, Integer> priceVector;
 
 	protected final List<Gun> guns;
 
@@ -30,13 +36,34 @@ public abstract class Ship implements GameObject {
 
 	private final Player owner;
 
-	public Ship(String name, ShipClassification classification, Position position, long coolDown, Player owner) {
+	public Ship(String name, ShipClassification classification, Position position, long coolDown, Player owner,
+			Map<Allotrope, Integer> price) {
 		guns = new ArrayList<>();
 		this.name = name;
 		this.classification = classification;
 		this.position = position;
 		this.coolDownTime = coolDown;
 		this.owner = owner;
+		this.priceVector = shallowCopy(price);
+
+	}
+
+	public static <K, V> Map<K, V> shallowCopy(Map<K, V> map) {
+		HashMap<K, V> copy = new HashMap<>(map.size());
+		for (Entry<K, V> e : map.entrySet()) {
+			copy.put(e.getKey(), e.getValue());
+		}
+		return copy;
+	}
+
+	public int getPrice(Allotrope a) {
+		if (priceVector.containsKey(a))
+			return priceVector.get(a);
+		return 0;
+	}
+
+	public Map<Allotrope, Integer> getPrice() {
+		return shallowCopy(priceVector);
 	}
 
 	public Player getOwner() {

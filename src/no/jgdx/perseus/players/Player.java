@@ -24,6 +24,10 @@ public abstract class Player {
 		hqs.add(hq);
 	}
 
+	public HqShip getHq() {
+		return hqs.get(0);
+	}
+
 	public Position getPosition() {
 		if (!hqs.isEmpty())
 			return hqs.get(0).getPosition();
