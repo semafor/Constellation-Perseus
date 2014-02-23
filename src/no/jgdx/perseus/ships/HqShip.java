@@ -55,10 +55,26 @@ public class HqShip extends Ship {
 		}
 	}
 
+	public boolean withdrawAsset(Allotrope allotrope, int amount) {
+		synchronized (assets) {
+			if (assets.containsKey(allotrope)) {
+				int cash = assets.get(allotrope);
+				if (cash < amount)
+					return false;
+				assets.put(allotrope, cash - amount);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	public int getAsset(Allotrope allotrope) {
-		if (assets.containsKey(allotrope))
-			return assets.get(allotrope);
-		return 0;
+		synchronized (assets) {
+			if (assets.containsKey(allotrope))
+				return assets.get(allotrope);
+			return 0;
+		}
 	}
 
 	/**

@@ -79,7 +79,7 @@ public class Application {
 			if (button == MouseEvent.BUTTON1) {
 				System.out.println("Constructing viper?");
 				Ship cv = new ColonialViper(placement, sy.getOwner());
-				if (game.canAfford(cv)) {
+				if (game.buy(cv)) {
 					sy.constructShip(cv, Game.now());
 				} else {
 					System.err.println("Could not afford");

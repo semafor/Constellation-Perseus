@@ -130,6 +130,15 @@ public class Game {
 
 	}
 
+	public boolean buy(Ship ship) {
+		if (canAfford(ship)) {
+			HqShip hq = players.get(0).getHq();
+			Map<Allotrope, Integer> price = ship.getPrice();
+			// TODO
+		}
+		return true;
+	}
+
 	public boolean canAfford(Ship ship) {
 		HqShip hq = players.get(0).getHq();
 		Map<Allotrope, Integer> price = ship.getPrice();
