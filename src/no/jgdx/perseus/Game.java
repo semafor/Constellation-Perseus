@@ -100,7 +100,7 @@ public class Game {
 		// hq.addHarvester(oxMin);
 		// addGameObject(oxMin);
 
-		ShipYard yard = new ShipYard(hq.getPosition(), hq, human);
+		ShipYard yard = new ShipYard(hq.getPosition().add(new Position(-10, -70, 0)), hq, human);
 		addGameObject(yard);
 
 		setContributors();

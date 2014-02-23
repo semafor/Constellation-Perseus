@@ -7,8 +7,12 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.border.MatteBorder;
 
 import no.jgdx.perseus.Game.MainMenuItems;
@@ -94,8 +99,7 @@ public class View {
 		top.setPreferredSize(new Dimension(frame.getWidth(), 75));
 
 		// set border and colors of middle area
-		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255,
-				50)));
+		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255, 50)));
 		middle.setPreferredSize(new Dimension(frame.getWidth(), 675));
 
 		// set border and colors of bottom area
@@ -103,22 +107,14 @@ public class View {
 		bottom.setPreferredSize(new Dimension(frame.getWidth(), 50));
 
 		// add all panels to frame
-		layout.setHorizontalGroup(layout
-				.createParallelGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
-						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setHorizontalGroup(layout.createParallelGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setVerticalGroup(layout.createSequentialGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 
 		frame.setVisible(true);
 
@@ -212,8 +208,8 @@ public class View {
 
 	}
 
-	public void showNewGame(List<Ship> ships, List<Celestial> celestials,
-			List<SpaceStation> spaceStations, MouseAdapter mouseAdapter) {
+	public void showNewGame(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations,
+			MouseListener mouseListener, final KeyListener keyListener) {
 		setTopTitle("Constellation Perseus (ingame etc.)");
 		this.gamePanel = new GamePanel(ships, celestials, spaceStations);
 		middle.removeAll();
@@ -221,15 +217,30 @@ public class View {
 		middle.add(gamePanel);
 
 		gamePanel.setBackground(new Color(0, 0, 0, 100));
-		gamePanel.addMouseListener(mouseAdapter);
+		gamePanel.addMouseListener(mouseListener);
+		gamePanel.setFocusable(true);
+		gamePanel.addKeyListener(keyListener);
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"), "released");
+
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				if (event.getID() == KeyEvent.KEY_TYPED) {
+					keyListener.keyTyped(event);
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	public GameObject getCurrentlySelectedGameObject() {
 		return currentlySelectedGameObject;
 	}
 
-	public void setCurrentlySelectedGameObject(
-			GameObject currentlySelectedGameObject) {
+	public void setCurrentlySelectedGameObject(GameObject currentlySelectedGameObject) {
 		this.currentlySelectedGameObject = currentlySelectedGameObject;
 	}
 
@@ -251,8 +262,7 @@ public class View {
 
 		private List<SpaceStation> spaceStations;
 
-		public GamePanel(List<Ship> ships, List<Celestial> celestials,
-				List<SpaceStation> spaceStations) {
+		public GamePanel(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations) {
 			this.ships = ships;
 			this.celestials = celestials;
 			this.spaceStations = spaceStations;
@@ -270,8 +280,7 @@ public class View {
 			// SHIPS
 			for (Ship s : ships) {
 				if (getCurrentlySelectedGameObject() == s) {
-					drawHighlight(g, (int) s.getPosition().getX(), (int) s
-							.getPosition().getY());
+					drawHighlight(g, (int) s.getPosition().getX(), (int) s.getPosition().getY());
 				}
 				if (s.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);
@@ -295,8 +304,7 @@ public class View {
 					if (s.isReadyToJump())
 						g.drawString("✈", x, y);
 					else {
-						String t = String.format("%.1f",
-								(s.getCooldownTimeLeft() / 1000f));
+						String t = String.format("%.1f", (s.getCooldownTimeLeft() / 1000f));
 						g.drawString("✈ " + t, x, y);
 					}
 				}
@@ -305,8 +313,7 @@ public class View {
 			// CELESTIALS
 			for (Celestial cel : celestials) {
 				if (getCurrentlySelectedGameObject() == cel) {
-					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel
-							.getPosition().getY());
+					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
 				}
 				g.setColor(Color.YELLOW);
 				Position pos = game.getPositionOfObject(cel);
@@ -318,8 +325,7 @@ public class View {
 			// SPACE STATIONS
 			for (SpaceStation ss : spaceStations) {
 				if (getCurrentlySelectedGameObject() == ss) {
-					drawHighlight(g, (int) ss.getPosition().getX(), (int) ss
-							.getPosition().getY());
+					drawHighlight(g, (int) ss.getPosition().getX(), (int) ss.getPosition().getY());
 				}
 				if (ss.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);

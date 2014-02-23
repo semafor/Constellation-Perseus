@@ -2,6 +2,8 @@ package no.jgdx.perseus.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -58,6 +60,42 @@ public class Application {
 	}
 
 	private GameObject selectedObject = null;
+
+	private void userTyped(KeyEvent key) {
+		System.out.println(getClass().getSimpleName() + ".userTyped = " + key.getKeyChar());
+		if (selectedObject instanceof ShipYard) {
+			ShipYard sy = (ShipYard) selectedObject;
+			Position placement = selectedObject.getPosition();
+			char c = key.getKeyChar();
+
+			Ship s = null;
+
+			switch (c) {
+			case 'v':
+				System.out.println("Ordered new viper to go to " + Star.MAIA);
+				s = new ColonialViper(game.getPositionOfObject(Star.MAIA), sy.getOwner());
+				break;
+			case 'o':
+				System.out.println("Ordered new oxygen miner");
+				s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
+				break;
+			case 'c':
+				System.out.println("Ordered new carbon miner");
+				s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
+				break;
+			}
+
+			if (s == null)
+				return;
+
+			if (game.buy(s)) {
+				sy.constructShip(s, Game.now());
+				System.out.println("Bought " + s);
+			} else {
+				System.err.println("Could not afford to buy " + s);
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -160,6 +198,12 @@ public class Application {
 				public void mouseClicked(MouseEvent e) {
 					Position pos = new Position(e.getX(), e.getY(), 0);
 					userClick(pos, e.getButton());
+				}
+			}, new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					System.out.println();
+					userTyped(e);
 				}
 			});
 		}
