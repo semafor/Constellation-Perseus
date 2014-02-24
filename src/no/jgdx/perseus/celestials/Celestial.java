@@ -2,6 +2,7 @@ package no.jgdx.perseus.celestials;
 
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectState;
+import no.jgdx.perseus.players.Player;
 
 /**
  * Astronomical objects or celestial objects are naturally occurring physical
@@ -45,6 +46,11 @@ public abstract class Celestial implements GameObject {
 
 	public Position getPosition() {
 		return pos;
+	}
+
+	@Override
+	public Player getOwner() {
+		return null;
 	}
 
 	public void setPosition(Position position) {

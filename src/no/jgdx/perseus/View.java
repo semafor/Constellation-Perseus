@@ -31,6 +31,7 @@ import javax.swing.border.MatteBorder;
 import no.jgdx.perseus.Game.MainMenuItems;
 import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.players.HumanPlayer;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
@@ -322,6 +323,10 @@ public class View {
 					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
 				}
 				g.setColor(Color.YELLOW);
+				if (cel instanceof Star) {
+					Star s = (Star) cel;
+					g.setColor(s.getStarClassification().getAllotrope().getColor());
+				}
 				Position pos = game.getPositionOfObject(cel);
 				int x = (int) pos.getX();
 				int y = (int) pos.getY();
