@@ -113,7 +113,7 @@ public class Application {
 		GameObject o = game.getObject(pos, MOUSE_SLACK);
 		System.out.println("Click " + pos + " ... " + o);
 
-		if (o.getOwner() != game.getHumanPlayer()) {
+		if (o != null && o.getOwner() != game.getHumanPlayer()) {
 			if (o instanceof Ship) {
 				System.out.println("Clicked an enemy ship");
 				o = null;

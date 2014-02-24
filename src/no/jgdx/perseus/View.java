@@ -296,7 +296,11 @@ public class View {
 
 				else if (s instanceof Harvester) {
 					int percentage = ((Harvester) s).getPercentage();
-					g.drawString("⛴ " + s, x, y);
+					String t = "";
+					if (!s.isReadyToJump())
+						t += String.format(" (%.1f)", (s.getCooldownTimeLeft() / 1000f));
+
+					g.drawString("⛴ " + s + t, x, y);
 
 					// progress bar!
 					g.setColor(Color.DARK_GRAY);
