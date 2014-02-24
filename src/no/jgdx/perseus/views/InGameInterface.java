@@ -14,14 +14,15 @@ public interface InGameInterface {
 	JPanel getStatusPanel();
 
 	/**
-	 * @return The HUD panel, or heads up display for selected {@link GameObject}s.
-	 *         The main interface with which the player interacts
+	 * @return The HUD panel, or heads up display for selected
+	 *         {@link GameObject}s. The main interface with which the player
+	 *         interacts
 	 */
 	JPanel getHUDPanel();
 
 	/**
-	 * @return The main game panel, where we visually render what the player can see
-	 *         of the world
+	 * @return The main game panel, where we visually render what the player can
+	 *         see of the world
 	 */
 	JPanel getGamePanel();
 

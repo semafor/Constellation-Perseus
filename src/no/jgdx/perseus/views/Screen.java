@@ -1,18 +1,20 @@
 package no.jgdx.perseus.views;
 
 import java.awt.LayoutManager;
-import java.util.Map;
-
-import javax.swing.JPanel;
 
 public abstract class Screen {
 
-	private final LayoutManager m;
+	protected LayoutManager m;
 
-	private final Map<String, JPanel> panels;
-
-	public Screen(LayoutManager m, Map<String, JPanel> panels) {
+	public Screen(LayoutManager m) {
 		this.m = m;
-		this.panels = panels;
+	}
+
+	protected LayoutManager getLayoutManager() {
+		return this.m;
+	}
+
+	protected void setLayoutManager(LayoutManager m) {
+		this.m = m;
 	}
 }
