@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="logo.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,17 +24,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2375444"
-     inkscape:cx="425.03525"
-     inkscape:cy="561.33794"
+     inkscape:zoom="12.203285"
+     inkscape:cx="283.68954"
+     inkscape:cy="634.3542"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1839"
      inkscape:window-height="1056"
      inkscape:window-x="81"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3013" />
+  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -43,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,7 +60,7 @@
        xml:space="preserve"
        id="flowRoot2982"
        style="font-size:24px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       transform="translate(-237.56723,244.31039)"><flowRegion
+       transform="translate(-238.77963,244.40365)"><flowRegion
          id="flowRegion2984"><rect
            id="rect2986"
            width="400.7937"
@@ -64,7 +68,7 @@
            x="297.36307"
            y="134.1366"
            style="font-size:24px" /></flowRegion><flowPara
-         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:7.01999997999999970px;writing-mode:lr-tb;text-anchor:start;font-family:Raleway;-inkscape-font-specification:Raleway Thin"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:100;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:7.25px;writing-mode:lr-tb;text-anchor:start;font-family:Raleway;-inkscape-font-specification:Raleway Thin"
          id="flowPara2994">CONSTELLATION</flowPara></flowRoot>    <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -77,5 +81,21 @@
          x="16.161026"
          y="447.93945"
          style="font-size:64px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Raleway;-inkscape-font-specification:Raleway Heavy;letter-spacing:0px">PERSEUS</tspan></text>
+    <rect
+       style="fill:#fed228;fill-opacity:1;stroke:none"
+       id="rect3011"
+       width="34.879696"
+       height="10.072211"
+       x="20.051163"
+       y="382.28033"
+       ry="0" />
+    <rect
+       style="fill:#fed228;fill-opacity:1;stroke:none"
+       id="rect3011-2"
+       width="34.879696"
+       height="10.072211"
+       x="265.09683"
+       y="382.48016"
+       ry="0" />
   </g>
 </svg>
