@@ -3,9 +3,11 @@ package no.jgdx.perseus.stations;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import no.jgdx.perseus.Game;
+import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
@@ -23,6 +25,8 @@ public class ShipYard extends SpaceStation {
 	private final int constructionTime = 1500; // 2000 ms = 2 sec;
 
 	private final long constructedAt;
+	
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
 
 	private boolean constructed = false;
 
@@ -34,6 +38,11 @@ public class ShipYard extends SpaceStation {
 		super(pos, "ShipYard", hq, player);
 		this.constructedAt = Game.now();
 		this.game = Game.getInstance();
+		
+		actions.add(GameObjectActions.BUILD_SHIP);
+		actions.add(GameObjectActions.BUILD_CARBONHARVESTER);
+		actions.add(GameObjectActions.BUILD_OXYGENHARVESTER);
+		actions.add(GameObjectActions.BUILD_COLONIALVIPER);		
 	}
 
 	@Override
@@ -101,6 +110,16 @@ public class ShipYard extends SpaceStation {
 	@Override
 	public Collection<SpaceStation> constructableSpaceStations() {
 		return null;
+	}
+
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
 	}
 
 }

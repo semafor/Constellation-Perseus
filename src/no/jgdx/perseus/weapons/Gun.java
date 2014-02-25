@@ -1,6 +1,10 @@
 package no.jgdx.perseus.weapons;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectActions;
 
 public abstract class Gun implements GameObject {
 
@@ -16,7 +20,10 @@ public abstract class Gun implements GameObject {
 
 	protected final String name;
 
-	public Gun(int ammo, double damageCaused, double precision, long range, double rechargeTime, String name) {
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
+
+	public Gun(int ammo, double damageCaused, double precision, long range,
+			double rechargeTime, String name) {
 		this.ammo = ammo;
 		this.damageCaused = damageCaused;
 		this.precision = precision;
@@ -102,26 +109,39 @@ public abstract class Gun implements GameObject {
 		Gun other = (Gun) obj;
 		if (ammo != other.ammo)
 			return false;
-		if (Double.doubleToLongBits(damageCaused) != Double.doubleToLongBits(other.damageCaused))
+		if (Double.doubleToLongBits(damageCaused) != Double
+				.doubleToLongBits(other.damageCaused))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (Double.doubleToLongBits(precision) != Double.doubleToLongBits(other.precision))
+		if (Double.doubleToLongBits(precision) != Double
+				.doubleToLongBits(other.precision))
 			return false;
 		if (range != other.range)
 			return false;
-		if (Double.doubleToLongBits(rechargeTime) != Double.doubleToLongBits(other.rechargeTime))
+		if (Double.doubleToLongBits(rechargeTime) != Double
+				.doubleToLongBits(other.rechargeTime))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Gun [ammo=" + ammo + ", damageCaused=" + damageCaused + ", precision=" + precision + ", range=" + range
+		return "Gun [ammo=" + ammo + ", damageCaused=" + damageCaused
+				+ ", precision=" + precision + ", range=" + range
 				+ ", rechargeTime=" + rechargeTime + ", name=" + name + "]";
 	}
 
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
+	}
 }

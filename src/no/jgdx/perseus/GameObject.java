@@ -1,5 +1,7 @@
 package no.jgdx.perseus;
 
+import java.util.List;
+
 import no.jgdx.perseus.celestials.Position;
 
 /**
@@ -45,6 +47,18 @@ public interface GameObject {
 	 *         is destroyed.
 	 */
 	double getDamage();
+	
+	/**
+	 * Get a list of possible actions the object can do.
+	 * 
+	 * @return list of possible actions
+	 */
+	List<GameObjectActions> getPossibleActions();
+	
+	/**
+	 * @return boolean whether action is possible or not
+	 */
+	boolean getActionPossible(GameObjectActions action);
 
 	/**
 	 * Some identifier. Every object must provide some identifier

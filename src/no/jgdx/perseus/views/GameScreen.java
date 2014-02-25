@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 import no.jgdx.perseus.Messages;
 import no.jgdx.perseus.players.Player;
 
-public class GameView extends Screen implements InGameInterface {
+public class GameScreen extends Screen implements InGameInterface {
 
-	private final List<Messages> messages;
+	private final List<Messages> messages = new ArrayList<Messages>();
+	
+	private final List<Object> possibleActions = new ArrayList<Object>();
 
 	private final JPanel statusPanel = new JPanel();
 
@@ -35,10 +37,9 @@ public class GameView extends Screen implements InGameInterface {
 
 	private Player player;
 
-	public GameView(LayoutManager m, Player player) {
+	public GameScreen(LayoutManager m, Player player) {
 		super(m);
 		this.player = player;
-		this.messages = new ArrayList<Messages>();
 	}
 
 	@Override
@@ -89,6 +90,10 @@ public class GameView extends Screen implements InGameInterface {
 	@Override
 	public JPanel getMiniMapPanel() {
 		return miniMapPanel;
+	}
+	
+	private void renderPossibleActions() {
+		
 	}
 
 }

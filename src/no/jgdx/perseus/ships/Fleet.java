@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.celestials.Position;
 
 public class Fleet implements GameObject {
@@ -11,6 +12,8 @@ public class Fleet implements GameObject {
 	private final List<Ship> ships = new ArrayList<>();
 	private Position position;
 	private String name = "";
+
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
 
 	public Fleet(Position position) {
 		this.position = position;
@@ -101,4 +104,13 @@ public class Fleet implements GameObject {
 		return true;
 	}
 
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
+	}
 }

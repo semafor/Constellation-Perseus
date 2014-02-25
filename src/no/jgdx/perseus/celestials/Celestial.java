@@ -1,6 +1,10 @@
 package no.jgdx.perseus.celestials;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.GameObjectState;
 
 /**
@@ -33,7 +37,10 @@ public abstract class Celestial implements GameObject {
 
 	protected Position pos;
 
-	public Celestial(double luminosity, double mass, double radius, String name, Position position) {
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
+
+	public Celestial(double luminosity, double mass, double radius,
+			String name, Position position) {
 
 		this.lumen = luminosity;
 		this.mass = mass;
@@ -91,6 +98,16 @@ public abstract class Celestial implements GameObject {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
 	}
 
 }

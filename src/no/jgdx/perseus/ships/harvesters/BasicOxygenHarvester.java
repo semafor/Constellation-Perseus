@@ -21,11 +21,14 @@ public class BasicOxygenHarvester extends Harvester {
 	}
 
 	public BasicOxygenHarvester(Position pos, HqShip hq, Player owner) {
-		super(pos, HarvesterClassification.OXYGEN_MINER, COOLDOWN_TIME, CAPACITY, hq, owner, PRICE);
+		super(pos, HarvesterClassification.OXYGEN_MINER, COOLDOWN_TIME,
+				CAPACITY, hq, owner, PRICE);
 	}
 
 	@Override
 	public String toString() {
-		return "O-Harvester: " + Formatting.toUnitPrefix(getAmount()) + " Oxygen";
+		return "O-Harvester: " + Formatting.toUnitPrefix(getAmount())
+				+ " Oxygen";
 	}
+
 }

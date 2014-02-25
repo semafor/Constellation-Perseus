@@ -1,7 +1,10 @@
 package no.jgdx.perseus.ships.harvesters;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
@@ -26,9 +29,13 @@ public abstract class Harvester extends Ship {
 
 	private boolean isAtHq = false;
 
-	public Harvester(Position pos, HarvesterClassification hc, long coolDownTime, int capacity, HqShip hq, Player owner,
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
+
+	public Harvester(Position pos, HarvesterClassification hc,
+			long coolDownTime, int capacity, HqShip hq, Player owner,
 			Map<Allotrope, Integer> price) {
-		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime, owner, price);
+		super("Harvester", ShipClassification.HARVESTER, pos, coolDownTime,
+				owner, price);
 		this.hc = hc;
 		this.capacity = capacity;
 		this.defaulHq = hq;
@@ -109,7 +116,8 @@ public abstract class Harvester extends Ship {
 		}
 
 		if (star != null) {
-			if (star.getStarClassification().getAllotrope() == hc.getAllotrope()) {
+			if (star.getStarClassification().getAllotrope() == hc
+					.getAllotrope()) {
 				amount += hc.getHarvestSpeed();
 				if (amount > capacity)
 					amount = capacity;
@@ -132,6 +140,16 @@ public abstract class Harvester extends Ship {
 			star = null;
 		}
 		return false;
+	}
+
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
 	}
 
 }

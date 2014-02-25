@@ -15,6 +15,14 @@ public enum GameObjectState {
 	/**
 	 * Game object has ceased from being
 	 */
-	DESTROYED
+	DESTROYED,
+	
+	TRAVELLING,
+	
+	DEFENDING,
+	
+	ATTACKING,
+	
+	BUILDING
 
 }

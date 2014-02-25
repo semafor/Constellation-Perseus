@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import no.jgdx.perseus.Game;
 import no.jgdx.perseus.GameObject;
+import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.GameObjectState;
 import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
@@ -36,7 +37,10 @@ public abstract class Ship implements GameObject {
 
 	private final Player owner;
 
-	public Ship(String name, ShipClassification classification, Position position, long coolDown, Player owner,
+	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
+
+	public Ship(String name, ShipClassification classification,
+			Position position, long coolDown, Player owner,
 			Map<Allotrope, Integer> price) {
 		guns = new ArrayList<>();
 		this.name = name;
@@ -164,6 +168,16 @@ public abstract class Ship implements GameObject {
 
 	public boolean idle() {
 		return getState() == GameObjectState.IDLE;
+	}
+
+	@Override
+	public List<GameObjectActions> getPossibleActions() {
+		return actions;
+	}
+
+	@Override
+	public boolean getActionPossible(GameObjectActions action) {
+		return actions.contains(action);
 	}
 
 }
