@@ -78,6 +78,21 @@ public class HqShip extends Ship {
 			for (Entry<Allotrope, Integer> e : shipprice.entrySet()) {
 				if (!withdrawAsset(e.getKey(), e.getValue())) {
 					assert false : "Suddenly has no cash left: " + shipprice + " vs " + assets + " on input " + ship;
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean canAfford(Ship ship) {
+		synchronized (assets) {
+			assert ship.getOwner() == getOwner() : "Owner of ship is not owner of hq buying";
+
+			Map<Allotrope, Integer> shipprice = ship.getPrice();
+			for (Entry<Allotrope, Integer> e : shipprice.entrySet()) {
+				if (e.getValue() > getAsset(e.getKey())) {
+					return false;
 				}
 			}
 		}

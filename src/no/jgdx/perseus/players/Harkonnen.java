@@ -38,8 +38,8 @@ public class Harkonnen extends Player {
 
 	private long lastTick = -1;
 
-	private final static int THINK_TIME = 2500;
-	private final static int INIT_TIME = 5000;
+	private final static int THINK_TIME = 25;
+	private final static int INIT_TIME = 3000;
 
 	@Override
 	public void tick(long time) {
@@ -56,8 +56,82 @@ public class Harkonnen extends Player {
 		}
 		lastTick = time;
 
-		System.out.println("Harkonnen thinks ... ");
+		if (ships.size() < 5) {
+			initPhase();
+			return;
+		} else if (ships.size() <= 20) {
+			developPhase();
+		} else {
+			killPhase();
+		}
+	}
 
+	private void killPhase() {
+		Ship enemy = Game.getInstance().getClosestEnemyShip(getHq());
+		if (enemy == null) {
+			System.err.println("No close enemey ship!");
+			return;
+		}
+		Position enemyPos = Game.getInstance().getPositionOfObject(enemy);
+
+		int nonReady = 0;
+		for (Ship s : ships) {
+			if (!s.isReadyToJump()) {
+				nonReady += 1;
+			}
+		}
+		if (nonReady > 0) {
+			System.out.println("Let's wait until we're all ready and then KILL! Waiting for " + nonReady + " ships");
+			return;
+		}
+
+		System.out.println("JUMP AND KILL!");
+		for (Ship s : ships) {
+			s.jumpTo(enemyPos);
+		}
+	}
+
+	private void developPhase() {
+		if (harvesters.get(0).isEmpty()) {
+			harvesters.get(0).setStar(Star.ATLAS);
+		} else if (harvesters.get(0).isFull()) {
+			harvesters.get(0).sendHome(getHq());
+		}
+		if (harvesters.get(1).isEmpty()) {
+			harvesters.get(1).setStar(Star.ALCYONE);
+		} else if (harvesters.get(1).isFull()) {
+			harvesters.get(1).sendHome(getHq());
+		}
+
+		if (harvesters.size() == 2) {
+			if (getHq().canAfford(new BasicCarbonHarvester(basePos, getHq(), this))) {
+				buildCarbonMiner();
+			}
+			return;
+		}
+		if (harvesters.size() == 3) {
+			if (getHq().canAfford(new BasicOxygenHarvester(basePos, getHq(), this))) {
+				buildOxygenMiner();
+			}
+			return;
+		}
+
+		if (harvesters.get(2).isEmpty()) {
+			harvesters.get(2).setStar(Star.ATLAS);
+		} else if (harvesters.get(0).isFull()) {
+			harvesters.get(2).sendHome(getHq());
+		}
+		if (harvesters.get(3).isEmpty()) {
+			harvesters.get(3).setStar(Star.ALCYONE);
+		} else if (harvesters.get(1).isFull()) {
+			harvesters.get(3).sendHome(getHq());
+		}
+		if (ships.size() <= 20 && getHq().canAfford(new ColonialViper(getPosition(), this))) {
+			buildViper();
+		}
+	}
+
+	private void initPhase() {
 		if (yard == null) {
 			buildShipYard();
 			return;
@@ -94,7 +168,7 @@ public class Harkonnen extends Player {
 			return;
 		}
 
-		if (ships.size() < 10) {
+		if (ships.size() <= 5 && getHq().canAfford(new ColonialViper(getPosition(), this))) {
 			buildViper();
 			return;
 		}

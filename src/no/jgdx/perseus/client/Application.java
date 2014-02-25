@@ -75,14 +75,30 @@ public class Application {
 			case 'v':
 				System.out.println("Ordered new viper to go to " + Star.ELECTRA);
 				s = new ColonialViper(game.getPositionOfObject(Star.ELECTRA), sy.getOwner());
+				if (!game.getHumanPlayer().getHq().canAfford(s)) {
+					System.err.println("Cannot afford new viper");
+					return;
+				}
 				break;
 			case 'o':
 				System.out.println("Ordered new oxygen miner");
 				s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
+
+				if (!game.getHumanPlayer().getHq().canAfford(s)) {
+					System.err.println("Cannot afford new oxygen miner");
+					return;
+				}
+
 				break;
 			case 'c':
 				System.out.println("Ordered new carbon miner");
 				s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
+
+				if (!game.getHumanPlayer().getHq().canAfford(s)) {
+					System.err.println("Cannot afford new carbon miner");
+					return;
+				}
+
 				break;
 			}
 

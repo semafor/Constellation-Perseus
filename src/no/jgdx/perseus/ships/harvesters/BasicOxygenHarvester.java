@@ -11,7 +11,7 @@ import no.jgdx.perseus.ships.HqShip;
 
 public class BasicOxygenHarvester extends Harvester {
 
-	public static final long COOLDOWN_TIME = 7000L; // 4 sec
+	public static final long COOLDOWN_TIME = 3000L; // 3 sec
 	public static final int CAPACITY = 16000;
 
 	private static final Map<Allotrope, Integer> PRICE = new HashMap<Allotrope, Integer>();

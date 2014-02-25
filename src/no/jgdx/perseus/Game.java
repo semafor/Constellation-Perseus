@@ -88,14 +88,12 @@ public class Game {
 		addGameObject(Star.STEROPE);
 		addGameObject(Star.ASTEROPE);
 
-		HqShip hq = new HqShip("HeadQuarter", getPositionOfObject(Star.SOL),
-				human);
+		HqShip hq = new HqShip("HeadQuarter", getPositionOfObject(Star.SOL), human);
 		human.addHq(hq);
 		addGameObject(hq);
 		hq.setStar(Star.SOL);
 
-		ShipYard yard = new ShipYard(hq.getPosition().add(
-				new Position(0, 50, 0)), hq, human);
+		ShipYard yard = new ShipYard(hq.getPosition().add(new Position(0, 50, 0)), hq, human);
 		addGameObject(yard);
 
 		setContributors();
@@ -113,8 +111,7 @@ public class Game {
 		addGameObject(v5);
 		addGameObject(v6);
 
-		HqShip harkonnenHq = new HqShip("Harkonnen",
-				Star.PLEIONE.getPosition(), harkonnen);
+		HqShip harkonnenHq = new HqShip("Harkonnen", Star.PLEIONE.getPosition(), harkonnen);
 		harkonnen.addHq(harkonnenHq);
 		addGameObject(harkonnenHq);
 		harkonnenHq.setStar(Star.PLEIONE);
@@ -162,8 +159,9 @@ public class Game {
 
 		ship.jumpTo(objToPos.get(cel));
 
-		return assignPosition(ship, objToPos.get(cel));
+		assert allDataInvariants();
 
+		return assignPosition(ship, objToPos.get(cel));
 	}
 
 	/**
@@ -178,15 +176,15 @@ public class Game {
 	 */
 	public Position assignPosition(GameObject obj, Position position) {
 		synchronized (positionLock) {
-
 			System.out.println("assigning " + obj + " ... ");
 			if (objToPos.containsKey(obj)) {
 				Position oldPos = objToPos.get(obj);
 				if (oldPos.equals(position)) {
-					assert posToObj.containsKey(position) : " did not contain "
-							+ position + " for " + obj;
-					assert posToObj.get(position) == obj : " mismatch "
-							+ posToObj.get(position) + " vs " + obj;
+					assert posToObj.containsKey(position) : " did not contain " + position + " for " + obj;
+					assert posToObj.get(position) == obj : " mismatch " + posToObj.get(position) + " vs " + obj;
+
+					assert datainvariant(obj);
+					assert allDataInvariants();
 					return position; // nothing to do
 				} else {
 					objToPos.remove(obj);
@@ -203,20 +201,14 @@ public class Game {
 						if (x != 0 || y != 0) {
 							int nx = x;
 							int ny = y;
-							Position attempt = position.add(new Position(nx,
-									ny, 0));
+							Position attempt = position.add(new Position(nx, ny, 0));
 							if (getObject(attempt, 20) == null) {
 								posToObj.put(attempt, obj);
 								objToPos.put(obj, attempt);
 								obj.setPosition(attempt);
-								System.out.println("Assigned " + position
-										+ " → " + attempt + "\t" + obj);
+								System.out.println("Assigned " + position + " → " + attempt + "\t" + obj);
 
-								assert posToObj.containsKey(attempt);
-								assert posToObj.get(attempt).equals(obj);
-								assert objToPos.containsKey(obj);
-								assert objToPos.get(obj).equals(attempt);
-								assert attempt.equals(obj.getPosition());
+								assert allDataInvariants();
 
 								return attempt;
 							}
@@ -229,6 +221,7 @@ public class Game {
 	}
 
 	public Position getPositionOfObject(GameObject object) {
+		assert datainvariant(object);
 		if (objToPos.containsKey(object))
 			return objToPos.get(object);
 		System.err.println("Unknown object " + object);
@@ -253,10 +246,38 @@ public class Game {
 		assignPosition(obj, obj.getPosition());
 
 		// temp hack to test sound system
-		if (obj instanceof Ship && now() > 2000) {
+		if (obj instanceof ColonialViper && now() > 2000) {
 			soundSystem.changeMood(Mood.WAR);
 		}
 
+		assert allDataInvariants();
+		assert datainvariant(obj);
+	}
+
+	public Ship getClosestEnemyShip(Ship ship) {
+		assert datainvariant(ship);
+
+		synchronized (positionLock) {
+			Position pos = objToPos.get(ship);
+			Player player = ship.getOwner();
+
+			Ship optObj = null;
+			double optDist = 0;
+
+			for (Ship other : ships) {
+				assert datainvariant(other);
+				if (other.getOwner() == player)
+					continue;
+				Position otherPos = objToPos.get(other);
+				double otherDist = otherPos.distance(pos);
+				if (optObj == null || otherDist < optDist) {
+					optObj = other;
+					optDist = otherDist;
+				}
+			}
+
+			return optObj;
+		}
 	}
 
 	/**
@@ -268,31 +289,34 @@ public class Game {
 	 * @return
 	 */
 	public GameObject getObject(Position target, float range) {
-		GameObject optObj = null;
-		Position optPos = null;
-		double optDist = 0;
+		synchronized (positionLock) {
+			GameObject optObj = null;
+			Position optPos = null;
+			double optDist = 0;
 
-		for (Entry<Position, GameObject> e : posToObj.entrySet()) {
-			Position p = e.getKey();
-			GameObject o = e.getValue();
-			if (optPos == null) {
-				optObj = o;
-				optPos = p;
-				optDist = p.distance(target);
-			} else {
-				double dist = target.distance(p);
-				if (dist < optDist) {
+			for (Entry<Position, GameObject> e : posToObj.entrySet()) {
+				Position p = e.getKey();
+				GameObject o = e.getValue();
+				assert datainvariant(o);
+				if (optPos == null) {
 					optObj = o;
 					optPos = p;
-					optDist = dist;
+					optDist = p.distance(target);
+				} else {
+					double dist = target.distance(p);
+					if (dist < optDist) {
+						optObj = o;
+						optPos = p;
+						optDist = dist;
+					}
 				}
 			}
+
+			if (optDist > range)
+				return null;
+
+			return optObj;
 		}
-
-		if (optDist > range)
-			return null;
-
-		return optObj;
 	}
 
 	public List<Celestial> getCelestials() {
@@ -318,70 +342,87 @@ public class Game {
 
 	public void tick() {
 		synchronized (positionLock) {
-			for (Entry<GameObject, Position> e : objToPos.entrySet()) {
-				GameObject g = e.getKey();
-				Position p = e.getValue();
-
-				assert p.equals(g.getPosition()) : "Stored pos mismatch " + p
-						+ " vs " + g.getPosition();
-
-				assert posToObj.containsKey(p) : "posToObj doesn't contain "
-						+ p + ", the position of " + g + " - " + g.getName()
-						+ " vs " + g.getPosition();
-				assert posToObj.get(p).equals(g);
-
-			}
-
-			for (Entry<Position, GameObject> e : posToObj.entrySet()) {
-				GameObject g = e.getValue();
-				Position p = e.getKey();
-				assert objToPos.containsKey(g) : "objToPos doesn't contain "
-						+ g;
-				assert objToPos.get(g).equals(p) : "objToPos mismatch: "
-						+ objToPos.get(g) + " vs " + p + " \t for " + g + " - "
-						+ g.getName();
-				assert g.getPosition().equals(p) : "stored pos mismatch " + p
-						+ " vs " + g.getPosition() + " \t for " + g + " - "
-						+ g.getName();
-			}
+			// assert allDataInvariants();
 
 			for (Player p : players) {
 				p.tick(now());
 			}
 
 			for (Celestial c : celestials) {
-				assert datainvariant(c);
 				c.tick(now());
 			}
 
 			for (SpaceStation ss : stations) {
-				assert datainvariant(ss);
 				ss.tick(now());
 			}
 
 			for (Ship s : ships) {
-				assert datainvariant(s);
 				s.tick(now());
 			}
 		}
 	}
 
-	public boolean datainvariant(GameObject obj) {
-		assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj
-				+ " posToObj " + posToObj.get(obj.getPosition()) + " at pos "
-				+ obj.getPosition();
-
-		Position p = objToPos.get(obj);
-
-		assert posToObj.containsKey(p) : "posToObj doesn't contain " + p;
-
-		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains "
-				+ posToObj.get(p) + " vs " + obj;
-
-		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs "
-				+ obj.getPosition();
+	private boolean allDataInvariants() {
+		synchronized (positionLock) {
+			assert posToObj.size() == objToPos.size() : "Differing sizes " + posToObj + " vs " + objToPos;
+			for (Entry<Position, GameObject> e : posToObj.entrySet()) {
+				Position pos = e.getKey();
+				GameObject obj = e.getValue();
+				assert objToPos.containsKey(obj);
+				assert datainvariant(obj);
+				assert pos == objToPos.get(obj) : "Different positions for object " + obj + ": " + pos + " vs " + objToPos.get(obj);
+			}
+			for (Entry<GameObject, Position> e : objToPos.entrySet()) {
+				Position pos = e.getValue();
+				GameObject obj = e.getKey();
+				assert posToObj.containsKey(pos);
+				assert datainvariant(obj);
+				assert obj == posToObj.get(pos) : "Different objects for position " + pos + ": " + obj + " vs " + posToObj.get(pos);
+			}
+			for (Ship s : ships) {
+				assert objToPos.containsKey(s) : "objToPos not containing " + s;
+				assert objToPos.get(s).equals(s.getPosition()) : "objToPos mismatch " + s.getPosition() + " vs " + objToPos.get(s);
+				assert datainvariant(s);
+			}
+			for (Celestial cel : celestials) {
+				assert objToPos.containsKey(cel) : "objToPos not containing " + cel;
+				assert objToPos.get(cel).equals(cel.getPosition()) : "objToPos mismatch " + cel.getPosition() + " vs "
+						+ objToPos.get(cel);
+				assert datainvariant(cel);
+			}
+			for (SpaceStation ss : stations) {
+				assert objToPos.containsKey(ss) : "objToPos not containing " + ss;
+				assert objToPos.get(ss).equals(ss.getPosition()) : "objToPos mismatch " + ss.getPosition() + " vs "
+						+ objToPos.get(ss);
+				assert datainvariant(ss);
+			}
+		}
 
 		return true;
+	}
+
+	private boolean datainvariant(GameObject obj) {
+		if (obj == null) {
+			throw new NullPointerException("GameObject to check was null.");
+		}
+		synchronized (positionLock) {
+			Position p = objToPos.get(obj);
+			if (obj instanceof Ship || obj instanceof SpaceStation) {
+				assert obj.getOwner() != null : "Owner was null for " + obj;
+				assert players.contains(obj.getOwner()) : "Players didn't contain " + obj.getOwner() + " (vs) " + players;
+			}
+
+			assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj + " posToObj " + posToObj.get(obj.getPosition())
+					+ " at pos " + obj.getPosition();
+
+			assert posToObj.containsKey(p) : "posToObj doesn't contain " + p;
+
+			assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains " + posToObj.get(p) + " vs " + obj;
+
+			assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs " + obj.getPosition();
+
+			return true;
+		}
 	}
 
 	@Override
