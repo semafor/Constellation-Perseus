@@ -88,12 +88,14 @@ public class Game {
 		addGameObject(Star.STEROPE);
 		addGameObject(Star.ASTEROPE);
 
-		HqShip hq = new HqShip("HeadQuarter", getPositionOfObject(Star.SOL), human);
+		HqShip hq = new HqShip("HeadQuarter", getPositionOfObject(Star.SOL),
+				human);
 		human.addHq(hq);
 		addGameObject(hq);
 		hq.setStar(Star.SOL);
 
-		ShipYard yard = new ShipYard(hq.getPosition().add(new Position(0, 50, 0)), hq, human);
+		ShipYard yard = new ShipYard(hq.getPosition().add(
+				new Position(0, 50, 0)), hq, human);
 		addGameObject(yard);
 
 		setContributors();
@@ -111,7 +113,8 @@ public class Game {
 		addGameObject(v5);
 		addGameObject(v6);
 
-		HqShip harkonnenHq = new HqShip("Harkonnen", Star.PLEIONE.getPosition(), harkonnen);
+		HqShip harkonnenHq = new HqShip("Harkonnen",
+				Star.PLEIONE.getPosition(), harkonnen);
 		harkonnen.addHq(harkonnenHq);
 		addGameObject(harkonnenHq);
 		harkonnenHq.setStar(Star.PLEIONE);
@@ -144,9 +147,20 @@ public class Game {
 		return n - getInstance().initializeTime;
 	}
 
+	/**
+	 * Returns null if ship not ready to jump
+	 * 
+	 * @param ship
+	 * @param cel
+	 * @return
+	 */
 	public Position sendShipToCelestial(Ship ship, Celestial cel) {
 		assert datainvariant(ship);
 		assert datainvariant(cel);
+		if (!ship.isReadyToJump())
+			return null;
+
+		ship.jumpTo(objToPos.get(cel));
 
 		return assignPosition(ship, objToPos.get(cel));
 
@@ -163,44 +177,55 @@ public class Game {
 	 * @return
 	 */
 	public Position assignPosition(GameObject obj, Position position) {
-		System.out.println("assigning " + obj + " ... ");
-		if (objToPos.containsKey(obj)) {
-			Position oldPos = objToPos.get(obj);
-			if (oldPos.equals(position))
-				return position; // nothing to do
-			else {
-				objToPos.remove(obj);
-				posToObj.remove(oldPos);
+		synchronized (positionLock) {
+
+			System.out.println("assigning " + obj + " ... ");
+			if (objToPos.containsKey(obj)) {
+				Position oldPos = objToPos.get(obj);
+				if (oldPos.equals(position)) {
+					assert posToObj.containsKey(position) : " did not contain "
+							+ position + " for " + obj;
+					assert posToObj.get(position) == obj : " mismatch "
+							+ posToObj.get(position) + " vs " + obj;
+					return position; // nothing to do
+				} else {
+					objToPos.remove(obj);
+					posToObj.remove(oldPos);
+					obj.setPosition(null);
+				}
 			}
-		}
 
-		int iteration = 0;
-		while (true) {
-			iteration++;
-			for (int x = 0 - iteration; x <= iteration; x++) {
-				for (int y = 0 - iteration; y <= iteration; y++) {
-					if (x != 0 || y != 0) {
-						int nx = x;
-						int ny = y;
-						Position attempt = position.add(new Position(nx, ny, 0));
-						if (getObject(attempt, 20) == null) {
-							posToObj.put(attempt, obj);
-							objToPos.put(obj, attempt);
-							obj.setPosition(attempt);
-							System.out.println("Assigned " + position + " → " + attempt + "\t" + obj);
+			int iteration = 0;
+			while (true) {
+				iteration++;
+				for (int x = 0 - iteration; x <= iteration; x++) {
+					for (int y = 0 - iteration; y <= iteration; y++) {
+						if (x != 0 || y != 0) {
+							int nx = x;
+							int ny = y;
+							Position attempt = position.add(new Position(nx,
+									ny, 0));
+							if (getObject(attempt, 20) == null) {
+								posToObj.put(attempt, obj);
+								objToPos.put(obj, attempt);
+								obj.setPosition(attempt);
+								System.out.println("Assigned " + position
+										+ " → " + attempt + "\t" + obj);
 
-							assert posToObj.containsKey(attempt);
-							assert posToObj.get(attempt).equals(obj);
-							assert objToPos.containsKey(obj);
-							assert objToPos.get(obj).equals(attempt);
-							assert attempt.equals(obj.getPosition());
+								assert posToObj.containsKey(attempt);
+								assert posToObj.get(attempt).equals(obj);
+								assert objToPos.containsKey(obj);
+								assert objToPos.get(obj).equals(attempt);
+								assert attempt.equals(obj.getPosition());
 
-							return attempt;
+								return attempt;
+							}
 						}
 					}
 				}
 			}
 		}
+
 	}
 
 	public Position getPositionOfObject(GameObject object) {
@@ -297,9 +322,11 @@ public class Game {
 				GameObject g = e.getKey();
 				Position p = e.getValue();
 
-				assert p.equals(g.getPosition()) : "Stored pos mismatch " + p + " vs " + g.getPosition();
+				assert p.equals(g.getPosition()) : "Stored pos mismatch " + p
+						+ " vs " + g.getPosition();
 
-				assert posToObj.containsKey(p) : "posToObj doesn't contain " + p + ", the position of " + g + " - " + g.getName()
+				assert posToObj.containsKey(p) : "posToObj doesn't contain "
+						+ p + ", the position of " + g + " - " + g.getName()
 						+ " vs " + g.getPosition();
 				assert posToObj.get(p).equals(g);
 
@@ -308,10 +335,13 @@ public class Game {
 			for (Entry<Position, GameObject> e : posToObj.entrySet()) {
 				GameObject g = e.getValue();
 				Position p = e.getKey();
-				assert objToPos.containsKey(g) : "objToPos doesn't contain " + g;
-				assert objToPos.get(g).equals(p) : "objToPos mismatch: " + objToPos.get(g) + " vs " + p + " \t for " + g + " - "
+				assert objToPos.containsKey(g) : "objToPos doesn't contain "
+						+ g;
+				assert objToPos.get(g).equals(p) : "objToPos mismatch: "
+						+ objToPos.get(g) + " vs " + p + " \t for " + g + " - "
 						+ g.getName();
-				assert g.getPosition().equals(p) : "stored pos mismatch " + p + " vs " + g.getPosition() + " \t for " + g + " - "
+				assert g.getPosition().equals(p) : "stored pos mismatch " + p
+						+ " vs " + g.getPosition() + " \t for " + g + " - "
 						+ g.getName();
 			}
 
@@ -337,15 +367,19 @@ public class Game {
 	}
 
 	public boolean datainvariant(GameObject obj) {
-		assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj;
+		assert objToPos.containsKey(obj) : "objToPos doesn't contain " + obj
+				+ " posToObj " + posToObj.get(obj.getPosition()) + " at pos "
+				+ obj.getPosition();
 
 		Position p = objToPos.get(obj);
 
 		assert posToObj.containsKey(p) : "posToObj doesn't contain " + p;
 
-		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains " + posToObj.get(p) + " vs " + obj;
+		assert posToObj.get(p).equals(obj) : "posToObj at " + p + " contains "
+				+ posToObj.get(p) + " vs " + obj;
 
-		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs " + obj.getPosition();
+		assert p.equals(obj.getPosition()) : "Position mismatch: " + p + " vs "
+				+ obj.getPosition();
 
 		return true;
 	}
