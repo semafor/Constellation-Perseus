@@ -5,6 +5,7 @@ import java.util.List;
 
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectActions;
+import no.jgdx.perseus.players.Player;
 
 public abstract class Gun implements GameObject {
 
@@ -30,6 +31,11 @@ public abstract class Gun implements GameObject {
 		this.range = range;
 		this.rechargeTime = rechargeTime;
 		this.name = name;
+	}
+
+	@Override
+	public Player getOwner() {
+		return null;
 	}
 
 	/**

@@ -23,8 +23,8 @@ public class ColonialViper extends Ship {
 	private static final Map<Allotrope, Integer> PRICE = new HashMap<Allotrope, Integer>();
 
 	{
-		PRICE.put(Allotrope.OXYGEN, 1000);
-		PRICE.put(Allotrope.CARBON, 1000);
+		PRICE.put(Allotrope.OXYGEN, 3000);
+		PRICE.put(Allotrope.CARBON, 7000);
 	}
 
 	public ColonialViper(Position pos, Player owner) {

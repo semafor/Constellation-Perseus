@@ -6,6 +6,7 @@ import java.util.List;
 import no.jgdx.perseus.GameObject;
 import no.jgdx.perseus.GameObjectActions;
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.Player;
 
 public class Fleet implements GameObject {
 
@@ -15,8 +16,17 @@ public class Fleet implements GameObject {
 
 	private final List<GameObjectActions> actions = new ArrayList<GameObjectActions>();
 
-	public Fleet(Position position) {
+	private final Player owner;
+
+	public Fleet(Position position, Player owner) {
+
 		this.position = position;
+		this.owner = owner;
+	}
+
+	@Override
+	public Player getOwner() {
+		return owner;
 	}
 
 	public boolean jumpTo(Position pos) {

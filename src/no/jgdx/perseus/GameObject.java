@@ -3,6 +3,7 @@ package no.jgdx.perseus;
 import java.util.List;
 
 import no.jgdx.perseus.celestials.Position;
+import no.jgdx.perseus.players.Player;
 
 /**
  * Every object in the game, including stars, ships and stations.
@@ -66,4 +67,11 @@ public interface GameObject {
 	 * @return
 	 */
 	String getName();
+
+	/**
+	 * Might return null, but if ship or station returns player
+	 * 
+	 * @return
+	 */
+	Player getOwner();
 }

@@ -21,6 +21,7 @@ import no.jgdx.perseus.ships.harvesters.BasicCarbonHarvester;
 import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
+import no.jgdx.perseus.stations.SpaceStation;
 
 public class Application {
 
@@ -72,8 +73,8 @@ public class Application {
 
 			switch (c) {
 			case 'v':
-				System.out.println("Ordered new viper to go to " + Star.MAIA);
-				s = new ColonialViper(game.getPositionOfObject(Star.MAIA), sy.getOwner());
+				System.out.println("Ordered new viper to go to " + Star.ELECTRA);
+				s = new ColonialViper(game.getPositionOfObject(Star.ELECTRA), sy.getOwner());
 				break;
 			case 'o':
 				System.out.println("Ordered new oxygen miner");
@@ -112,39 +113,25 @@ public class Application {
 		GameObject o = game.getObject(pos, MOUSE_SLACK);
 		System.out.println("Click " + pos + " ... " + o);
 
+		if (o != null && o.getOwner() != game.getHumanPlayer()) {
+			if (o instanceof Ship) {
+				System.out.println("Clicked an enemy ship");
+				o = null;
+				view.setCurrentlySelectedGameObject(null);
+				return;
+			}
+			if (o instanceof SpaceStation) {
+				System.out.println("Clicked enemy station");
+				o = null;
+				view.setCurrentlySelectedGameObject(null);
+				return;
+			}
+		}
+
 		view.setCurrentlySelectedGameObject(o);
 
 		// user pressed the shipyard, probably wants to build a ship
 		if (o instanceof ShipYard) {
-			ShipYard sy = ((ShipYard) o);
-			// arbitrary placement
-			Position placement = game.getPositionOfObject(Star.MAIA);
-
-			if (button == MouseEvent.BUTTON1) {
-				System.out.println("Constructing viper?");
-				Ship cv = new ColonialViper(placement, sy.getOwner());
-				if (game.buy(cv, Game.getInstance().getHumanPlayer())) {
-					sy.constructShip(cv, Game.now());
-				} else {
-					System.err.println("Could not afford viper");
-				}
-			} else if (button == MouseEvent.BUTTON2) {
-				System.out.println("Constructing Oxygen Harvester");
-				Ship s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
-				if (game.buy(s, Game.getInstance().getHumanPlayer())) {
-					sy.constructShip(s, Game.now());
-				} else {
-					System.err.println("Could not afford oxygen harvester");
-				}
-			} else {
-				System.out.println("Constructing Carbon Harvester");
-				Ship s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
-				if (game.buy(s, Game.getInstance().getHumanPlayer())) {
-					sy.constructShip(s, Game.now());
-				} else {
-					System.err.println("Could not afford carbon harvester");
-				}
-			}
 			selectedObject = view.getCurrentlySelectedGameObject();
 			return;
 		}

@@ -1,5 +1,7 @@
 package no.jgdx.perseus.weapons;
 
+import java.awt.Color;
+
 import no.jgdx.perseus.celestials.Position;
 
 public class KineticEnergyWeapon extends Gun {

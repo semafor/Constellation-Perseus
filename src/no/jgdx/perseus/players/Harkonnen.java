@@ -13,6 +13,16 @@ import no.jgdx.perseus.ships.harvesters.BasicOxygenHarvester;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 
+/**
+ * House Harkonnen, from the volcanic wastelands of Giedi Prime. The Harkonnen
+ * know only malevolence, hatred and brutality. Their leader is the corrupt and
+ * vile Baron Rakan. Rakan's power-hungry sons — Gunseng and Copec — eagerly
+ * await the Baron's death. Each plots to take his place. But while he lives,
+ * they feed upon him like parasites.
+ * 
+ * @author pgd
+ * 
+ */
 public class Harkonnen extends Player {
 	public Harkonnen() {
 		super("Harkonnen");
@@ -20,7 +30,7 @@ public class Harkonnen extends Player {
 
 	private ShipYard yard = null;
 
-	private final Position basePos = new Position(700, 700, 0);
+	private final Position basePos = Star.PLEIONE.getPosition();
 
 	private final List<Ship> ships = new ArrayList<>();
 
@@ -28,7 +38,7 @@ public class Harkonnen extends Player {
 
 	private long lastTick = -1;
 
-	private final static int THINK_TIME = 1500;
+	private final static int THINK_TIME = 2500;
 	private final static int INIT_TIME = 5000;
 
 	@Override
@@ -76,7 +86,7 @@ public class Harkonnen extends Player {
 			return;
 		}
 		if (harvesters.get(1).isEmpty()) {
-			harvesters.get(1).setStar(Star.SOL);
+			harvesters.get(1).setStar(Star.ALCYONE);
 			return;
 		}
 		if (harvesters.get(1).isFull()) {
@@ -91,7 +101,7 @@ public class Harkonnen extends Player {
 	}
 
 	private void buildViper() {
-		ColonialViper v = new ColonialViper(Game.getInstance().getPositionOfObject(Star.MEROPE), this);
+		ColonialViper v = new ColonialViper(Game.getInstance().getPositionOfObject(Star.MAIA), this);
 		if (Game.getInstance().buy(v, this)) {
 			System.out.println("HARKONNEN BUILDING VIPER!");
 

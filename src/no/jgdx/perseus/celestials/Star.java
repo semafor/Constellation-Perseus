@@ -14,11 +14,12 @@ public class Star extends Celestial {
 	/*
 	 * SOME STARS
 	 */
-	public static final Star SOL = new Star(1, 1, 1, "Sol", new Position(400,
-			400, 400), StarClassification.G);
+
+	public static final Star SOL = new Star(1, 1, 1, "Sol", new Position(700,
+			100, 400), StarClassification.G);
 
 	public static final Star ALCYONE = new Star(2400, 6, 8.2, "Alcyone",
-			new Position(300, 300, 0), StarClassification.B);
+			new Position(200, 300, 0), StarClassification.G);
 
 	public static final Star ATLAS = new Star(940, 5, 5, "Atlas", new Position(
 			50, 200, 0), StarClassification.O);
@@ -27,10 +28,10 @@ public class Star extends Celestial {
 			new Position(700, 250, 0), StarClassification.B);
 
 	public static final Star MAIA = new Star(850, 5, 6.04, "Maia",
-			new Position(500, 500, 500), StarClassification.B);
+			new Position(300, 500, 500), StarClassification.B);
 
 	public static final Star MEROPE = new Star(630, 4.5, 4, "Merope",
-			new Position(400, 100, 500), StarClassification.B);
+			new Position(500, 200, 500), StarClassification.O);
 
 	public static final Star PLEIONE = new Star(190, 3.4, 3.2, "Pleione",
 			new Position(50, 250, 500), StarClassification.B);

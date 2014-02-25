@@ -12,17 +12,17 @@ import no.jgdx.perseus.assets.Allotrope;
 public enum HarvesterClassification {
 	SPICE_SHIP(2, Allotrope.SULFUR) /* get it? */,
 
-	CARBON_COLLECTOR(3621, Allotrope.CARBON),
+	CARBON_COLLECTOR(36, Allotrope.CARBON),
 
 	PHOSPORUS_MINER(12, Allotrope.PHOSPORUS),
 
-	OXYGEN_MINER(917, Allotrope.OXYGEN),
+	OXYGEN_MINER(17, Allotrope.OXYGEN),
 
 	SULFUR_MINER(16, Allotrope.SULFUR),
 
 	SELENIUM_MINER(72, Allotrope.SELENIUM),
 
-	DYSON_SPHERE(1000, Allotrope.OXYGEN);
+	DYSON_SPHERE(450, Allotrope.OXYGEN);
 
 	private final double harvestSpeed;
 
