@@ -455,6 +455,7 @@ public class Game {
 	public ArrayList<MainMenuItems> getMainMenuItems() {
 		ArrayList<MainMenuItems> l = new ArrayList<MainMenuItems>();
 		l.add(MainMenuItems.NEW_GAME);
+		l.add(MainMenuItems.NEW_GAME2);
 		l.add(MainMenuItems.CREDITS);
 		return l;
 	}
@@ -464,7 +465,9 @@ public class Game {
 
 		CREDITS("Credits"),
 
-		NEW_GAME("New game");
+		NEW_GAME("New game"),
+		
+		NEW_GAME2("New game (new interface)");
 
 		private final String label;
 

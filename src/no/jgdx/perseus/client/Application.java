@@ -63,7 +63,8 @@ public class Application {
 	private GameObject selectedObject = null;
 
 	private void userTyped(KeyEvent key) {
-		System.out.println(getClass().getSimpleName() + ".userTyped = " + key.getKeyChar());
+		System.out.println(getClass().getSimpleName() + ".userTyped = "
+				+ key.getKeyChar());
 		if (selectedObject instanceof ShipYard) {
 			ShipYard sy = (ShipYard) selectedObject;
 			Position placement = selectedObject.getPosition();
@@ -73,8 +74,10 @@ public class Application {
 
 			switch (c) {
 			case 'v':
-				System.out.println("Ordered new viper to go to " + Star.ELECTRA);
-				s = new ColonialViper(game.getPositionOfObject(Star.ELECTRA), sy.getOwner());
+				System.out
+						.println("Ordered new viper to go to " + Star.ELECTRA);
+				s = new ColonialViper(game.getPositionOfObject(Star.ELECTRA),
+						sy.getOwner());
 				if (!game.getHumanPlayer().getHq().canAfford(s)) {
 					System.err.println("Cannot afford new viper");
 					return;
@@ -82,7 +85,8 @@ public class Application {
 				break;
 			case 'o':
 				System.out.println("Ordered new oxygen miner");
-				s = new BasicOxygenHarvester(placement, sy.getHq(), sy.getOwner());
+				s = new BasicOxygenHarvester(placement, sy.getHq(),
+						sy.getOwner());
 
 				if (!game.getHumanPlayer().getHq().canAfford(s)) {
 					System.err.println("Cannot afford new oxygen miner");
@@ -92,7 +96,8 @@ public class Application {
 				break;
 			case 'c':
 				System.out.println("Ordered new carbon miner");
-				s = new BasicCarbonHarvester(placement, sy.getHq(), sy.getOwner());
+				s = new BasicCarbonHarvester(placement, sy.getHq(),
+						sy.getOwner());
 
 				if (!game.getHumanPlayer().getHq().canAfford(s)) {
 					System.err.println("Cannot afford new carbon miner");
@@ -173,7 +178,8 @@ public class Application {
 		}
 
 		if (selectedObject instanceof Ship) {
-			if (selectedObject instanceof Harvester && o != null && o instanceof Star) {
+			if (selectedObject instanceof Harvester && o != null
+					&& o instanceof Star) {
 				((Harvester) selectedObject).setStar((Star) o);
 			} else if (o != null && o instanceof Celestial) {
 				game.sendShipToCelestial((Ship) selectedObject, (Celestial) o);
@@ -183,7 +189,8 @@ public class Application {
 				System.out.println("Requesting ship to jump to " + pos);
 				boolean success = ((Ship) selectedObject).jumpTo(pos);
 
-				System.out.println(success ? "Jump successful!" : "No jump this time.");
+				System.out.println(success ? "Jump successful!"
+						: "No jump this time.");
 			}
 		}
 		selectedObject = view.getCurrentlySelectedGameObject();
@@ -195,20 +202,37 @@ public class Application {
 			view.showCredits(game.getContributors());
 		} else if (item == Game.MainMenuItems.NEW_GAME) {
 
-			// XXX: let view query game directly?
-			view.showNewGame(game.getShips(), game.getCelestials(), game.getStations(), new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					Position pos = new Position(e.getX(), e.getY(), 0);
-					userClick(pos, e.getButton());
-				}
-			}, new KeyAdapter() {
-				@Override
-				public void keyTyped(KeyEvent e) {
-					System.out.println();
-					userTyped(e);
-				}
-			});
+			view.showNewGame(game.getShips(), game.getCelestials(),
+					game.getStations(), new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							Position pos = new Position(e.getX(), e.getY(), 0);
+							userClick(pos, e.getButton());
+						}
+					}, new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent e) {
+							System.out.println();
+							userTyped(e);
+						}
+					});
+		} else if (item == Game.MainMenuItems.NEW_GAME2) {
+			
+			view.newGameNewInterface(game.getHumanPlayer(), game.getShips(),
+					game.getCelestials(), game.getStations(),
+					new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							Position pos = new Position(e.getX(), e.getY(), 0);
+							userClick(pos, e.getButton());
+						}
+					}, new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent e) {
+							System.out.println();
+							userTyped(e);
+						}
+					});
 		}
 	}
 

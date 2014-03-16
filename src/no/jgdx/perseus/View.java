@@ -33,11 +33,14 @@ import no.jgdx.perseus.celestials.Celestial;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.celestials.Star;
 import no.jgdx.perseus.players.HumanPlayer;
+import no.jgdx.perseus.players.Player;
 import no.jgdx.perseus.ships.HqShip;
 import no.jgdx.perseus.ships.Ship;
 import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
+import no.jgdx.perseus.views.GameScreen;
+import no.jgdx.perseus.views.Screen;
 
 public class View {
 
@@ -59,6 +62,8 @@ public class View {
 
 	// layout manager for main panels
 	private final GroupLayout layout;
+	
+	private Screen currentScreen;
 
 	private GameObject currentlySelectedGameObject = null;
 
@@ -100,7 +105,8 @@ public class View {
 		top.setPreferredSize(new Dimension(frame.getWidth(), 75));
 
 		// set border and colors of middle area
-		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255, 50)));
+		middle.setBorder(new MatteBorder(1, 0, 1, 0, new Color(255, 255, 255,
+				50)));
 		middle.setPreferredSize(new Dimension(frame.getWidth(), 675));
 
 		// set border and colors of bottom area
@@ -108,14 +114,22 @@ public class View {
 		bottom.setPreferredSize(new Dimension(frame.getWidth(), 50));
 
 		// add all panels to frame
-		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
-		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addComponent(top, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(middle, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addComponent(bottom, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setHorizontalGroup(layout
+				.createParallelGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
+		layout.setVerticalGroup(layout
+				.createSequentialGroup()
+				.addComponent(top, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(middle, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addComponent(bottom, GroupLayout.PREFERRED_SIZE,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE));
 
 		frame.setVisible(true);
 
@@ -209,8 +223,9 @@ public class View {
 
 	}
 
-	public void showNewGame(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations,
-			MouseListener mouseListener, final KeyListener keyListener) {
+	public void showNewGame(List<Ship> ships, List<Celestial> celestials,
+			List<SpaceStation> spaceStations, MouseListener mouseListener,
+			final KeyListener keyListener) {
 		setTopTitle("Constellation Perseus (ingame etc.)");
 		this.gamePanel = new GamePanel(ships, celestials, spaceStations);
 		middle.removeAll();
@@ -221,9 +236,11 @@ public class View {
 		gamePanel.addMouseListener(mouseListener);
 		gamePanel.setFocusable(true);
 		gamePanel.addKeyListener(keyListener);
-		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"), "released");
+		gamePanel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE"),
+				"released");
 
-		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher(new KeyEventDispatcher() {
 
 			@Override
@@ -241,7 +258,8 @@ public class View {
 		return currentlySelectedGameObject;
 	}
 
-	public void setCurrentlySelectedGameObject(GameObject currentlySelectedGameObject) {
+	public void setCurrentlySelectedGameObject(
+			GameObject currentlySelectedGameObject) {
 		this.currentlySelectedGameObject = currentlySelectedGameObject;
 	}
 
@@ -249,6 +267,10 @@ public class View {
 		frame.repaint();
 		if (gamePanel != null) {
 			gamePanel.repaint();
+		}
+		
+		if(currentScreen != null) {
+			currentScreen.tick();
 		}
 
 	}
@@ -263,7 +285,8 @@ public class View {
 
 		private List<SpaceStation> spaceStations;
 
-		public GamePanel(List<Ship> ships, List<Celestial> celestials, List<SpaceStation> spaceStations) {
+		public GamePanel(List<Ship> ships, List<Celestial> celestials,
+				List<SpaceStation> spaceStations) {
 			this.ships = ships;
 			this.celestials = celestials;
 			this.spaceStations = spaceStations;
@@ -281,7 +304,8 @@ public class View {
 			// SHIPS
 			for (Ship s : ships) {
 				if (getCurrentlySelectedGameObject() == s) {
-					drawHighlight(g, (int) s.getPosition().getX(), (int) s.getPosition().getY());
+					drawHighlight(g, (int) s.getPosition().getX(), (int) s
+							.getPosition().getY());
 				}
 				if (s.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);
@@ -298,7 +322,8 @@ public class View {
 					int percentage = ((Harvester) s).getPercentage();
 					String t = "";
 					if (!s.isReadyToJump())
-						t += String.format(" (%.1f)", (s.getCooldownTimeLeft() / 1000f));
+						t += String.format(" (%.1f)",
+								(s.getCooldownTimeLeft() / 1000f));
 
 					g.drawString("⛴ " + s + t, x, y);
 
@@ -315,7 +340,8 @@ public class View {
 					if (s.isReadyToJump())
 						g.drawString("✈", x, y);
 					else {
-						String t = String.format("%.1f", (s.getCooldownTimeLeft() / 1000f));
+						String t = String.format("%.1f",
+								(s.getCooldownTimeLeft() / 1000f));
 						g.drawString("✈ " + t, x, y);
 					}
 				}
@@ -324,12 +350,14 @@ public class View {
 			// CELESTIALS
 			for (Celestial cel : celestials) {
 				if (getCurrentlySelectedGameObject() == cel) {
-					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel.getPosition().getY());
+					drawHighlight(g, (int) cel.getPosition().getX(), (int) cel
+							.getPosition().getY());
 				}
 				g.setColor(Color.YELLOW);
 				if (cel instanceof Star) {
 					Star s = (Star) cel;
-					g.setColor(s.getStarClassification().getAllotrope().getColor());
+					g.setColor(s.getStarClassification().getAllotrope()
+							.getColor());
 				}
 				Position pos = game.getPositionOfObject(cel);
 				int x = (int) pos.getX();
@@ -340,7 +368,8 @@ public class View {
 			// SPACE STATIONS
 			for (SpaceStation ss : spaceStations) {
 				if (getCurrentlySelectedGameObject() == ss) {
-					drawHighlight(g, (int) ss.getPosition().getX(), (int) ss.getPosition().getY());
+					drawHighlight(g, (int) ss.getPosition().getX(), (int) ss
+							.getPosition().getY());
 				}
 				if (ss.getOwner() instanceof HumanPlayer)
 					g.setColor(Color.GREEN);
@@ -381,5 +410,21 @@ public class View {
 		protected void paintComponent(Graphics g) {
 			g.drawImage(image, 0, 0, null);
 		}
+	}
+
+	public void newGameNewInterface(Player player, List<Ship> ships,
+			List<Celestial> celestials, List<SpaceStation> spaceStations,
+			MouseListener mouseListener, final KeyListener keyListener) {
+
+		frame.getContentPane().removeAll();
+		
+		GameScreen g = new GameScreen(player, ships, celestials, spaceStations,
+				mouseListener, keyListener, frame.getContentPane());
+		
+		this.currentScreen = g;
+		
+		g.render();
+		frame.pack();
+		
 	}
 }

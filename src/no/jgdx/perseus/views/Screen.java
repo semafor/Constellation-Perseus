@@ -6,8 +6,7 @@ public abstract class Screen {
 
 	protected LayoutManager m;
 
-	public Screen(LayoutManager m) {
-		this.m = m;
+	public Screen() {
 	}
 
 	protected LayoutManager getLayoutManager() {
@@ -17,4 +16,10 @@ public abstract class Screen {
 	protected void setLayoutManager(LayoutManager m) {
 		this.m = m;
 	}
+	
+	protected void setUpLayoutManager() {}
+	
+	public void render() {}
+	
+	public void tick() {};
 }

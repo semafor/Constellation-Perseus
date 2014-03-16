@@ -163,6 +163,14 @@ public class HqShip extends Ship {
 			assets.put(a, amount);
 		}
 	}
+	
+	public int getAllotrope(Allotrope a) {
+		int total = 0;
+		if(assets.containsKey(a)) {
+			total = total + assets.get(a);
+		}
+		return total;
+	}
 
 	/**
 	 * Adds a harvester to this hq's internal harvesters, sets star of harvester

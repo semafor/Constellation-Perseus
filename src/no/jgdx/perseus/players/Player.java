@@ -3,6 +3,7 @@ package no.jgdx.perseus.players;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
 
@@ -37,4 +38,33 @@ public abstract class Player {
 
 	public void tick(long time) {
 	}
+
+	public int getTotalsForAllotrope(Allotrope a) {
+		int total = 0;
+		for (HqShip h : hqs) {
+			total = total + h.getAllotrope(a);
+		}
+		return total;
+	}
+
+	public int getTotalOxygen() {
+		return getTotalsForAllotrope(Allotrope.OXYGEN);
+	}
+
+	public int getTotalCarbon() {
+		return getTotalsForAllotrope(Allotrope.CARBON);
+	}
+
+	public int getTotalPhosphorus() {
+		return getTotalsForAllotrope(Allotrope.PHOSPORUS);
+	}
+
+	public int getTotalSulfur() {
+		return getTotalsForAllotrope(Allotrope.SULFUR);
+	}
+
+	public int getTotalSelenium() {
+		return getTotalsForAllotrope(Allotrope.SELENIUM);
+	}
+
 }
