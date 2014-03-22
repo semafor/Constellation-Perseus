@@ -40,6 +40,7 @@ import no.jgdx.perseus.ships.harvesters.Harvester;
 import no.jgdx.perseus.stations.ShipYard;
 import no.jgdx.perseus.stations.SpaceStation;
 import no.jgdx.perseus.views.GameScreen;
+import no.jgdx.perseus.views.MessagesInterface;
 import no.jgdx.perseus.views.Screen;
 
 public class View {
@@ -62,7 +63,7 @@ public class View {
 
 	// layout manager for main panels
 	private final GroupLayout layout;
-	
+
 	private Screen currentScreen;
 
 	private GameObject currentlySelectedGameObject = null;
@@ -268,8 +269,8 @@ public class View {
 		if (gamePanel != null) {
 			gamePanel.repaint();
 		}
-		
-		if(currentScreen != null) {
+
+		if (currentScreen != null) {
 			currentScreen.tick();
 		}
 
@@ -417,14 +418,22 @@ public class View {
 			MouseListener mouseListener, final KeyListener keyListener) {
 
 		frame.getContentPane().removeAll();
-		
+
 		GameScreen g = new GameScreen(player, ships, celestials, spaceStations,
 				mouseListener, keyListener, frame.getContentPane());
-		
+
 		this.currentScreen = g;
-		
+
 		g.render();
 		frame.pack();
+
+	}
+
+	public void pushMessage(Messages message) {
+		
+		if (currentScreen instanceof MessagesInterface) {
+			((MessagesInterface) currentScreen).pushMessage(message);
+		}
 		
 	}
 }

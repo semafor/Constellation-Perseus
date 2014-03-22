@@ -61,6 +61,7 @@ public class PlayerStatus extends JPanel implements GamePanels, TickablePanel {
 	public void tick() {
 		
 		playerAssets.tick();
+		playerMessages.tick();
 		
 	}
 

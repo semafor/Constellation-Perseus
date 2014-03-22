@@ -3,6 +3,7 @@ package no.jgdx.perseus.players;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.jgdx.perseus.Messages;
 import no.jgdx.perseus.assets.Allotrope;
 import no.jgdx.perseus.celestials.Position;
 import no.jgdx.perseus.ships.HqShip;
@@ -10,6 +11,8 @@ import no.jgdx.perseus.ships.HqShip;
 public abstract class Player {
 
 	protected final List<HqShip> hqs = new ArrayList<>();
+
+	protected final List<Messages> inbox = new ArrayList<Messages>();
 
 	private final String name;
 
@@ -65,6 +68,14 @@ public abstract class Player {
 
 	public int getTotalSelenium() {
 		return getTotalsForAllotrope(Allotrope.SELENIUM);
+	}
+
+	public void sendMessage(Messages message) {
+		this.inbox.add(message);
+	}
+
+	public List<Messages> getMessages() {
+		return inbox;
 	}
 
 }

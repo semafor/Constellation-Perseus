@@ -18,7 +18,7 @@ import no.jgdx.perseus.views.gamepanels.GamePanel;
 import no.jgdx.perseus.views.gamepanels.HUD;
 import no.jgdx.perseus.views.gamepanels.PlayerStatus;
 
-public class GameScreen extends Screen {
+public class GameScreen extends Screen implements MessagesInterface {
 
 	private final List<Messages> messages = new ArrayList<Messages>();
 
@@ -108,6 +108,12 @@ public class GameScreen extends Screen {
 	public void tick() {
 		
 		playerStatus.tick();
+		
+	}
+
+	@Override
+	public void pushMessage(Messages message) {
+		// TODO Auto-generated method stub
 		
 	}
 
