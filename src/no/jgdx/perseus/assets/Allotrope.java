@@ -11,7 +11,9 @@ public enum Allotrope {
 
 	SULFUR("Sulfur", "S", Color.MAGENTA),
 
-	SELENIUM("Selenium", "Se", Color.WHITE);
+	SELENIUM("Selenium", "Se", Color.WHITE),
+
+	TRANSURANIC("Transuranium elements", "SHE", Color.RED);
 
 	private final String name;
 	private final String abbr;
